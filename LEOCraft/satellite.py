@@ -50,7 +50,7 @@ class LEOSatellite:
             Satellite altitude in meter(s)
         inclination_degree : float
             Angle of inclination in degree
-        angle_of_elevation_degree:
+        angle_of_elevation_degree: float
             Min angle of elevation in degree
         satellite_catalog_number: int
             Unique ID for satellite

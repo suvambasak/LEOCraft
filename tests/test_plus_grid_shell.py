@@ -49,6 +49,18 @@ class TestPlusGridShell(unittest.TestCase):
     def tearDownClass(self):
         shutil.rmtree(self.test_directory)
 
+    def test_invalid_input(self):
+        for p in [-10.0, 55.0]:
+            with self.assertRaises(ValueError):
+                PlusGridShell(
+                    orbits=30,
+                    sat_per_orbit=30,
+                    altitude_m=550000.0,
+                    inclination_degree=50.0,
+                    angle_of_elevation_degree=25.0,
+                    phase_offset=p
+                )
+
     def test_export_satellites(self):
         filename = self.small_shell.export_satellites(self.test_directory)
         self.assertTrue(
