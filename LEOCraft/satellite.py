@@ -181,7 +181,7 @@ class LEOSatellite:
         self.tle_line_2 = self.tle_line_2 + \
             str(self._calculate_tle_line_checksum(self.tle_line_2))
         self.title_line = self.satellite_name + " " + \
-            str(self.satellite_catalog_number)
+            str(self.satellite_catalog_number-1)
 
     def _calculate_tle_line_checksum(self, tle_line_without_checksum: str) -> int:
         if len(tle_line_without_checksum) != 68:

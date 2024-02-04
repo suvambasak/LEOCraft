@@ -21,6 +21,7 @@ class LEOSatelliteTopology(ABC):
 
     def __init__(
         self,
+        id: int,
         orbits: int,
         sat_per_orbit: int,
 
@@ -28,13 +29,13 @@ class LEOSatelliteTopology(ABC):
         inclination_degree: float,
         angle_of_elevation_degree: float,
         phase_offset: float,
-
-        name: str = 'Shell_'
     ) -> None:
         """Create a new shell for a LEO constellation
 
         Parameters
         ----------
+        id: int
+            Unique shell number
         orbits: int
             Number of orbits
         sat_per_orbit: int
@@ -46,16 +47,13 @@ class LEOSatelliteTopology(ABC):
         angle_of_elevation_degree:
             Min angle of elevation in degree
 
-         phase_offset: float: float
+        phase_offset: float: float
             Offset between satellite of adjacent orbit
-        name: str
-            Name of the shell
-
         """
 
         assert orbits > 9
         assert sat_per_orbit > 9
-        assert len(name) > 0
+        assert id >= 0
         if phase_offset < 0.0 or phase_offset > 50.0:
             raise ValueError("[Required] 0.0 <= phase_offset <= 50.0")
 
@@ -66,7 +64,7 @@ class LEOSatelliteTopology(ABC):
         self.angle_of_elevation_degree = angle_of_elevation_degree
         self.phase_offset = round(float(phase_offset)/100, 2)
 
-        self.name = name
+        self.id = id
 
         self.satellites: list[LEOSatellite] = list()
         self.isls: set[tuple[int, int]] = set()
@@ -137,6 +135,49 @@ class LEOSatelliteTopology(ABC):
         """
 
         return f'{self.__class__.__name__}_o{self.orbits}n{self.sat_per_orbit}h{self.altitude_m}i{self.inclination_degree}e{self.angle_of_elevation_degree}p{self.phase_offset}'
+
+    @property
+    def name(self) -> str:
+        """Generates shell name from shell ID
+
+        Returns
+        -------
+        str
+            Shell name
+        """
+        return f'S{self.id}'
+
+    def encode_sat_name(self, sid: int) -> str:
+        """Encodes satellite name with shell
+
+        Parameters
+        ----------
+        sid: int
+            Satellite ID
+
+        Returns
+        -------
+        str
+            Encoded satellite name with shell name
+        """
+        return f"{self.name}-{sid}"
+
+    @staticmethod
+    def decode_sat_name(sat_name: str) -> tuple[int, int]:
+        """Decodes satellite id from shell
+
+        Parameters
+        ----------
+        sat_name: str
+            Encoded satellite name with shell name
+
+        Returns
+        -------
+        tuple[int, int]
+            Shell ID, Satellite ID
+        """
+        shell_info, sid = sat_name.split("-")
+        return int(shell_info[1:]), int(sid)
 
     def export_satellites(self, prefix_path: str = '.') -> str:
         """Write satellite TLEs into a file at given path (default current directory)
