@@ -1,5 +1,10 @@
 import csv
+import math
 from abc import ABC, abstractmethod
+
+import ephem
+from astropy import units as u
+from astropy.time import TimeDelta
 
 from LEOCraft.satellite import LEOSatellite
 
@@ -124,6 +129,62 @@ class LEOSatelliteTopology(ABC):
 
                 satellite_counter += 1
 
+    def distance_between_sat_m(
+        self,
+        sid_a: int, sid_b: int,
+
+        time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)
+    ) -> tuple[float, bool]:
+        """Calculates distance between two satellite in meters and checks the range of the ISL
+
+        Parameters
+        ----------
+        sid_a: int
+            Satellite ID
+        sid_b: int
+            Satellite ID
+        time_delta : float, optional
+            Time passed from the epoch
+
+        Returns
+        -------
+        tuple[float, bool]
+            (Diatnce in meters, if satellites in ISL range) 
+        """
+
+        # Create an observer somewhere on the planet
+        observer = ephem.Observer()
+        observer.epoch = str(self.universal_epoch)
+        observer.date = str(self.universal_epoch+time_delta)
+        observer.lat = 0
+        observer.lon = 0
+        observer.elevation = 0
+
+        # Calculate the relative location of the satellites to this observer
+        self.satellites[sid_a].satellite.compute(observer)
+        self.satellites[sid_b].satellite.compute(observer)
+
+        # Calculate the angle observed by the observer to the satellites (this is done because the .compute() calls earlier)
+        angle_radians = float(repr(ephem.separation(
+            self.satellites[sid_a].satellite, self.satellites[sid_b].satellite)))
+
+        # Now we have a triangle with three knows:
+        # (1) a = sat1.range (distance observer to satellite 1)
+        # (2) b = sat2.range (distance observer to satellite 2)
+        # (3) C = angle (the angle at the observer point within the triangle)
+        #
+        # Using the formula:
+        # c^2 = a^2 + b^2 - 2 * a * b * cos(C)
+        #
+        # This gives us side c, the distance between the two satellites
+        distance_m = math.sqrt(self.satellites[sid_a].satellite.range ** 2 + self.satellites[sid_b].satellite.range ** 2 - (
+            2 * self.satellites[sid_a].satellite.range * self.satellites[sid_b].satellite.range * math.cos(angle_radians)))
+
+        in_ISL_range = self.satellites[sid_a].max_ISL_length_m(
+        ) >= distance_m and self.satellites[sid_b].max_ISL_length_m() >= distance_m
+
+        return distance_m, in_ISL_range
+
     @property
     def filename(self) -> str:
         """Generates file name from orbital parameters
@@ -134,7 +195,7 @@ class LEOSatelliteTopology(ABC):
             File name 
         """
 
-        return f'{self.__class__.__name__}_o{self.orbits}n{self.sat_per_orbit}h{self.altitude_m}i{self.inclination_degree}e{self.angle_of_elevation_degree}p{self.phase_offset}'
+        return f'{self.__class__.__name__}_{self.id}_o{self.orbits}n{self.sat_per_orbit}h{self.altitude_m}i{self.inclination_degree}e{self.angle_of_elevation_degree}p{self.phase_offset}'
 
     @property
     def name(self) -> str:
