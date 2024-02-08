@@ -118,37 +118,21 @@ class LEOSatellite:
 
     def nadir(
         self,
-        day: int = 0,
-        hour: int = 0,
-        minute: int = 0,
-        second: int = 0,
-        millisecond: int = 0,
-        nanosecond: int = 0
+        time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)
     ) -> tuple[float, float]:
         """Calculates satellite shadow/nadir (latitude, longitude) 
-        At given time (default 0) all time unit added
+        At given time by default at epoch 
 
         Parameters
         ----------
-        day : int, optional
-        hour: int, optional
-        minute: int, optional
-        second: int, optional
-        millisecond: int, optional
-        nanosecond: int, optional
-
+        time_delta : float, optional
+            Time passed from the epoch
 
         Returns
         -------
         tuple[float, float]
             (latitude, longitude) 
         """
-        time_delta = TimeDelta(nanosecond * u.nanosecond)
-        time_delta += TimeDelta(millisecond * u.millisecond)
-        time_delta += TimeDelta(second * u.second)
-        time_delta += TimeDelta(minute * u.minute)
-        time_delta += TimeDelta(hour * u.hour)
-        time_delta += TimeDelta(day * u.day)
 
         self.satellite.compute(
             str(self.epoch+time_delta),
