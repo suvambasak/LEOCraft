@@ -28,6 +28,9 @@ class LEOConstellation(Constellation):
             Number of shortest routes terminal to terminal
         """
 
+        # Set class variable k
+        self.k = k
+
         # Stores the routes with a key G-X_G-Y
         self.routes: dict[str, list[list[str]]] = dict()
         # Stores the flow per link with a key (hop, hop)
@@ -68,8 +71,15 @@ class LEOConstellation(Constellation):
 
                     self.disconnect_ground_station(source, destination)
 
+            compute_count = 0
             for compute in concurrent.futures.as_completed(path_compute):
                 compute_status, flow, k_path = compute.result()
+
+                compute_count += 1
+                self.v.rlog(
+                    f'Generating {k} routes completed... {
+                        round(compute_count/len(path_compute)*100)} % '
+                )
 
                 # In case no path found
                 if False == compute_status:

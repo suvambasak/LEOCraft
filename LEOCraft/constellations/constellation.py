@@ -21,6 +21,7 @@ class Constellation(ABC):
 
     ISL_CAPACITY: float = 50.0
     GSL_CAPACITY: float = 20.0
+    k: int
 
     def __init__(self, name: str) -> None:
         self.name = name
@@ -319,6 +320,40 @@ class Constellation(ABC):
         if flow_via_route not in self.link_load[edge]:
             self.link_load[edge].add(flow_via_route)
 
+    def link_capacity(self, node_a: str, node_b: str) -> float:
+        """Get the capacity (Gbps) of a link
+
+        Parameters
+        -------
+        node_a: str
+            Satellite/ground station name  in network graph
+        node_b: str
+            Satellite/ground station name in network graph
+
+        Returns
+        -------
+        float
+            Data rate in Gbps
+        """
+        return self.sat_net_graph[node_a][node_b]["capacity"]
+
+    def link_length(self, node_a: str, node_b: str) -> float:
+        """Get the length (meters) of a link
+
+        Parameters
+        -------
+        node_a: str
+            Satellite/ground station name  in network graph
+        node_b: str
+            Satellite/ground station name  in network graph
+
+        Returns
+        -------
+        float
+            Length in meters
+        """
+        return self.sat_net_graph[node_a][node_b]["weight"]
+
     def _create_export_dir(self, prefix_path: str = '.') -> str:
         'Create directory for time delta inside given path (default current directory)'
         dir = f'{prefix_path}/{self.time_delta}'
@@ -343,7 +378,7 @@ class Constellation(ABC):
         dir = self._create_export_dir(prefix_path)
         filename = f'{dir}/{self.name}_routes.json'
 
-        # Write CSV file
+        # Write JSON file
         with open(filename, 'w') as json_file:
             json_file.write(json.dumps(self.routes))
 
