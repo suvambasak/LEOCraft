@@ -2,6 +2,8 @@ import csv
 import math
 from dataclasses import asdict
 
+from geopy.distance import great_circle
+
 from LEOCraft.user_terminals.terminal_coordinates import TerminalCoordinates
 
 
@@ -146,3 +148,34 @@ class GroundStation:
         z = (v * (1.0 - e * e) + elevation_m) * math.sin(lat)
 
         return x, y, z
+
+    @staticmethod
+    def geodesic_distance_between_terminals_m(terminal_1: TerminalCoordinates, terminal_2: TerminalCoordinates) -> float:
+        """Compute geodetic distance in meters between two user terminals.
+
+        Parameters
+        ----------
+        terminal_1: TerminalCoordinates
+            TerminalCoordinates object
+        terminal_2: TerminalCoordinates
+            TerminalCoordinates object
+
+        Returns
+        -------
+        float
+            Distance in meters
+
+        Reference:
+        [1] https://github.com/snkas/hypatia/tree/master/satgenpy
+        """
+
+        # WGS72 value; taken from https://geographiclib.sourceforge.io/html/NET/NETGeographicLib_8h_source.html
+        earth_radius_km = 6378.135  # 6378135.0 meters
+
+        return great_circle(
+            (float(terminal_1.latitude_degree),
+             float(terminal_1.longitude_degree)),
+            (float(terminal_2.latitude_degree),
+             float(terminal_2.longitude_degree)),
+            radius=earth_radius_km
+        ).m
