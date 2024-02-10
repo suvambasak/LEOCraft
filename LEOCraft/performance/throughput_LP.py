@@ -28,7 +28,8 @@ class ThroughputLP(Performance):
         self.LG_selt: float
 
     def build(self) -> None:
-        self.v.log('Building...')
+        self.v.nl()
+        self.v.log('Building throughput...')
         self.v.rlog('Processing traffic_metrics...')
         self._process_traffic_metrics()
         self.v.rlog('Connecting all ground stations...')
@@ -141,13 +142,11 @@ class ThroughputLP(Performance):
         Returns
         --------
         str
-            Path the written file
+            Path of the written file
         '''
 
         # Get the directory of time delta
-        dir = self._create_export_dir(
-            self.leo_con._create_export_dir(prefix_path)
-        )
+        dir = self._create_export_dir(prefix_path)
 
         # Write inside time delta
         filename = f'{dir}/path_selection.json'
@@ -162,13 +161,11 @@ class ThroughputLP(Performance):
         Returns
         --------
         str
-            Path the written file
+            Path of the written file
         '''
 
         # Get the directory of time delta
-        dir = self._create_export_dir(
-            self.leo_con._create_export_dir(prefix_path)
-        )
+        dir = self._create_export_dir(prefix_path)
 
         # Write inside time delta
         filename = f'{dir}/{self.__class__.__name__}.lp'
@@ -218,6 +215,11 @@ class ThroughputLP(Performance):
 
     def _count_route_selection(self, flows: set[str]) -> int:
         '''Counts the number of path selected from a given flow category. Works as helper method of _compute_total_route_selection
+
+        Parameters
+        -------
+        flows: set[str]
+            Set of flows
 
         Returns
         ------

@@ -41,10 +41,8 @@ class FlowClassifier:
     def classify(self) -> None:
         'Classify the routes based on orientation'
 
-        c = 0
         for sgid in range(len(self.leo_con.ground_stations.terminals)):
             for dgid in range(sgid+1, len(self.leo_con.ground_stations.terminals)):
-                c += 1
 
                 geodesic_m = GroundStation.geodesic_distance_between_terminals_m(
                     self.leo_con.ground_stations.terminals[sgid],
