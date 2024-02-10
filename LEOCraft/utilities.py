@@ -43,9 +43,16 @@ class ProcessingLog:
 
     verbose = True
 
+    def __init__(self, identity: str) -> None:
+        self._id = identity
+
     def log(self, msg: str) -> None:
         if self.verbose:
-            print(msg)
+            print(f'[{self._id}] {msg}')
+
+    def nl(self) -> None:
+        if self.verbose:
+            print()
 
     def rlog(self, msg: str) -> None:
         if self.verbose:

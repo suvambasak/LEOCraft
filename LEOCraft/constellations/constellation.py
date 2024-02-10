@@ -28,7 +28,7 @@ class Constellation(ABC):
         self.ground_stations: GroundStation
         self.shells: list[PlusGridShell] = list()
 
-        self.v = ProcessingLog()
+        self.v = ProcessingLog(self.__class__.__name__)
 
         # Stores the routes with a key G-X_G-Y
         self.routes: dict[str, list[list[str]]]
