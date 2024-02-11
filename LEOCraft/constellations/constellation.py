@@ -122,74 +122,42 @@ class Constellation(ABC):
         self.v.clr()
 
         self.v.log('Building ground to satellite links...')
-        # Ground to satellite link records
-        # List index is the ground station index
-        self.gsls: list[list[tuple[str, float]]] = list()
 
         # Records of user terminals under satellite coverage
         self.sat_coverage: dict[str, set[str]] = dict()
 
+        # Ground to satellite link records
+        # List index is the ground station index
+        self.gsls = [None]*len(self.ground_stations.terminals)
+
         start_time = time.perf_counter()
         for gid, gs in enumerate(self.ground_stations.terminals):
-            _gsls: list[tuple[str, float]] = []  # List of GSLs of current gs
+            self.v.rlog(f'''Processing GSLs...  GS: {
+                        gid+1}/{len(self.ground_stations.terminals)}''')
 
-            for shell in self.shells:
-                for sid, sat in enumerate(shell.satellites):
-                    self.v.rlog(
-                        f'Processing GSLs... {
-                            gid+1}/{len(self.ground_stations.terminals)}'
-                    )
+            self.gsls[gid] = set()
 
-                    distance_m = self.distance_between_terminal_sat_m(gs, sat)
-                    # Out of range so GSL not possible
-                    if distance_m > sat.max_GSL_length_m():
-                        continue
-                    _gsls.append((shell.encode_sat_name(sid), distance_m))
+            for shell_id, shell in enumerate(self.shells):
+                _,  visible_sats, sats_range_m = shell.get_satellites_in_range(
+                    terminal=gs,
+                    tid=gid,
+                    time_delta=self.time_delta
+                )
+
+                # Adding list of GSLs and satellite coverage
+                for sat_name, distance_m in zip(visible_sats, sats_range_m):
+
                     self._add_sat_coverage(
-                        shell.encode_sat_name(sid),
-                        self.ground_stations.encode_name(gid)
+                        sat_name, self.ground_stations.encode_name(gid)
                     )
 
-            # Adding list of GSL of current gs
-            self.gsls.append(_gsls)
+                    self.gsls[gid].add((sat_name, distance_m))
+
         self.v.clr()
         end_time = time.perf_counter()
         self.v.log(
             f'GSLs generated in: {round((end_time-start_time)/60, 2)}m'
         )
-
-    def distance_between_terminal_sat_m(self, terminal: TerminalCoordinates, sat: LEOSatellite) -> float:
-        """Computes the straight distance between a ground station and a satellite in meters
-
-        Parameters
-        -------------
-        terminal: TerminalCoordinates
-            Location coordinates of a user terminal
-        sat: LEOSatellite
-            LEO satellite
-
-        Returns
-        ------------
-        float
-            The distance between the ground station and the satellite in meters
-        """
-
-        # Create an observer on the planet where the ground station is
-        observer = ephem.Observer()
-        observer.epoch = str(sat.epoch)
-        observer.date = str(sat.epoch+self.time_delta)
-
-        # Very important: string argument is in degrees.
-        # DO NOT pass a float as it is interpreted as radians
-        observer.lat = str(terminal.latitude_degree)
-        observer.lon = str(terminal.longitude_degree)
-        observer.elevation = terminal.elevation_m
-
-        # Compute distance from satellite to observer
-        sat.satellite.compute(observer)
-
-        # Return distance
-        return sat.satellite.range
 
     def _add_sat_coverage(self, sat_name: str, gs_name: str) -> None:
         "Adds ground station name under the coverage of a satellite"

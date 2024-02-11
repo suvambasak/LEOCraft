@@ -162,12 +162,16 @@ class LEOSatelliteTopology(ABC):
         observer.elevation = 0
 
         # Calculate the relative location of the satellites to this observer
-        self.satellites[sid_a].satellite.compute(observer)
-        self.satellites[sid_b].satellite.compute(observer)
+        _satellite_a = self.satellites[sid_a].get_satellite()
+        _satellite_b = self.satellites[sid_b].get_satellite()
+
+        _satellite_a.compute(observer)
+        _satellite_b.compute(observer)
 
         # Calculate the angle observed by the observer to the satellites (this is done because the .compute() calls earlier)
-        angle_radians = float(repr(ephem.separation(
-            self.satellites[sid_a].satellite, self.satellites[sid_b].satellite)))
+        angle_radians = float(
+            repr(ephem.separation(_satellite_a, _satellite_b))
+        )
 
         # Now we have a triangle with three knows:
         # (1) a = sat1.range (distance observer to satellite 1)
@@ -178,8 +182,10 @@ class LEOSatelliteTopology(ABC):
         # c^2 = a^2 + b^2 - 2 * a * b * cos(C)
         #
         # This gives us side c, the distance between the two satellites
-        distance_m = math.sqrt(self.satellites[sid_a].satellite.range ** 2 + self.satellites[sid_b].satellite.range ** 2 - (
-            2 * self.satellites[sid_a].satellite.range * self.satellites[sid_b].satellite.range * math.cos(angle_radians)))
+        distance_m = math.sqrt(
+            _satellite_a.range ** 2 + _satellite_b.range ** 2 -
+            (2 * _satellite_a.range * _satellite_b.range * math.cos(angle_radians))
+        )
 
         in_ISL_range = self.satellites[sid_a].max_ISL_length_m(
         ) >= distance_m and self.satellites[sid_b].max_ISL_length_m() >= distance_m
@@ -216,12 +222,13 @@ class LEOSatelliteTopology(ABC):
         observer.elevation = terminal.elevation_m
 
         # Compute distance from satellite to observer
-        sat.satellite.compute(observer)
+        _satellite = sat.get_satellite()
+        _satellite.compute(observer)
 
         # Return distance
-        return sat.satellite.range
+        return _satellite.range
 
-    def get_satellites_in_range(self, terminal: TerminalCoordinates, tid: int = None, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)) -> tuple[list[str], list[float]]:
+    def get_satellites_in_range(self, terminal: TerminalCoordinates, tid: int = -1, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)) -> tuple[int, list[str], list[float]]:
         visible_sats = list()
         sats_range_m = list()
         for sid, sat in enumerate(self.satellites):

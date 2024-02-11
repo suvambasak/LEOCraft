@@ -102,15 +102,20 @@ class LEOSatellite:
         self.tle_line_2: str
         self.title_line: str
 
+    def get_satellite(self) -> ephem.EarthSatellite:
+        """Get ephem instance
+
+        Returns
+        -------
+        ephem.EarthSatellite
+            ephem build with TLE
+        """
+        return ephem.readtle(self.title_line, self.tle_line_1, self.tle_line_2)
+
     def build(self) -> None:
         "Create TLE of the satellite and epoch"
 
         self._build_TLE()
-        self.satellite = ephem.readtle(
-            self.title_line,
-            self.tle_line_1,
-            self.tle_line_2
-        )
         epoch_year = self.tle_line_1[18:20]
         epoch_day = float(self.tle_line_1[20:32])
         self.epoch = Time("20" + epoch_year + "-01-01 00:00:00",
@@ -134,11 +139,12 @@ class LEOSatellite:
             (latitude, longitude) 
         """
 
-        self.satellite.compute(
+        _satellite = self.get_satellite()
+        _satellite.compute(
             str(self.epoch+time_delta),
             epoch=str(self.epoch)
         )
-        return math.degrees(self.satellite.sublat), math.degrees(self.satellite.sublong)
+        return math.degrees(_satellite.sublat), math.degrees(_satellite.sublong)
 
     def _build_TLE(self) -> None:
         'Create TLE three line'
