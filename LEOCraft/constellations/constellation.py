@@ -1,19 +1,17 @@
+import concurrent.futures
 import json
 import os
 import time
 from abc import ABC, abstractmethod
 
-import ephem
 import networkx as nx
 from astropy import units as u
 from astropy.time import TimeDelta
 
 from LEOCraft.attenuation.fspl import FSPL
-from LEOCraft.satellite import LEOSatellite
 from LEOCraft.satellite_topology.LEO_sat_topology import LEOSatelliteTopology
 from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
 from LEOCraft.user_terminals.ground_station import GroundStation
-from LEOCraft.user_terminals.terminal import TerminalCoordinates
 from LEOCraft.utilities import ProcessingLog
 
 
@@ -122,42 +120,49 @@ class Constellation(ABC):
         self.v.clr()
 
         self.v.log('Building ground to satellite links...')
-
         # Records of user terminals under satellite coverage
         self.sat_coverage: dict[str, set[str]] = dict()
-
         # Ground to satellite link records
-        # List index is the ground station index
+        # List index is the ground station terminal index
         self.gsls = [None]*len(self.ground_stations.terminals)
 
         start_time = time.perf_counter()
-        for gid, gs in enumerate(self.ground_stations.terminals):
-            self.v.rlog(f'''Processing GSLs...  GS: {
-                        gid+1}/{len(self.ground_stations.terminals)}''')
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            gsl_compute = list()
+            for gid, gs in enumerate(self.ground_stations.terminals):
+                self.v.rlog(f'''Processing GSLs...  GS: {
+                            gid+1}/{len(self.ground_stations.terminals)}''')
+                self.gsls[gid] = set()
 
-            self.gsls[gid] = set()
+                # For one terminal computing each shell in parallel
+                for shell in self.shells:
 
-            for shell_id, shell in enumerate(self.shells):
-                _,  visible_sats, sats_range_m = shell.get_satellites_in_range(
-                    terminal=gs,
-                    tid=gid,
-                    time_delta=self.time_delta
-                )
-
-                # Adding list of GSLs and satellite coverage
-                for sat_name, distance_m in zip(visible_sats, sats_range_m):
-
-                    self._add_sat_coverage(
-                        sat_name, self.ground_stations.encode_name(gid)
+                    gsl_compute.append(
+                        executor.submit(
+                            shell.get_satellites_in_range,
+                            gs, gid, self.time_delta
+                        )
                     )
 
-                    self.gsls[gid].add((sat_name, distance_m))
+            compute_count = 0
+            for compute in concurrent.futures.as_completed(gsl_compute):
+                compute_count += 1
+                self.v.rlog(f'''Processing GSLs completed...   {
+                            round(compute_count/len(gsl_compute)*100)}%''')
 
-        self.v.clr()
-        end_time = time.perf_counter()
-        self.v.log(
-            f'GSLs generated in: {round((end_time-start_time)/60, 2)}m'
-        )
+                # Collecting results and adding list of GSLs and satellite coverage
+                rgid, visible_sats, sats_range_m = compute.result()
+                for sat_name, distance_m in zip(visible_sats, sats_range_m):
+                    self._add_sat_coverage(
+                        sat_name, self.ground_stations.encode_name(rgid)
+                    )
+                    self.gsls[rgid].add((sat_name, distance_m))
+
+            self.v.clr()
+            end_time = time.perf_counter()
+            self.v.log(
+                f'GSLs generated in: {round((end_time-start_time)/60, 2)}m'
+            )
 
     def _add_sat_coverage(self, sat_name: str, gs_name: str) -> None:
         "Adds ground station name under the coverage of a satellite"

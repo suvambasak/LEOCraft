@@ -1,4 +1,5 @@
 import json
+import time
 
 import gurobipy as gp
 from gurobipy import GRB
@@ -114,10 +115,13 @@ class ThroughputLP(Performance):
         self.model.setParam("OutputFlag", False)
 
         self.v.rlog(f"Optimizing... ")
+        start_time = time.perf_counter()
         self.model.optimize()
+        end_time = time.perf_counter()
         self.v.clr()
 
         self.throughput_Gbps = round(self.model.objVal, 3)
+        self.v.log(f'Optimized in: {round((end_time-start_time)/60, 2)}m')
         self.v.log(f'Throughput:\t{self.throughput_Gbps} Gbps')
 
     def _extract_path_selection(self) -> None:
