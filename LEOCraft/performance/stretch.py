@@ -43,7 +43,7 @@ class Stretch(Performance):
         self.v.rlog('Connecting all ground stations...')
         for gid, _ in enumerate(self.leo_con.ground_stations.terminals):
             self.leo_con.connect_ground_station(
-                self.leo_con.ground_stations.encode_GS_name(gid)
+                self.leo_con.ground_stations.encode_name(gid)
             )
         self.v.clr()
 
@@ -111,8 +111,8 @@ class Stretch(Performance):
 
             # Extract GS id
             source_GS, destination_GS = flow.split('_')
-            sgid = self.leo_con.ground_stations.decode_GS_name(source_GS)
-            dgid = self.leo_con.ground_stations.decode_GS_name(destination_GS)
+            sgid = self.leo_con.ground_stations.decode_name(source_GS)
+            dgid = self.leo_con.ground_stations.decode_name(destination_GS)
 
             # Geodesic distance B/W endpoint (GS to GS)
             geodesic_dist_m = round(self.leo_con.ground_stations.geodesic_distance_between_terminals_m(

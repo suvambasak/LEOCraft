@@ -1,6 +1,7 @@
 import csv
 import math
 from abc import ABC, abstractmethod
+from LEOCraft.user_terminals.terminal import TerminalCoordinates
 
 import ephem
 from astropy import units as u
@@ -184,6 +185,58 @@ class LEOSatelliteTopology(ABC):
         ) >= distance_m and self.satellites[sid_b].max_ISL_length_m() >= distance_m
 
         return distance_m, in_ISL_range
+
+    def distance_between_terminal_sat_m(self, terminal: TerminalCoordinates, sat: LEOSatellite, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)) -> float:
+        """Computes the straight distance between a ground station and a satellite in meters
+
+        Parameters
+        -------------
+        terminal: TerminalCoordinates
+            Location coordinates of a user terminal
+        sat: LEOSatellite
+            LEO satellite
+        time_delta : float, optional
+            Time passed from the epoch
+
+        Returns
+        ------------
+        float
+            The distance between the ground station and the satellite in meters
+        """
+
+        # Create an observer on the planet where the ground station is
+        observer = ephem.Observer()
+        observer.epoch = str(sat.epoch)
+        observer.date = str(sat.epoch+time_delta)
+
+        # Very important: string argument is in degrees.
+        # DO NOT pass a float as it is interpreted as radians
+        observer.lat = str(terminal.latitude_degree)
+        observer.lon = str(terminal.longitude_degree)
+        observer.elevation = terminal.elevation_m
+
+        # Compute distance from satellite to observer
+        sat.satellite.compute(observer)
+
+        # Return distance
+        return sat.satellite.range
+
+    def get_satellites_in_range(self, terminal: TerminalCoordinates, tid: int = None, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)) -> tuple[list[str], list[float]]:
+        visible_sats = list()
+        sats_range_m = list()
+        for sid, sat in enumerate(self.satellites):
+            distance_m = self.distance_between_terminal_sat_m(
+                terminal, sat, time_delta
+            )
+
+            # Out of range so GSL not possible
+            if distance_m > sat.max_GSL_length_m():
+                continue
+
+            visible_sats.append(self.encode_sat_name(sid))
+            sats_range_m.append(distance_m)
+
+        return tid, visible_sats, sats_range_m
 
     @property
     def filename(self) -> str:

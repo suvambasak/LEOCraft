@@ -35,7 +35,7 @@ class ThroughputLP(Performance):
         self.v.rlog('Connecting all ground stations...')
         for gid, _ in enumerate(self.leo_con.ground_stations.terminals):
             self.leo_con.connect_ground_station(
-                self.leo_con.ground_stations.encode_GS_name(gid)
+                self.leo_con.ground_stations.encode_name(gid)
             )
         self.v.clr()
 
@@ -61,8 +61,8 @@ class ThroughputLP(Performance):
 
         for s in range(len(self.leo_con.ground_stations.terminals)):
             for d in range(s+1, len(self.leo_con.ground_stations.terminals)):
-                s_gs_name = self.leo_con.ground_stations.encode_GS_name(s)
-                d_gs_name = self.leo_con.ground_stations.encode_GS_name(d)
+                s_gs_name = self.leo_con.ground_stations.encode_name(s)
+                d_gs_name = self.leo_con.ground_stations.encode_name(d)
                 outgoing_key = f"{s_gs_name}_{d_gs_name}"
                 incoming_key = f"{d_gs_name}_{s_gs_name}"
 

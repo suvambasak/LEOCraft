@@ -190,15 +190,22 @@ class LEOSatellite:
         """
         return f'{self.title_line}\n{self.tle_line_1}\n{self.tle_line_2}'
 
-    def coverage_cone_radius_m_on_earth(self) -> float:
-        """Calculates satellites coverage cone radius on Earth surface
+    def coverage_cone_radius_m(self, ut_altitude_m: float = 0.0) -> float:
+        """Calculates satellite coverage cone radius on a given altitude (default 0m) from earth
+
+        Parameters
+        -------
+        ut_altitude_m: float, optional
+            User Terminal altitude in meters
+
+
         Returns
         -------
         float
             radius in meter(s)
         """
 
-        return self.altitude_m / math.tan(math.radians(self.angle_of_elevation_e_degree))
+        return (self.altitude_m-ut_altitude_m) / math.tan(math.radians(self.angle_of_elevation_e_degree))
 
     def orbital_period_s(self) -> float:
         """Calculates orbital period of the satellite in seconds
@@ -213,8 +220,13 @@ class LEOSatellite:
             (4 * (math.pi**2) * orbit_radius**3)/(self.G * self.MASS)
         )
 
-    def max_GSL_length_m(self) -> float:
-        """Calculates maximum possible GSL length"
+    def max_GSL_length_m(self, ut_altitude_m: float = 0.0) -> float:
+        """Calculates maximum possible GSL length in meters at a given altitude (default 0m)
+
+        Parameters
+        -------
+        ut_altitude_m: float, optional
+            User Terminal altitude in meters
 
         Returns
         -------
@@ -222,10 +234,10 @@ class LEOSatellite:
             length in meter(s)
         """
 
-        _coverage_cone_radius_m_on_earth = self.coverage_cone_radius_m_on_earth()
+        _coverage_cone_radius_m = self.coverage_cone_radius_m(ut_altitude_m)
         return math.sqrt(
-            math.pow(_coverage_cone_radius_m_on_earth, 2) +
-            math.pow(self.altitude_m, 2)
+            math.pow(_coverage_cone_radius_m, 2) +
+            math.pow((self.altitude_m-ut_altitude_m), 2)
         )
 
     def max_ISL_length_m(self) -> float:

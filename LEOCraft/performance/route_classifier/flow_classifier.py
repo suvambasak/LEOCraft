@@ -2,7 +2,7 @@ import math
 
 from LEOCraft.constellations.constellation import Constellation
 from LEOCraft.user_terminals.ground_station import GroundStation
-from LEOCraft.user_terminals.terminal_coordinates import TerminalCoordinates
+from LEOCraft.user_terminals.terminal import TerminalCoordinates
 
 
 class FlowClassifier:
@@ -52,16 +52,16 @@ class FlowClassifier:
                 # High geodesic
                 if geodesic_m > self.__HIGH_GEODESIC_BOUND_M:
                     self.route_high_geodesic.add(
-                        f'{self.leo_con.ground_stations.encode_GS_name(
-                            sgid)}_{self.leo_con.ground_stations.encode_GS_name(dgid)}'
+                        f'{self.leo_con.ground_stations.encode_name(
+                            sgid)}_{self.leo_con.ground_stations.encode_name(dgid)}'
                     )
                     continue
 
                 # Low geodesic
                 if geodesic_m < self.__LOW_GEODESIC_BOUND_M:
                     self.route_low_geodesic.add(
-                        f'{self.leo_con.ground_stations.encode_GS_name(
-                            sgid)}_{self.leo_con.ground_stations.encode_GS_name(dgid)}'
+                        f'{self.leo_con.ground_stations.encode_name(
+                            sgid)}_{self.leo_con.ground_stations.encode_name(dgid)}'
                     )
                     continue
 
@@ -79,22 +79,22 @@ class FlowClassifier:
                 # North south routes
                 if self.__NORTH_SOUTH_BOUND_DEGREE < abs(slope_in_degrees):
                     self.route_north_south.add(
-                        f'{self.leo_con.ground_stations.encode_GS_name(
-                            sgid)}_{self.leo_con.ground_stations.encode_GS_name(dgid)}'
+                        f'{self.leo_con.ground_stations.encode_name(
+                            sgid)}_{self.leo_con.ground_stations.encode_name(dgid)}'
                     )
 
                 # East west routes
                 elif self.__EAST_WEST_BOUND_DEGREE > abs(slope_in_degrees):
                     self.route_east_west.add(
-                        f'{self.leo_con.ground_stations.encode_GS_name(
-                            sgid)}_{self.leo_con.ground_stations.encode_GS_name(dgid)}'
+                        f'{self.leo_con.ground_stations.encode_name(
+                            sgid)}_{self.leo_con.ground_stations.encode_name(dgid)}'
                     )
 
                 # Northeast sourth east
                 else:
                     self.route_northeast_southwest.add(
-                        f'{self.leo_con.ground_stations.encode_GS_name(
-                            sgid)}_{self.leo_con.ground_stations.encode_GS_name(dgid)}'
+                        f'{self.leo_con.ground_stations.encode_name(
+                            sgid)}_{self.leo_con.ground_stations.encode_name(dgid)}'
                     )
 
     def calculate_slope(self, terminal_s: TerminalCoordinates, terminal_d: TerminalCoordinates) -> tuple[float, float]:

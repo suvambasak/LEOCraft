@@ -15,7 +15,7 @@ class LEOConstellation(Constellation):
     def __init__(self, name: str = 'LEOConstellation') -> None:
         super().__init__(name)
 
-    def generate_routes(self, k: int = 1) -> None:
+    def generate_routes(self) -> None:
         """Generate K shortest routes from all ground station terminals to all ground station terminals. \n
         - Generate routes in dict with key: `G-X_G-Y`
         - Generate link load dict (number of flow through each link) with key: `tuple(hop, hop)`
@@ -27,9 +27,6 @@ class LEOConstellation(Constellation):
         k: int
             Number of shortest routes terminal to terminal
         """
-
-        # Set class variable k
-        self.k = k
 
         # Stores the routes with a key G-X_G-Y
         self.routes: dict[str, list[list[str]]] = dict()
@@ -44,8 +41,8 @@ class LEOConstellation(Constellation):
 
             for sgid in range(len(self.ground_stations.terminals)):
                 for dgid in range(sgid+1, len(self.ground_stations.terminals)):
-                    source = self.ground_stations.encode_GS_name(sgid)
-                    destination = self.ground_stations.encode_GS_name(dgid)
+                    source = self.ground_stations.encode_name(sgid)
+                    destination = self.ground_stations.encode_name(dgid)
 
                     # In case of no GSL from source GS or destination GS
                     if not (self.gsls[sgid] and self.gsls[dgid]):
@@ -55,7 +52,8 @@ class LEOConstellation(Constellation):
                         continue
 
                     self.v.rlog(
-                        f'Generating {k} routes  ({source} to {destination})'
+                        f'Generating {self.k} routes  ({source} to {
+                            destination})'
                     )
 
                     self.connect_ground_station(source, destination)
@@ -66,7 +64,7 @@ class LEOConstellation(Constellation):
                         self.sat_net_graph.copy(),
                         source,
                         destination,
-                        k
+                        self.k
                     ))
 
                     self.disconnect_ground_station(source, destination)
@@ -77,7 +75,7 @@ class LEOConstellation(Constellation):
 
                 compute_count += 1
                 self.v.rlog(
-                    f'Generating {k} routes completed... {
+                    f'Generating {self.k} routes completed... {
                         round(compute_count/len(path_compute)*100)} % '
                 )
 
@@ -87,7 +85,7 @@ class LEOConstellation(Constellation):
 
                 # In case K path not found
                 # Record the flow and number of path (< k) found
-                if compute_status and len(k_path) != k:
+                if compute_status and len(k_path) != self.k:
                     self.k_path_not_found.add(f'{flow},{len(k_path)}')
                     continue
 

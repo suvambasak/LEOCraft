@@ -1,5 +1,6 @@
 import json
 import os
+import time
 from abc import ABC, abstractmethod
 
 import ephem
@@ -12,7 +13,7 @@ from LEOCraft.satellite import LEOSatellite
 from LEOCraft.satellite_topology.LEO_sat_topology import LEOSatelliteTopology
 from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
 from LEOCraft.user_terminals.ground_station import GroundStation
-from LEOCraft.user_terminals.terminal_coordinates import TerminalCoordinates
+from LEOCraft.user_terminals.terminal import TerminalCoordinates
 from LEOCraft.utilities import ProcessingLog
 
 
@@ -21,7 +22,7 @@ class Constellation(ABC):
 
     ISL_CAPACITY: float = 50.0
     GSL_CAPACITY: float = 20.0
-    k: int
+    k: int = 20
 
     def __init__(self, name: str) -> None:
         self.name = name
@@ -128,10 +129,11 @@ class Constellation(ABC):
         # Records of user terminals under satellite coverage
         self.sat_coverage: dict[str, set[str]] = dict()
 
+        start_time = time.perf_counter()
         for gid, gs in enumerate(self.ground_stations.terminals):
             _gsls: list[tuple[str, float]] = []  # List of GSLs of current gs
 
-            for shell_id, shell in enumerate(self.shells):
+            for shell in self.shells:
                 for sid, sat in enumerate(shell.satellites):
                     self.v.rlog(
                         f'Processing GSLs... {
@@ -145,12 +147,16 @@ class Constellation(ABC):
                     _gsls.append((shell.encode_sat_name(sid), distance_m))
                     self._add_sat_coverage(
                         shell.encode_sat_name(sid),
-                        self.ground_stations.encode_GS_name(gid)
+                        self.ground_stations.encode_name(gid)
                     )
 
             # Adding list of GSL of current gs
             self.gsls.append(_gsls)
         self.v.clr()
+        end_time = time.perf_counter()
+        self.v.log(
+            f'GSLs generated in: {round((end_time-start_time)/60, 2)}m'
+        )
 
     def distance_between_terminal_sat_m(self, terminal: TerminalCoordinates, sat: LEOSatellite) -> float:
         """Computes the straight distance between a ground station and a satellite in meters
@@ -254,7 +260,7 @@ class Constellation(ABC):
         """
 
         for gs_name in gs_names:
-            gid = self.ground_stations.decode_GS_name(gs_name)
+            gid = self.ground_stations.decode_name(gs_name)
             for sat_name, distance_m in self.gsls[gid]:
                 # When pathloss model is available
                 if self.loss_model:
@@ -282,7 +288,7 @@ class Constellation(ABC):
         """
 
         for gs_name in gs_names:
-            gid = self.ground_stations.decode_GS_name(gs_name)
+            gid = self.ground_stations.decode_name(gs_name)
             for sat_name, _ in self.gsls[gid]:
                 self.sat_net_graph.remove_edge(gs_name, sat_name)
 
@@ -427,3 +433,31 @@ class Constellation(ABC):
         dir = self._create_export_dir(prefix_path)
         filename = f'{dir}/{self.name}_k_path_not_found.txt'
         return self._write_text_file(filename)
+
+    def export_gsls(self, prefix_path: str = '.') -> str:
+        """Write GSLs into a JSON file inside time delta at given path (default current directory)
+
+        Parameters
+        ----------
+        prefix_path: str, optional
+            File directory
+
+        Returns
+        -------
+        str
+            File name 
+        """
+        # Create directory with time delta
+        dir = self._create_export_dir(prefix_path)
+        filename = f'{dir}/{self.name}_gsls.json'
+
+        # Convert GSLs in a to dict
+        json_data = {}
+        for gid, visibility in enumerate(self.gsls):
+            json_data[self.ground_stations.encode_name(gid)] = visibility
+
+        # Write JSON file
+        with open(filename, 'w') as json_file:
+            json_file.write(json.dumps(json_data))
+
+        return filename
