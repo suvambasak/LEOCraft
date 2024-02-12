@@ -6,7 +6,7 @@ from dataclasses import asdict, dataclass
 from geopy.distance import great_circle
 
 
-@dataclass
+@dataclass(slots=True)
 class TerminalCoordinates:
     '''Stores the name and coordinates of a user terminal eg: latitude, longitude, elevation, and (x, y, z)'''
 
