@@ -2,6 +2,9 @@ import os
 from abc import ABC, abstractmethod
 
 from LEOCraft.constellations.constellation import Constellation
+from LEOCraft.constellations.LEO_aviation_constellation import \
+    LEOAviationConstellation
+from LEOCraft.constellations.LEO_constellation import LEOConstellation
 from LEOCraft.utilities import ProcessingLog
 
 
@@ -14,7 +17,7 @@ class Performance(ABC):
     - Compute: Calculate/Analyze/Measure
     '''
 
-    def __init__(self,  leo_con: Constellation) -> None:
+    def __init__(self,  leo_con: Constellation | LEOAviationConstellation | LEOConstellation) -> None:
         self.leo_con = leo_con
 
         self.v = ProcessingLog(self.__class__.__name__)

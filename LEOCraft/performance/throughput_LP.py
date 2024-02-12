@@ -1,10 +1,14 @@
 import json
 import time
+from abc import abstractmethod
 
 import gurobipy as gp
 from gurobipy import GRB
 
 from LEOCraft.constellations.constellation import Constellation
+from LEOCraft.constellations.LEO_aviation_constellation import \
+    LEOAviationConstellation
+from LEOCraft.constellations.LEO_constellation import LEOConstellation
 from LEOCraft.performance.performance import Performance
 from LEOCraft.performance.route_classifier.flow_classifier import \
     FlowClassifier
@@ -16,23 +20,36 @@ class ThroughputLP(Performance):
     using multi-commodity flow (MCNF) across ground stations using linear program
     """
 
-    def __init__(self, leo_con: Constellation, tm_path: str) -> None:
+    def __init__(self, leo_con: Constellation | LEOConstellation | LEOAviationConstellation, tm_path: str) -> None:
         super().__init__(leo_con)
-        self.traffic_metrics = tm_path
+        self._traffic_metrics_file = tm_path
 
+        # The demand_metrics will be created by reading self._traffic_metrics_file
+        # Implement _process_traffic_metrics() to create demand_metrics
+        self.demand_metrics: dict[str, float]
+
+        # Computer throughput using LP
         self.throughput_Gbps: float
+        # Extract routes selected by the LP solver (results)
         self.total_accommodated_flow: float
+
+        # % of routes selected in each flow catagory
         self.NS_selt: float
         self.EW_selt: float
         self.NESW_selt: float
         self.HG_selt: float
         self.LG_selt: float
 
+        self._rcategories: FlowClassifier
+
     def build(self) -> None:
         self.v.nl()
         self.v.log('Building throughput...')
+        self._rcategories.classify()
+
         self.v.rlog('Processing traffic_metrics...')
         self._process_traffic_metrics()
+
         self.v.rlog('Connecting all ground stations...')
         for gid, _ in enumerate(self.leo_con.ground_stations.terminals):
             self.leo_con.connect_ground_station(
@@ -49,26 +66,13 @@ class ThroughputLP(Performance):
         self._compute_total_accommodated_flow()
         self._compute_total_route_selection()
 
+    @abstractmethod
     def _process_traffic_metrics(self) -> None:
         '''Create demand_metrics merging two up and down flows from the JSON file
 
         i.e. Creates one flow of (G-X_G-Y + G-Y_G-X)
         '''
-
-        with open(self.traffic_metrics) as json_file:
-            content = json.loads(json_file.read())
-
-        self.demand_metrics = dict()
-
-        for s in range(len(self.leo_con.ground_stations.terminals)):
-            for d in range(s+1, len(self.leo_con.ground_stations.terminals)):
-                s_gs_name = self.leo_con.ground_stations.encode_name(s)
-                d_gs_name = self.leo_con.ground_stations.encode_name(d)
-                outgoing_key = f"{s_gs_name}_{d_gs_name}"
-                incoming_key = f"{d_gs_name}_{s_gs_name}"
-
-                self.demand_metrics[outgoing_key] = content[incoming_key] + \
-                    content[outgoing_key]
+        pass
 
     def _solve_linear_program(self) -> None:
         'Form a LP and solve for the throughput using gurobi package'
@@ -194,27 +198,24 @@ class ThroughputLP(Performance):
     def _compute_total_route_selection(self) -> None:
         'Calculate % of routes end to end routes selected of each flow class'
 
-        rcategories = FlowClassifier(self.leo_con)
-        rcategories.classify()
-
         self.NS_selt = round(self._count_route_selection(
-            rcategories.route_north_south)/(len(rcategories.route_north_south)*self.leo_con.k)*100, 3)
+            self._rcategories.route_north_south)/(len(self._rcategories.route_north_south)*self.leo_con.k)*100, 3)
         self.v.log(f'NS path selection:\t{self.NS_selt} %')
 
         self.EW_selt = round(self._count_route_selection(
-            rcategories.route_east_west)/(len(rcategories.route_east_west)*self.leo_con.k)*100, 3)
+            self._rcategories.route_east_west)/(len(self._rcategories.route_east_west)*self.leo_con.k)*100, 3)
         self.v.log(f'EW path selection:\t{self.EW_selt} %')
 
-        self.NESW_selt = round(self._count_route_selection(rcategories.route_northeast_southwest)/(
-            len(rcategories.route_northeast_southwest)*self.leo_con.k)*100, 3)
+        self.NESW_selt = round(self._count_route_selection(self._rcategories.route_northeast_southwest)/(
+            len(self._rcategories.route_northeast_southwest)*self.leo_con.k)*100, 3)
         self.v.log(f'NESW path selection:\t{self.NESW_selt} %')
 
         self.HG_selt = round(self._count_route_selection(
-            rcategories.route_high_geodesic)/(len(rcategories.route_high_geodesic)*self.leo_con.k)*100, 3)
+            self._rcategories.route_high_geodesic)/(len(self._rcategories.route_high_geodesic)*self.leo_con.k)*100, 3)
         self.v.log(f'HG path selection:\t{self.HG_selt} %')
 
         self.LG_selt = round(self._count_route_selection(
-            rcategories.route_low_geodesic)/(len(rcategories.route_low_geodesic)*self.leo_con.k)*100, 3)
+            self._rcategories.route_low_geodesic)/(len(self._rcategories.route_low_geodesic)*self.leo_con.k)*100, 3)
         self.v.log(f'LG path selection:\t{self.LG_selt} %')
 
     def _count_route_selection(self, flows: set[str]) -> int:
