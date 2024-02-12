@@ -1,13 +1,13 @@
 import csv
 import math
 from abc import ABC, abstractmethod
-from LEOCraft.user_terminals.terminal import TerminalCoordinates
 
 import ephem
 from astropy import units as u
 from astropy.time import TimeDelta
 
 from LEOCraft.satellite import LEOSatellite
+from LEOCraft.user_terminals.terminal import TerminalCoordinates
 
 
 class LEOSatelliteTopology(ABC):
@@ -237,7 +237,7 @@ class LEOSatelliteTopology(ABC):
             )
 
             # Out of range so GSL not possible
-            if distance_m > sat.max_GSL_length_m():
+            if distance_m > sat.max_GSL_length_m(terminal.elevation_m):
                 continue
 
             visible_sats.append(self.encode_sat_name(sid))

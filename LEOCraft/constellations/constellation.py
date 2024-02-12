@@ -109,12 +109,15 @@ class Constellation(ABC):
         - Generate GSLs
         - Computes satellites coverage
         """
+
+        assert len(self.shells) > 0, 'Atleast one shell required.'
+
         self.v.log('Building ground stations...')
         self.ground_stations.build()
 
         self.v.log('Building shells...')
         for shell_id, shell in enumerate(self.shells):
-            self.v.rlog(f'Processing... ({shell_id+1}/{len(self.shells)})')
+            self.v.rlog(f'Processing...  ({shell_id+1}/{len(self.shells)})')
             shell.build_satellites()
             shell.build_ISLs()
         self.v.clr()
@@ -130,8 +133,8 @@ class Constellation(ABC):
         with concurrent.futures.ProcessPoolExecutor() as executor:
             gsl_compute = list()
             for gid, gs in enumerate(self.ground_stations.terminals):
-                self.v.rlog(f'''Processing GSLs...  GS: {
-                            gid+1}/{len(self.ground_stations.terminals)}''')
+                self.v.rlog(f'''Processing GSLs...  ({
+                            gid+1}/{len(self.ground_stations.terminals)})''')
                 self.gsls[gid] = set()
 
                 # For one terminal computing each shell in parallel
@@ -363,10 +366,10 @@ class Constellation(ABC):
 
         return filename
 
-    def _write_text_file(self, path_filename: str) -> str:
+    def _write_text_file(self, content: set[str], path_filename: str) -> str:
         'Write a text file separated by new line'
         with open(path_filename, "w") as text_file:
-            for line in self.no_path_found:
+            for line in content:
                 text_file.write(f"{line}\n")
 
         return path_filename
@@ -387,7 +390,7 @@ class Constellation(ABC):
         # Create directory with time delta
         dir = self._create_export_dir(prefix_path)
         filename = f'{dir}/{self.name}_no_path_found.txt'
-        return self._write_text_file(filename)
+        return self._write_text_file(self.no_path_found, filename)
 
     def export_k_path_not_found(self, prefix_path: str = '.') -> str:
         """Write flows with less then k path into a TXT file inside time delta at given path (default current directory)
@@ -405,7 +408,7 @@ class Constellation(ABC):
         # Create directory with time delta
         dir = self._create_export_dir(prefix_path)
         filename = f'{dir}/{self.name}_k_path_not_found.txt'
-        return self._write_text_file(filename)
+        return self._write_text_file(self.k_path_not_found, filename)
 
     def export_gsls(self, prefix_path: str = '.') -> str:
         """Write GSLs into a JSON file inside time delta at given path (default current directory)
@@ -427,10 +430,11 @@ class Constellation(ABC):
         # Convert GSLs in a to dict
         json_data = {}
         for gid, visibility in enumerate(self.gsls):
-            json_data[self.ground_stations.encode_name(gid)] = visibility
+            json_data[self.ground_stations.encode_name(gid)] = list(visibility)
+        return self._write_json_file(json_data, filename)
 
-        # Write JSON file
-        with open(filename, 'w') as json_file:
-            json_file.write(json.dumps(json_data))
-
-        return filename
+    def _write_json_file(self, content: dict, path_filename: str) -> str:
+        'Write dict into a JSON file'
+        with open(path_filename, 'w') as json_file:
+            json_file.write(json.dumps(content))
+        return path_filename

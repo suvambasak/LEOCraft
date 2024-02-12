@@ -39,6 +39,7 @@ class LEOConstellation(Constellation):
         with concurrent.futures.ProcessPoolExecutor() as executor:
             path_compute = list()
 
+            _no_route_log = ''
             for sgid in range(len(self.ground_stations.terminals)):
                 for dgid in range(sgid+1, len(self.ground_stations.terminals)):
                     source = self.ground_stations.encode_name(sgid)
@@ -46,15 +47,12 @@ class LEOConstellation(Constellation):
 
                     # In case of no GSL from source GS or destination GS
                     if not (self.gsls[sgid] and self.gsls[dgid]):
-                        self.v.rlog(
-                            f'No route from ({source} to {destination})       '
-                        )
+                        _no_route_log = f'''| No route from ({source} to {
+                            destination})'''
                         continue
 
-                    self.v.rlog(
-                        f'Generating {self.k} routes  ({source} to {
-                            destination})'
-                    )
+                    self.v.rlog(f'''Generating {self.k} routes  ({
+                                source} to {destination})  {_no_route_log}  ''')
 
                     self.connect_ground_station(source, destination)
 
@@ -75,8 +73,8 @@ class LEOConstellation(Constellation):
 
                 compute_count += 1
                 self.v.rlog(
-                    f'Generating {self.k} routes completed... {
-                        round(compute_count/len(path_compute)*100)} % '
+                    f'''Generating {self.k} routes completed... {
+                        round(compute_count/len(path_compute)*100)}%  '''
                 )
 
                 # In case no path found
@@ -112,8 +110,9 @@ class LEOConstellation(Constellation):
                                 flow_via_route, (path[hop+1], path[hop])
                             )
 
-            self.v.clr()
-            end_time = time.perf_counter()
-            self.v.log(
-                f'Routes generated in: {round((end_time-start_time)/60, 2)}m'
-            )
+        self.v.clr()
+        end_time = time.perf_counter()
+        self.v.log(
+            f'Routes generated in: {
+                round((end_time-start_time)/60, 2)}m       '
+        )
