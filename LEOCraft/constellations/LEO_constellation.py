@@ -12,8 +12,8 @@ class LEOConstellation(Constellation):
     Computers routes from ground stations to ground stations
     """
 
-    def __init__(self, name: str = 'LEOConstellation') -> None:
-        super().__init__(name)
+    def __init__(self, name: str = 'LEOConstellation', PARALLEL_MODE: bool = True) -> None:
+        super().__init__(name, PARALLEL_MODE)
 
     def generate_routes(self) -> None:
         """Generate K shortest routes from all ground station terminals to all ground station terminals. \n
@@ -36,28 +36,43 @@ class LEOConstellation(Constellation):
         self.k_path_not_found: set[str] = set()
 
         start_time = time.perf_counter()
+
+        if self.PARALLEL_MODE:
+            self._proutes()
+        else:
+            self._sroutes()
+
+        self.v.clr()
+        end_time = time.perf_counter()
+        self.v.log(
+            f'''Routes generated in: {
+                round((end_time-start_time)/60, 2)}m       '''
+        )
+
+    def _proutes(self) -> None:
+        "Compute grouts in parallel mode"
+
+        path_compute = set()
         with concurrent.futures.ProcessPoolExecutor() as executor:
-            path_compute = list()
 
-            _no_route_log = ''
             for sgid in range(len(self.ground_stations.terminals)):
+                if not self.gsls[sgid]:
+                    continue
+                source = self.ground_stations.encode_name(sgid)
+                self.connect_ground_station(source)
+
                 for dgid in range(sgid+1, len(self.ground_stations.terminals)):
-                    source = self.ground_stations.encode_name(sgid)
-                    destination = self.ground_stations.encode_name(dgid)
-
-                    # In case of no GSL from source GS or destination GS
-                    if not (self.gsls[sgid] and self.gsls[dgid]):
-                        _no_route_log = f'''| No route from ({source} to {
-                            destination})'''
+                    if not self.gsls[dgid]:
                         continue
+                    destination = self.ground_stations.encode_name(dgid)
+                    self.connect_ground_station(destination)
 
-                    self.v.rlog(f'''Generating {self.k} routes  ({
-                                source} to {destination})  {_no_route_log}  ''')
+                    self.v.rlog(
+                        f'''Generating {self.k} routes  ({
+                            source} to {destination})  '''
+                    )
 
-                    self.connect_ground_station(source, destination)
-
-                    # Compute K shortest path in parallel
-                    path_compute.append(executor.submit(
+                    path_compute.add(executor.submit(
                         k_shortest_paths,
                         self.sat_net_graph.copy(),
                         source,
@@ -65,54 +80,48 @@ class LEOConstellation(Constellation):
                         self.k
                     ))
 
-                    self.disconnect_ground_station(source, destination)
+                    self.disconnect_ground_station(destination)
 
-            compute_count = 0
+                self.disconnect_ground_station(source)
+                self.v.clr()
+
+            path_compute_count = 0
             for compute in concurrent.futures.as_completed(path_compute):
-                compute_status, flow, k_path = compute.result()
-
-                compute_count += 1
+                path_compute_count += 1
                 self.v.rlog(
-                    f'''Generating {self.k} routes completed... {
-                        round(compute_count/len(path_compute)*100)}%  '''
+                    f'''Route processing complete ({round(
+                        path_compute_count/len(path_compute)*100
+                    )}%)...  '''
                 )
+                compute_status, flow, k_path = compute.result()
+                self._add_route(compute_status, flow, k_path)
 
-                # In case no path found
-                if False == compute_status:
-                    self.no_path_found.add(flow)
+    def _sroutes(self) -> None:
+        "Compute routes in serial mode"
 
-                # In case K path not found
-                # Record the flow and number of path (< k) found
-                if compute_status and len(k_path) != self.k:
-                    self.k_path_not_found.add(f'{flow},{len(k_path)}')
+        for sgid in range(len(self.ground_stations.terminals)):
+            if not self.gsls[sgid]:
+                continue
+
+            source = self.ground_stations.encode_name(sgid)
+            self.connect_ground_station(source)
+
+            for dgid in range(sgid+1, len(self.ground_stations.terminals)):
+                if not self.gsls[dgid]:
                     continue
 
-                # Storing the routes
-                self.routes[flow] = k_path
+                destination = self.ground_stations.encode_name(dgid)
+                self.connect_ground_station(destination)
 
-                # Recording total flows passing through each link
-                for k_index, path in enumerate(k_path):
-                    flow_via_route = (flow, k_index)
+                self.v.rlog(
+                    f'''Generating {self.k} routes  ({
+                        source} to {destination})  '''
+                )
 
-                    # Two end links (ground station to satellite)
-                    self._add_linkload(flow_via_route, (path[0], path[1]))
-                    self._add_linkload(flow_via_route, (path[-1], path[-2]))
+                compute_status, flow, k_path = k_shortest_paths(
+                    self.sat_net_graph, source, destination, self.k
+                )
+                self._add_route(compute_status, flow, k_path)
 
-                    # All intermmidiate links
-                    for hop in range(1, len(path)-2):
-                        # Adding load in order
-                        if path[hop] < path[hop+1]:
-                            self._add_linkload(
-                                flow_via_route, (path[hop], path[hop+1])
-                            )
-                        else:
-                            self._add_linkload(
-                                flow_via_route, (path[hop+1], path[hop])
-                            )
-
-        self.v.clr()
-        end_time = time.perf_counter()
-        self.v.log(
-            f'Routes generated in: {
-                round((end_time-start_time)/60, 2)}m       '
-        )
+                self.disconnect_ground_station(destination)
+            self.disconnect_ground_station(source)

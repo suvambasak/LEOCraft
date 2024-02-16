@@ -9,9 +9,11 @@ from astropy import units as u
 from astropy.time import TimeDelta
 
 from LEOCraft.attenuation.fspl import FSPL
-from LEOCraft.satellite_topology.LEO_sat_topology import LEOSatelliteTopology
+from LEOCraft.satellite_topology.LEO_sat_topology import (LEOSatelliteTopology,
+                                                          SatelliteInfo)
 from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
 from LEOCraft.user_terminals.ground_station import GroundStation
+from LEOCraft.user_terminals.terminal import TerminalCoordinates
 from LEOCraft.utilities import ProcessingLog
 
 
@@ -22,7 +24,9 @@ class Constellation(ABC):
     GSL_CAPACITY: float = 20.0
     k: int = 20
 
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, PARALLEL_MODE: bool = True) -> None:
+        self.PARALLEL_MODE = PARALLEL_MODE
+
         self.name = name
         self.ground_stations: GroundStation
         self.shells: list[PlusGridShell] = list()
@@ -130,12 +134,28 @@ class Constellation(ABC):
         self.gsls = [None]*len(self.ground_stations.terminals)
 
         start_time = time.perf_counter()
+
+        if self.PARALLEL_MODE:
+            self._pbuild_gsls()
+        else:
+            self._sbuild_gsls()
+
+        self.v.clr()
+        end_time = time.perf_counter()
+        self.v.log(
+            f'''GSLs generated in: {round((end_time-start_time)/60, 2)}m'''
+        )
+
+    def _pbuild_gsls(self) -> None:
+        "Compute GSLs in parallel mode"
         with concurrent.futures.ProcessPoolExecutor() as executor:
             gsl_compute = list()
             for gid, gs in enumerate(self.ground_stations.terminals):
-                self.v.rlog(f'''Processing GSLs...  ({
-                            gid+1}/{len(self.ground_stations.terminals)})''')
                 self.gsls[gid] = set()
+                self.v.rlog(
+                    f'''Processing GSLs...  ({
+                        gid+1}/{len(self.ground_stations.terminals)})'''
+                )
 
                 # For one terminal computing each shell in parallel
                 for shell in self.shells:
@@ -150,8 +170,10 @@ class Constellation(ABC):
             compute_count = 0
             for compute in concurrent.futures.as_completed(gsl_compute):
                 compute_count += 1
-                self.v.rlog(f'''Processing GSLs completed...   {
-                            round(compute_count/len(gsl_compute)*100)}%''')
+                self.v.rlog(
+                    f'''Processing GSLs completed...   {
+                        round(compute_count/len(gsl_compute)*100)}%   '''
+                )
 
                 # Collecting results and adding list of GSLs and satellite coverage
                 rgid, visible_sats, sats_range_m = compute.result()
@@ -161,11 +183,24 @@ class Constellation(ABC):
                     )
                     self.gsls[rgid].add((sat_name, distance_m))
 
-            self.v.clr()
-            end_time = time.perf_counter()
-            self.v.log(
-                f'GSLs generated in: {round((end_time-start_time)/60, 2)}m'
+    def _sbuild_gsls(self) -> None:
+        "Compute GSLs in serial mode"
+        for gid, gs in enumerate(self.ground_stations.terminals):
+            self.gsls[gid] = set()
+            self.v.rlog(
+                f'''Processing GSLs...  ({
+                    gid+1}/{len(self.ground_stations.terminals)})'''
             )
+
+            for shell in self.shells:
+                _, visible_sats, sats_range_m = shell.get_satellites_in_range(
+                    gs, gid, self.time_delta
+                )
+                for sat_name, distance_m in zip(visible_sats, sats_range_m):
+                    self.gsls[gid].add((sat_name, distance_m))
+                    self._add_sat_coverage(
+                        sat_name, self.ground_stations.encode_name(gid)
+                    )
 
     def _add_sat_coverage(self, sat_name: str, gs_name: str) -> None:
         "Adds ground station name under the coverage of a satellite"
@@ -302,6 +337,51 @@ class Constellation(ABC):
         if flow_via_route not in self.link_load[edge]:
             self.link_load[edge].add(flow_via_route)
 
+    def _add_route(self, compute_status: bool, flow: str, k_path: list[list[str]]) -> None:
+        '''Post processing of routes routes after  compute
+
+        Parameters
+        --------
+        compute_status: bool
+            Compute status
+        flow: str
+            Flow name (G-X_G-Y) or (G-X_F-Y)
+        k_path: list[list[str]]
+            List of K routes
+        '''
+        # In case no path found
+        if False == compute_status:
+            self.no_path_found.add(flow)
+
+        # In case K path not found
+        # Record the flow and number of path (< k) found
+        if compute_status and len(k_path) != self.k:
+            self.k_path_not_found.add(f'{flow},{len(k_path)}')
+            return
+
+        # Storing the routes
+        self.routes[flow] = k_path
+
+        # Recording total flows passing through each link
+        for k_index, path in enumerate(k_path):
+            flow_via_route = (flow, k_index)
+
+            # Two end links (ground station to satellite)
+            self._add_linkload(flow_via_route, (path[0], path[1]))
+            self._add_linkload(flow_via_route, (path[-1], path[-2]))
+
+            # All intermmidiate links
+            for hop in range(1, len(path)-2):
+                # Adding load in order
+                if path[hop] < path[hop+1]:
+                    self._add_linkload(
+                        flow_via_route, (path[hop], path[hop+1])
+                    )
+                else:
+                    self._add_linkload(
+                        flow_via_route, (path[hop+1], path[hop])
+                    )
+
     def link_capacity(self, node_a: str, node_b: str) -> float:
         """Get the capacity (Gbps) of a link
 
@@ -336,12 +416,60 @@ class Constellation(ABC):
         """
         return self.sat_net_graph[node_a][node_b]["weight"]
 
+    def sat_info(self, sat_name: str) -> SatelliteInfo:
+        """Get satellite information at current time delta
+
+        Parameters
+        ---------
+        sat_name: str
+            Satellite name
+
+        Returns
+        ---------
+        tuple[int, int, tuple[float, float]]
+            Shell ID, Satellite ID, (lat, long)
+        """
+
+        shell_id, sid = LEOSatelliteTopology.decode_sat_name(sat_name)
+        return self.shells[shell_id].build_sat_info(sid, self.time_delta)
+
+    def gs_info(self, gs_name: str) -> tuple[int, TerminalCoordinates]:
+        """Get ground station information
+
+        Parameters
+        ---------
+        gs_name: str
+            Ground station name
+
+        Returns
+        ---------
+        tuple[int, TerminalCoordinates]
+            Ground station ID, TerminalCoordinates dataclass object
+        """
+
+        gid = self.ground_stations.decode_name(gs_name)
+        return gid, self.ground_stations.terminals[gid]
+
     def _create_export_dir(self, prefix_path: str = '.') -> str:
         'Create directory for time delta inside given path (default current directory)'
         dir = f'{prefix_path}/{self.time_delta}'
         if not os.path.isdir(dir):
             os.makedirs(dir, exist_ok=True)
         return dir
+
+    def _write_text_file(self, content: set[str], path_filename: str) -> str:
+        'Write a text file separated by new line'
+        with open(path_filename, "w") as text_file:
+            for line in content:
+                text_file.write(f"{line}\n")
+
+        return path_filename
+
+    def _write_json_file(self, content: dict, path_filename: str) -> str:
+        'Write dict into a JSON file'
+        with open(path_filename, 'w') as json_file:
+            json_file.write(json.dumps(content))
+        return path_filename
 
     def export_routes(self, prefix_path: str = '.') -> str:
         """Write routes into a JSON file inside time delta at given path (default current directory)
@@ -365,14 +493,6 @@ class Constellation(ABC):
             json_file.write(json.dumps(self.routes))
 
         return filename
-
-    def _write_text_file(self, content: set[str], path_filename: str) -> str:
-        'Write a text file separated by new line'
-        with open(path_filename, "w") as text_file:
-            for line in content:
-                text_file.write(f"{line}\n")
-
-        return path_filename
 
     def export_no_path_found(self, prefix_path: str = '.') -> str:
         """Write flows with no path into a TXT file inside time delta at given path (default current directory)
@@ -432,9 +552,3 @@ class Constellation(ABC):
         for gid, visibility in enumerate(self.gsls):
             json_data[self.ground_stations.encode_name(gid)] = list(visibility)
         return self._write_json_file(json_data, filename)
-
-    def _write_json_file(self, content: dict, path_filename: str) -> str:
-        'Write dict into a JSON file'
-        with open(path_filename, 'w') as json_file:
-            json_file.write(json.dumps(content))
-        return path_filename

@@ -1,6 +1,7 @@
 import csv
 import math
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 
 import ephem
 from astropy import units as u
@@ -8,6 +9,20 @@ from astropy.time import TimeDelta
 
 from LEOCraft.satellite import LEOSatellite
 from LEOCraft.user_terminals.terminal import TerminalCoordinates
+
+
+@dataclass
+class SatelliteInfo:
+    'Satellite info for data exchange'
+
+    id: int
+    shell_id: int
+
+    nadir_latitude: float
+    nadir_longitude: float
+
+    orbit_num: int
+    sat_num: int
 
 
 class LEOSatelliteTopology(ABC):
@@ -229,6 +244,23 @@ class LEOSatelliteTopology(ABC):
         return _satellite.range
 
     def get_satellites_in_range(self, terminal: TerminalCoordinates, tid: int = -1, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)) -> tuple[int, list[str], list[float]]:
+        """Generates list of satellites of this shell in the range of given user terminal 
+
+        Parameters
+        ------
+        terminal: TerminalCoordinates
+            User terminal coordinates
+        tid: int = -1, optional,
+            Terminal ID (default -1)
+        time_delta: TimeDelta, optional
+            Time passed from epoch. Default value: TimeDelta(0.0 * u.nanosecond)
+
+        Returns
+        -------
+        tuple[int, list[str], list[float]]
+            User terminal ID (if given), List of satellite names, List of corresponding distance in meters
+        """
+
         visible_sats = list()
         sats_range_m = list()
         for sid, sat in enumerate(self.satellites):
@@ -299,6 +331,67 @@ class LEOSatelliteTopology(ABC):
         """
         shell_info, sid = sat_name.split("-")
         return int(shell_info[1:]), int(sid)
+
+    def _get_orbit_num(self, sid: int) -> int:
+        """Calculates orbit number from sid
+
+        Parameters
+        ------
+        sid: int
+            Satellite ID
+
+        Returns
+        ------
+        int
+            Orbit number
+        """
+
+        if sid:
+            return sid//self.sat_per_orbit
+        else:
+            return 0
+
+    def _get_sat_num_in_orbit(self, sid: int) -> int:
+        """Calculates satellite number in orbit from sid
+
+        Parameters
+        ------
+        sid: int
+            Satellite ID
+
+        Returns
+        ------
+        int
+            Satellite number in that orbit
+        """
+
+        return sid % self.sat_per_orbit
+
+    def build_sat_info(self, sid: int, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)) -> SatelliteInfo:
+        """Build a dataclass object of a satellite of this shell with all the details
+
+        Parameters
+        ----------
+        sid: int
+            Satellite ID
+        time_delta: TimeDelta, optional
+            Time passed from epoch. Default value: TimeDelta(0.0 * u.nanosecond)
+
+        Returns
+        -------
+        SatelliteInfo
+            Satellite details
+        """
+
+        loc = self.satellites[sid].nadir(time_delta)
+        return SatelliteInfo(
+            id=sid,
+            shell_id=self.id,
+            nadir_latitude=loc[0],
+            nadir_longitude=loc[1],
+            sat_num=self._get_sat_num_in_orbit(sid),
+            orbit_num=self._get_orbit_num(sid)
+        )
 
     def export_satellites(self, prefix_path: str = '.') -> str:
         """Write satellite TLEs into a file at given path (default current directory)

@@ -2,7 +2,6 @@ import concurrent.futures
 import statistics
 import time
 
-import psutil
 
 from LEOCraft.constellations.constellation import Constellation
 from LEOCraft.satellite_topology.LEO_sat_topology import LEOSatelliteTopology
@@ -13,8 +12,8 @@ from LEOCraft.utilities import k_shortest_paths
 
 class LEOAviationConstellation(Constellation):
 
-    def __init__(self, name: str = 'LEOAviationConstellation') -> None:
-        super().__init__(name)
+    def __init__(self, name: str = 'LEOAviationConstellation', PARALLEL_MODE: bool = True) -> None:
+        super().__init__(name, PARALLEL_MODE)
 
         self.aircrafts: Aircraft
 
@@ -40,12 +39,29 @@ class LEOAviationConstellation(Constellation):
         self.fsls = [None]*len(self.aircrafts.terminals)
 
         start_time = time.perf_counter()
+
+        if self.PARALLEL_MODE:
+            self._pbuild_fsls()
+        else:
+            self._sbuild_fsls()
+
+        self.v.clr()
+        end_time = time.perf_counter()
+        self.v.log(
+            f'FSLs generated in: {round((end_time-start_time)/60, 2)}m'
+        )
+
+    def _pbuild_fsls(self) -> None:
+        "Compute FSLs in parallel mode"
+
         with concurrent.futures.ProcessPoolExecutor() as executor:
             fsl_compute = list()
             for fid, fterminal in enumerate(self.aircrafts.terminals):
                 self.fsls[fid] = set()
-                self.v.rlog(f'''Processing FSLs...  ({
-                            fid+1}/{len(self.aircrafts.terminals)})''')
+                self.v.rlog(
+                    f'''Processing FSLs...  ({
+                        fid+1}/{len(self.aircrafts.terminals)})'''
+                )
 
                 for shell in self.shells:
 
@@ -59,8 +75,10 @@ class LEOAviationConstellation(Constellation):
             compute_count = 0
             for compute in concurrent.futures.as_completed(fsl_compute):
                 compute_count += 1
-                self.v.rlog(f'''Processing FSLs completed...   {
-                            round(compute_count/len(fsl_compute)*100)}%''')
+                self.v.rlog(
+                    f'''Processing FSLs completed...   {
+                        round(compute_count/len(fsl_compute)*100)}%'''
+                )
 
                 rfid, rfsl_cluster = compute.result()
                 for sat_name, distance_m in rfsl_cluster.items():
@@ -69,11 +87,26 @@ class LEOAviationConstellation(Constellation):
                         sat_name, self.aircrafts.encode_name(rfid)
                     )
 
-            self.v.clr()
-            end_time = time.perf_counter()
-            self.v.log(
-                f'FSLs generated in: {round((end_time-start_time)/60, 2)}m'
+    def _sbuild_fsls(self) -> None:
+        "Compute FSLs in serial mode"
+
+        for fid, fterminal in enumerate(self.aircrafts.terminals):
+            self.fsls[fid] = set()
+            self.v.rlog(
+                f'''Processing FSLs...  ({
+                    fid+1}/{len(self.aircrafts.terminals)}) '''
             )
+
+            for shell in self.shells:
+                rfid, rfsl_cluster = self._build_fsl_cluster(
+                    fid, fterminal, shell
+                )
+
+                for sat_name, distance_m in rfsl_cluster.items():
+                    self.fsls[rfid].add((sat_name, distance_m))
+                    self._add_sat_coverage(
+                        sat_name, self.aircrafts.encode_name(rfid)
+                    )
 
     def _build_fsl_cluster(self, fid: int, fterminal: TerminalCoordinates, shell: LEOSatelliteTopology) -> tuple[int, dict[str, float]]:
         fsl_cluster = dict()
@@ -180,29 +213,44 @@ class LEOAviationConstellation(Constellation):
         self.k_path_not_found: set[str] = set()
 
         start_time = time.perf_counter()
-        with concurrent.futures.ProcessPoolExecutor() as executor:
+
+        if self.PARALLEL_MODE:
+            self._proutes()
+        else:
+            self._sroutes()
+
+        self.v.clr()
+        end_time = time.perf_counter()
+        self.v.log(
+            f'''Routes generated in: {
+                round((end_time-start_time)/60, 2)}m   '''
+        )
+
+    def _proutes(self) -> None:
+        "Compute grouts in parallel mode"
+
+        for gid in range(len(self.ground_stations.terminals)):
+            if not self.gsls[gid]:
+                continue
+
+            source = self.ground_stations.encode_name(gid)
+            self.connect_ground_station(source)
+
             path_compute = set()
+            with concurrent.futures.ProcessPoolExecutor() as executor:
 
-            _no_route_log = ''
-            for gid in range(len(self.ground_stations.terminals)):
                 for fid in range(len(self.aircrafts.terminals)):
-
-                    source = self.ground_stations.encode_name(gid)
-                    destination = self.aircrafts.encode_name(fid)
-
-                    # In case of no GSL/FSL from source GS or destination Flight cluster
-                    if not (self.gsls[gid] and self.fsls[fid]):
-                        _no_route_log = f'''| No route from ({source} to {
-                            destination})'''
+                    if not self.fsls[fid]:
                         continue
 
-                    self.v.rlog(f'''Generating {self.k} routes  ({
-                                source} to {destination})  {_no_route_log}  ''')
-
-                    self.connect_ground_station(source)
+                    destination = self.aircrafts.encode_name(fid)
                     self.connect_flight_cluster_terminals(destination)
 
-                    # Compute K shortest path in parallel
+                    self.v.rlog(
+                        f'''Generating {self.k} routes  ({
+                            source} to {destination})  '''
+                    )
+
                     path_compute.add(executor.submit(
                         k_shortest_paths,
                         self.sat_net_graph.copy(),
@@ -211,60 +259,41 @@ class LEOAviationConstellation(Constellation):
                         self.k
                     ))
 
-                    self.disconnect_ground_station(source)
                     self.disconnect_flight_cluster_terminals(destination)
 
-                if 80 < psutil.virtual_memory().percent:
-                    self.v.rlog('Waiting for queuing...        ')
-                    time.sleep(1)
+                for compute in concurrent.futures.as_completed(path_compute):
+                    compute_status, flow, k_path = compute.result()
+                    self._add_route(compute_status, flow, k_path)
 
-            compute_count = 0
-            for compute in concurrent.futures.as_completed(path_compute):
-                compute_status, flow, k_path = compute.result()
+            self.disconnect_ground_station(source)
 
-                compute_count += 1
-                self.v.rlog(
-                    f'''Generating {self.k} routes completed... {
-                        round(compute_count/len(path_compute)*100)}%  '''
-                )
+    def _sroutes(self) -> None:
+        "Compute routes in serial mode"
 
-                # In case no path found
-                if False == compute_status:
-                    self.no_path_found.add(flow)
+        for gid in range(len(self.ground_stations.terminals)):
+            if not self.gsls[gid]:
+                continue
 
-                # In case K path not found
-                # Record the flow and number of path (< k) found
-                if compute_status and len(k_path) != self.k:
-                    self.k_path_not_found.add(f'{flow},{len(k_path)}')
+            source = self.ground_stations.encode_name(gid)
+            self.connect_ground_station(source)
+
+            for fid in range(len(self.aircrafts.terminals)):
+                if not self.fsls[fid]:
                     continue
 
-                # Storing the routes
-                self.routes[flow] = k_path
+                destination = self.aircrafts.encode_name(fid)
+                self.connect_flight_cluster_terminals(destination)
 
-                # Recording total flows passing through each link
-                for k_index, path in enumerate(k_path):
-                    flow_via_route = (flow, k_index)
+                self.v.rlog(
+                    f'''Generating {self.k} routes  ({
+                        source} to {destination})  '''
+                )
 
-                    # Two end links (ground station to satellite)
-                    self._add_linkload(flow_via_route, (path[0], path[1]))
-                    self._add_linkload(
-                        flow_via_route, (path[-1], path[-2]))
+                compute_status, flow, k_path = k_shortest_paths(
+                    self.sat_net_graph, source, destination, self.k
+                )
+                self._add_route(compute_status, flow, k_path)
 
-                    # All intermmidiate links
-                    for hop in range(1, len(path)-2):
-                        # Adding load in order
-                        if path[hop] < path[hop+1]:
-                            self._add_linkload(
-                                flow_via_route, (path[hop], path[hop+1])
-                            )
-                        else:
-                            self._add_linkload(
-                                flow_via_route, (path[hop+1], path[hop])
-                            )
+                self.disconnect_flight_cluster_terminals(destination)
 
-        self.v.clr()
-        end_time = time.perf_counter()
-        self.v.log(
-            f'Routes generated in: {
-                round((end_time-start_time)/60, 2)}m       '
-        )
+            self.disconnect_ground_station(source)
