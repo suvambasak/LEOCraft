@@ -63,8 +63,14 @@ class FlowClassifier(ABC):
             Slope amd slope in degrees
         '''
 
-        slope = (float(terminal_d.latitude_degree) - float(terminal_s.latitude_degree)) / \
-            (float(terminal_d.longitude_degree) -
-             float(terminal_s.longitude_degree))
-        slope_in_degrees = math.degrees(math.atan(slope))
-        return slope, slope_in_degrees
+        if terminal_s.latitude_degree == terminal_d.latitude_degree == terminal_s.longitude_degree == terminal_d.longitude_degree:
+            raise ValueError("Exactly same TerminalCoordinates")
+
+        try:
+            slope = (float(terminal_d.latitude_degree) - float(terminal_s.latitude_degree)) / \
+                (float(terminal_d.longitude_degree) -
+                 float(terminal_s.longitude_degree))
+            slope_in_degrees = math.degrees(math.atan(slope))
+            return slope, slope_in_degrees
+        except ZeroDivisionError as _e:
+            return float('inf'), 90.0

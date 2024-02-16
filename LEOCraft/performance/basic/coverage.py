@@ -30,8 +30,8 @@ class Coverage(Performance):
         )
         self.v.log(f'Out of coverage GS:\t{self.dead_GS_count}')
 
-        self.coverage_metric = self._visible_sats_log_sum(self.leo_con.gsls)
-        self.v.log(f'GS coverage metric:\t{self.coverage_metric}')
+        self.GS_coverage_metric = self._visible_sats_log_sum(self.leo_con.gsls)
+        self.v.log(f'GS coverage metric:\t{self.GS_coverage_metric}')
 
     def _count_user_terminals_out_of_coverage(self, sls: list[set[str, float]]) -> int:
         '''Counts terminal without satellite links
