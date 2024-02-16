@@ -1,4 +1,5 @@
 import unittest
+
 from LEOCraft.attenuation.fspl import FSPL
 
 

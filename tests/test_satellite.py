@@ -1,5 +1,6 @@
 import unittest
 
+from LEOCraft.constellations.constellation import Constellation
 from LEOCraft.satellite import LEOSatellite
 
 
@@ -84,7 +85,7 @@ class TestSatellite(unittest.TestCase):
             #         satellite_name=self.satellite_name
             #     )
 
-    def test_coverage_cone_radius_m_on_earth(self):
+    def test_coverage_cone_radius_m(self):
         leo_con_1 = LEOSatellite(
             altitude_m=self.altitude_m,
             inclination_degree=self.inclination_degree,
@@ -105,8 +106,8 @@ class TestSatellite(unittest.TestCase):
         )
 
         self.assertGreater(
-            leo_con_2.coverage_cone_radius_m_on_earth(),
-            leo_con_1.coverage_cone_radius_m_on_earth()
+            leo_con_2.coverage_cone_radius_m(),
+            leo_con_1.coverage_cone_radius_m()
         )
 
         leo_con_1 = LEOSatellite(
@@ -129,8 +130,17 @@ class TestSatellite(unittest.TestCase):
         )
 
         self.assertGreater(
-            leo_con_2.coverage_cone_radius_m_on_earth(),
-            leo_con_1.coverage_cone_radius_m_on_earth()
+            leo_con_2.coverage_cone_radius_m(),
+            leo_con_1.coverage_cone_radius_m()
+        )
+
+        self.assertGreater(
+            leo_con_1.coverage_cone_radius_m(),
+            leo_con_1.coverage_cone_radius_m(10000)
+        )
+        self.assertGreater(
+            leo_con_2.coverage_cone_radius_m(),
+            leo_con_2.coverage_cone_radius_m(500)
         )
 
     def test_orbital_period_s(self):
@@ -245,7 +255,7 @@ class TestSatellite(unittest.TestCase):
         leo_con.build()
         self.assertEqual(
             leo_con.get_TLE(),
-            "Test 1\n"+"1 00001U 00000ABC 00001.00000000  .00000000  00000-0  00000+0 0    04\n" +
+            "Test 0\n"+"1 00001U 00000ABC 00001.00000000  .00000000  00000-0  00000+0 0    04\n" +
             "2 00001  90.0000   0.0000 0000001   0.0000   0.0000 15.21916082    08"
         )
 
@@ -261,7 +271,7 @@ class TestSatellite(unittest.TestCase):
         leo_con.build()
         self.assertEqual(
             leo_con.get_TLE(),
-            "Test 2\n"+"1 00002U 00000ABC 00001.00000000  .00000000  00000-0  00000+0 0    05\n" +
+            "Test 1\n"+"1 00002U 00000ABC 00001.00000000  .00000000  00000-0  00000+0 0    05\n" +
             "2 00002  90.0000   0.0000 0000001   0.0000  36.0000 15.21916082    08"
         )
 
@@ -276,17 +286,40 @@ class TestSatellite(unittest.TestCase):
             satellite_name=self.satellite_name
         )
         leo_con.build()
-        self.assertEqual(leo_con.nadir(day=1), leo_con.nadir(hour=24))
-        self.assertEqual(leo_con.nadir(hour=1), leo_con.nadir(minute=60))
         self.assertEqual(
-            leo_con.nadir(second=1),
-            leo_con.nadir(millisecond=1000)
+            leo_con.nadir(
+                Constellation.calculate_time_delta(day=1)
+            ),
+            leo_con.nadir(
+                Constellation.calculate_time_delta(hour=24)
+            )
         )
         self.assertEqual(
-            leo_con.nadir(millisecond=1),
-            leo_con.nadir(nanosecond=1000000)
+            leo_con.nadir(
+                Constellation.calculate_time_delta(hour=1)
+            ),
+            leo_con.nadir(
+                Constellation.calculate_time_delta(minute=60)
+            )
+        )
+        self.assertEqual(
+            leo_con.nadir(
+                Constellation.calculate_time_delta(second=1)
+            ),
+            leo_con.nadir(
+                Constellation.calculate_time_delta(millisecond=1000)
+            )
+        )
+        self.assertEqual(
+            leo_con.nadir(Constellation.calculate_time_delta(millisecond=1)),
+            leo_con.nadir(
+                Constellation.calculate_time_delta(nanosecond=1000000))
         )
 
         lat_1, _ = leo_con.nadir()
-        lat_2, _ = leo_con.nadir(second=leo_con.orbital_period_s())
+        lat_2, _ = leo_con.nadir(
+            Constellation.calculate_time_delta(
+                second=leo_con.orbital_period_s()
+            )
+        )
         self.assertAlmostEqual(lat_1, lat_2, delta=1)
