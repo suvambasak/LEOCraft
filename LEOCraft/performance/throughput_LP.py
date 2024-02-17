@@ -124,9 +124,9 @@ class ThroughputLP(Performance):
         end_time = time.perf_counter()
         self.v.clr()
 
-        self.throughput_Gbps = round(self.model.objVal, 3)
+        self.throughput_Gbps = self.model.objVal
         self.v.log(f'Optimized in: {round((end_time-start_time)/60, 2)}m')
-        self.v.log(f'Throughput:\t{self.throughput_Gbps} Gbps')
+        self.v.log(f'Throughput:\t{round(self.throughput_Gbps, 3)} Gbps')
 
     def _extract_path_selection(self) -> None:
         'Process the output of LP solver to extract selected routes'
@@ -198,25 +198,25 @@ class ThroughputLP(Performance):
     def _compute_total_route_selection(self) -> None:
         'Calculate % of routes end to end routes selected of each flow class'
 
-        self.NS_selt = round(self._count_route_selection(
-            self._rcategories.route_north_south)/(len(self._rcategories.route_north_south)*self.leo_con.k)*100, 3)
-        self.v.log(f'NS path selection:\t{self.NS_selt} %')
+        self.NS_selt = self._count_route_selection(
+            self._rcategories.route_north_south)/(len(self._rcategories.route_north_south)*self.leo_con.k)*100
+        self.v.log(f'NS path selection:\t{round(self.NS_selt, 3)} %')
 
-        self.EW_selt = round(self._count_route_selection(
-            self._rcategories.route_east_west)/(len(self._rcategories.route_east_west)*self.leo_con.k)*100, 3)
-        self.v.log(f'EW path selection:\t{self.EW_selt} %')
+        self.EW_selt = self._count_route_selection(
+            self._rcategories.route_east_west)/(len(self._rcategories.route_east_west)*self.leo_con.k)*100
+        self.v.log(f'EW path selection:\t{round(self.EW_selt, 3)} %')
 
-        self.NESW_selt = round(self._count_route_selection(self._rcategories.route_northeast_southwest)/(
-            len(self._rcategories.route_northeast_southwest)*self.leo_con.k)*100, 3)
-        self.v.log(f'NESW path selection:\t{self.NESW_selt} %')
+        self.NESW_selt = self._count_route_selection(self._rcategories.route_northeast_southwest)/(
+            len(self._rcategories.route_northeast_southwest)*self.leo_con.k)*100
+        self.v.log(f'NESW path selection:\t{round(self.NESW_selt, 3)} %')
 
-        self.HG_selt = round(self._count_route_selection(
-            self._rcategories.route_high_geodesic)/(len(self._rcategories.route_high_geodesic)*self.leo_con.k)*100, 3)
-        self.v.log(f'HG path selection:\t{self.HG_selt} %')
+        self.HG_selt = self._count_route_selection(
+            self._rcategories.route_high_geodesic)/(len(self._rcategories.route_high_geodesic)*self.leo_con.k)*100
+        self.v.log(f'HG path selection:\t{round(self.HG_selt, 3)} %')
 
-        self.LG_selt = round(self._count_route_selection(
-            self._rcategories.route_low_geodesic)/(len(self._rcategories.route_low_geodesic)*self.leo_con.k)*100, 3)
-        self.v.log(f'LG path selection:\t{self.LG_selt} %')
+        self.LG_selt = self._count_route_selection(
+            self._rcategories.route_low_geodesic)/(len(self._rcategories.route_low_geodesic)*self.leo_con.k)*100
+        self.v.log(f'LG path selection:\t{round(self.LG_selt, 3)} %')
 
     def _count_route_selection(self, flows: set[str]) -> int:
         '''Counts the number of path selected from a given flow category. Works as helper method of _compute_total_route_selection

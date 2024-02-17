@@ -51,7 +51,7 @@ class Coverage(Performance):
         for sats_in_range in sls:
             if 0 == len(sats_in_range):
                 dead_count += 1
-        return round(dead_count, 3)
+        return dead_count
 
     def _visible_sats_log_sum(self, sls: list[set[str, float]]) -> float:
         '''Calculates coverage metric
@@ -73,4 +73,4 @@ class Coverage(Performance):
                 len(sats_in_range)
             ) if sats_in_range else 0
 
-        return round(log_sum, 3)
+        return log_sum

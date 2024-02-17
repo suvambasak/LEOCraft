@@ -58,10 +58,10 @@ class Stretch(Stretch):
             fid = self.leo_con.aircrafts.decode_name(destination_flight)
 
             # Geodesic distance B/W endpoint (GS to GS)
-            geodesic_dist_m = round(self.leo_con.ground_stations.geodesic_distance_between_terminals_m(
+            geodesic_dist_m = self.leo_con.ground_stations.geodesic_distance_between_terminals_m(
                 self.leo_con.ground_stations.terminals[gid],
                 self.leo_con.aircrafts.terminals[fid]
-            ), 3)
+            )
 
             # Distance and median hop count over ISLs
             max_ISL_dist_m, min_ISL_dist_m, avg_ISL_dist_m, mhop_count = self._end_to_end_distance_over_ISL_m(
@@ -72,26 +72,22 @@ class Stretch(Stretch):
                 'source': source_GS,
                 'destination': destination_flight,
 
-                'max_stretch': round(max_ISL_dist_m/geodesic_dist_m, 3),
-                'min_stretch': round(min_ISL_dist_m/geodesic_dist_m, 3),
-                'avg_stretch': round(avg_ISL_dist_m/geodesic_dist_m, 3),
+                'max_stretch': max_ISL_dist_m/geodesic_dist_m,
+                'min_stretch': min_ISL_dist_m/geodesic_dist_m,
+                'avg_stretch': avg_ISL_dist_m/geodesic_dist_m,
 
-                'geodesic_dist_km': round(geodesic_dist_m/1000, 3),
+                'geodesic_dist_km': geodesic_dist_m/1000,
 
-                'max_ISL_dist_km': round(max_ISL_dist_m/1000, 3),
-                'min_ISL_dist_km': round(min_ISL_dist_m/1000, 3),
-                'avg_ISL_dist_km': round(avg_ISL_dist_m/1000, 3),
+                'max_ISL_dist_km': max_ISL_dist_m/1000,
+                'min_ISL_dist_km': min_ISL_dist_m/1000,
+                'avg_ISL_dist_km': avg_ISL_dist_m/1000,
 
-                'mid_hop_cnt': round(mhop_count, 3)
+                'mid_hop_cnt': mhop_count
 
             })
 
         return (
-            round(
-                statistics.median([sth['min_stretch']for sth in _stretch]), 3
-            ),
-            round(
-                statistics.median([sth['mid_hop_cnt'] for sth in _stretch]), 3
-            ),
+            statistics.median([sth['min_stretch']for sth in _stretch]),
+            statistics.median([sth['mid_hop_cnt'] for sth in _stretch]),
             _stretch
         )

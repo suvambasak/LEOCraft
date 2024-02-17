@@ -3,13 +3,14 @@ import time
 from LEOCraft.attenuation.fspl import FSPL
 from LEOCraft.constellations.LEO_aviation_constellation import \
     LEOAviationConstellation
+from LEOCraft.dataset import (FlightOnAir, GroundStationAtCities,
+                              InternetTrafficOnAir)
 from LEOCraft.performance.aviation.coverage import Coverage
 from LEOCraft.performance.aviation.stretch import Stretch
 from LEOCraft.performance.aviation.throughput import Throughput
 from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
 from LEOCraft.user_terminals.aircraft import Aircraft
 from LEOCraft.user_terminals.ground_station import GroundStation
-
 
 start_time = time.perf_counter()
 
@@ -28,14 +29,14 @@ leo_con = LEOAviationConstellation('Starlink-aviation')
 leo_con.v.verbose = True
 leo_con.add_ground_stations(
     GroundStation(
-        'dataset/ground_stations/ground_stations_cities_sorted_by_estimated_2025_pop_top_100.csv'
-        # 'dataset/ground_stations/ground_stations_cities_sorted_by_estimated_2025_pop_top_1000.csv'
+        GroundStationAtCities.TOP_100
+        # GroundStationAtCities.TOP_1000
     )
 )
 leo_con.add_aircrafts(
     Aircraft(
-        replaced_gs_csv='dataset/aircraft/flightReplacedGS.csv',
-        flight_cluster_csv='dataset/aircraft/flightCluster.csv'
+        replaced_gs_csv=FlightOnAir.FLIGHT_REPLACED_TERMINALS,
+        flight_cluster_csv=FlightOnAir.FLIGHTS_CLUSTERS
     )
 )
 
@@ -92,7 +93,7 @@ leo_con.generate_routes()
 # Throughput
 th = Throughput(
     leo_con,
-    'dataset/air_traffic/flight_cluster_population_only_tm_100.json'
+    InternetTrafficOnAir.ONLY_POP_100
 )
 th.build()
 th.compute()

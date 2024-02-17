@@ -2,12 +2,12 @@ import time
 
 from LEOCraft.attenuation.fspl import FSPL
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
+from LEOCraft.dataset import GroundStationAtCities, InternetTrafficAcrossCities
 from LEOCraft.performance.basic.coverage import Coverage
 from LEOCraft.performance.basic.stretch import Stretch
 from LEOCraft.performance.basic.throughput import Throughput
 from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
 from LEOCraft.user_terminals.ground_station import GroundStation
-
 
 start_time = time.perf_counter()
 
@@ -26,8 +26,8 @@ leo_con = LEOConstellation('Starlink')
 leo_con.v.verbose = True
 leo_con.add_ground_stations(
     GroundStation(
-        'dataset/ground_stations/ground_stations_cities_sorted_by_estimated_2025_pop_top_100.csv'
-        # 'dataset/ground_stations/ground_stations_cities_sorted_by_estimated_2025_pop_top_1000.csv'
+        GroundStationAtCities.TOP_100
+        # GroundStationAtCities.TOP_1000
     )
 )
 
@@ -83,9 +83,9 @@ leo_con.generate_routes()
 # Throughput
 th = Throughput(
     leo_con,
-    # 'dataset/traffic_metrics/population_only_tm_Gbps_100.json'
-    'dataset/traffic_metrics/population_GDP_tm_Gbps_100.json'
-    # 'dataset/traffic_metrics/population_only_tm_Gbps_1000.json'
+    # InternetTrafficAcrossCities.ONLY_POP_1000
+    InternetTrafficAcrossCities.POP_GDP_100
+    # InternetTrafficAcrossCities.ONLY_POP_1000
 )
 th.build()
 th.compute()

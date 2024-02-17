@@ -1,3 +1,5 @@
+import csv
+import os
 import sys
 from itertools import islice
 
@@ -63,3 +65,25 @@ class ProcessingLog:
             sys.stdout.write(
                 '\r                                                                        \r'
             )
+
+
+def CSV_logger(data: dict[str, float | int], csv_file_path: str = "log.csv") -> None:
+    '''Write CSV file from dict dataset
+
+    Parameters
+    ---------
+    data: dict[str, float | int]
+        Dataset in dict format (Key, value pair only)
+
+    csv_file_path: str, optional
+        CSV file name, default value is `log.csv`
+    '''
+
+    if not os.path.exists(csv_file_path):
+        with open(csv_file_path, 'w', newline='') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=data.keys())
+            writer.writeheader()
+
+    with open(csv_file_path, 'a', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=data.keys())
+        writer.writerow(data)

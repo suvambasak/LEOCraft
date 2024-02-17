@@ -58,35 +58,35 @@ class Stretch(Performance):
             self._rcategories.route_north_south
         )
         self._stretch_dataset.extend(_stretch)
-        self.v.log(f'NS stretch:\t{self.NS_sth}')
+        self.v.log(f'NS stretch:\t{round(self.NS_sth, 3)}')
         self.v.log(f'NS hop count:\t{self.NS_cnt}')
 
         self.EW_sth, self.EW_cnt, _stretch = self._compute_stretch(
             self._rcategories.route_east_west
         )
         self._stretch_dataset.extend(_stretch)
-        self.v.log(f'EW stretch:\t{self.EW_sth}')
+        self.v.log(f'EW stretch:\t{round(self.EW_sth, 3)}')
         self.v.log(f'EW hop count:\t{self.EW_cnt}')
 
         self.NESW_sth, self.NESW_cnt, _stretch = self._compute_stretch(
             self._rcategories.route_northeast_southwest
         )
         self._stretch_dataset.extend(_stretch)
-        self.v.log(f'NESW stretch:\t{self.NESW_sth}')
+        self.v.log(f'NESW stretch:\t{round(self.NESW_sth, 3)}')
         self.v.log(f'NESW hop count:\t{self.NESW_cnt}')
 
         self.LG_sth, self.LG_cnt, _stretch = self._compute_stretch(
             self._rcategories.route_low_geodesic
         )
         self._stretch_dataset.extend(_stretch)
-        self.v.log(f'LG stretch:\t{self.LG_sth}')
+        self.v.log(f'LG stretch:\t{round(self.LG_sth, 3)}')
         self.v.log(f'LG hop count:\t{self.LG_cnt}')
 
         self.HG_sth, self.HG_cnt, _stretch = self._compute_stretch(
             self._rcategories.route_high_geodesic
         )
         self._stretch_dataset.extend(_stretch)
-        self.v.log(f'HG stretch:\t{self.HG_sth}')
+        self.v.log(f'HG stretch:\t{round(self.HG_sth, 3)}')
         self.v.log(f'HG hop count:\t{self.HG_cnt}')
 
     @abstractmethod
