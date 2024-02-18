@@ -5,6 +5,7 @@ import unittest
 
 from LEOCraft.constellations.LEO_aviation_constellation import \
     LEOAviationConstellation
+from LEOCraft.dataset import FlightOnAir, InternetTrafficOnAir
 from LEOCraft.performance.aviation.coverage import Coverage
 from LEOCraft.performance.aviation.stretch import Stretch
 from LEOCraft.performance.aviation.throughput import Throughput
@@ -16,8 +17,8 @@ from tests.test_LEO_constellation import (_create_gs, _create_loss_model,
 
 def _create_aircraft() -> Aircraft:
     return Aircraft(
-        replaced_gs_csv='dataset/aircraft/flightReplacedGS.csv',
-        flight_cluster_csv='dataset/aircraft/flightCluster.csv'
+        replaced_gs_csv=FlightOnAir.FLIGHT_REPLACED_TERMINALS,
+        flight_cluster_csv=FlightOnAir.FLIGHTS_CLUSTERS
     )
 
 
@@ -78,7 +79,7 @@ class TestLEOAviationConstellation(unittest.TestCase):
 
     def _get_throughput(self, leo_con: LEOAviationConstellation) -> float:
         th = Throughput(
-            leo_con, 'dataset/air_traffic/flight_cluster_population_only_tm_100.json'
+            leo_con, InternetTrafficOnAir.ONLY_POP_100
         )
         th.build()
         th.compute()

@@ -5,6 +5,7 @@ import unittest
 
 from LEOCraft.attenuation.fspl import FSPL
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
+from LEOCraft.dataset import GroundStationAtCities, InternetTrafficAcrossCities
 from LEOCraft.performance.basic.coverage import Coverage
 from LEOCraft.performance.basic.stretch import Stretch
 from LEOCraft.performance.basic.throughput import Throughput
@@ -61,9 +62,7 @@ def _create_loss_model() -> FSPL:
 
 
 def _create_gs() -> GroundStation:
-    return GroundStation(
-        'dataset/ground_stations/ground_stations_cities_sorted_by_estimated_2025_pop_top_100.csv'
-    )
+    return GroundStation(GroundStationAtCities.TOP_100)
 
 
 def _create_single_shell(parallel_mode: bool = True) -> LEOConstellation:
@@ -116,7 +115,7 @@ class TestLEOConstellation(unittest.TestCase):
 
     def _get_throughput(self, leo_con: LEOConstellation) -> float:
         th = Throughput(
-            leo_con, 'dataset/traffic_metrics/population_GDP_tm_Gbps_100.json'
+            leo_con, InternetTrafficAcrossCities.POP_GDP_100
         )
         th.build()
         th.compute()

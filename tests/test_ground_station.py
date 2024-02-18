@@ -4,6 +4,7 @@ import shutil
 import unittest
 
 from LEOCraft.user_terminals.ground_station import GroundStation
+from LEOCraft.dataset import GroundStationAtCities
 
 
 class TestGroundStation(unittest.TestCase):
@@ -14,14 +15,10 @@ class TestGroundStation(unittest.TestCase):
         self.test_directory = f'{os.getcwd()}/TestGroundStations'
         os.makedirs(self.test_directory, exist_ok=True)
 
-        self.small_gs = GroundStation(
-            'dataset/ground_stations/ground_stations_cities_sorted_by_estimated_2025_pop_top_100.csv'
-        )
+        self.small_gs = GroundStation(GroundStationAtCities.TOP_100)
         self.small_gs.build()
 
-        self.big_gs = GroundStation(
-            'dataset/ground_stations/ground_stations_cities_sorted_by_estimated_2025_pop_top_1000.csv'
-        )
+        self.big_gs = GroundStation(GroundStationAtCities.TOP_1000)
         self.big_gs.build()
 
     @classmethod
