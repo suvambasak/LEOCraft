@@ -66,7 +66,7 @@ class LEOConstellationSimulator(Simulator):
         performane_log['EW_selt'] = th.EW_selt
         performane_log['NESW_selt'] = th.NESW_selt
         performane_log['HG_selt'] = th.HG_selt
-        performane_log['HG_selt'] = th.HG_selt
+        performane_log['LG_selt'] = th.LG_selt
 
         performane_log['dead_GS_count'] = cov.dead_GS_count
         performane_log['GS_coverage_metric'] = cov.GS_coverage_metric
