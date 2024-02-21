@@ -86,8 +86,15 @@ class Stretch(Stretch):
 
             })
 
+        # List of min stretch extracted
+        min_stretch_list = [sth['min_stretch'] for sth in _stretch]
+        # List of median hop count
+        median_hop_count_list = [sth['mid_hop_cnt'] for sth in _stretch]
+
         return (
-            statistics.median([sth['min_stretch']for sth in _stretch]),
-            statistics.median([sth['mid_hop_cnt'] for sth in _stretch]),
+            statistics.median(min_stretch_list) if min_stretch_list else 0,
+            statistics.median(
+                median_hop_count_list
+            ) if median_hop_count_list else 0,
             _stretch
         )
