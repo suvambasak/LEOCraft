@@ -27,6 +27,7 @@ class Simulator(ABC):
             self._CSV = f'{self.__class__.__name__}.csv'
 
         self._simulation_jobs: set[Constellation] = set()
+        self._performane_log: list[dict[str, float | int]] = list()
         self.max_workers: int
 
     def add_constellation(self, leo_con: Constellation) -> None:
@@ -52,16 +53,17 @@ class Simulator(ABC):
         '''
 
         _progress = f'{completed_count}/{len(self._simulation_jobs)}'
+        _percent = round(completed_count/len(self._simulation_jobs)*100, 1)
         _left = len(self._simulation_jobs) - completed_count
         _avg_t = round(_t_time/completed_count, 2)
         _eta = round(_left*_avg_t/self.max_workers, 2)
 
         self.v.log(
-            f'''Simulation progress: {_progress}  Left: {_left} Avg time: {
+            f'''Simulation progress [{_percent}%]: {_progress}  Left: {_left} Avg time: {
                 _avg_t}m ETA: {_eta}m    '''
         )
 
-    def simulate_in_serial(self):
+    def simulate_in_serial(self) -> set[dict[str, float | int]]:
         'Start simulation execution in serial (one by one)'
 
         self.v.log(
@@ -79,6 +81,7 @@ class Simulator(ABC):
 
             _t_time += __t
             CSV_logger(performane_log, self._CSV)
+            self._performane_log.append(performane_log)
             self._simulation_progress(completed_count+1, _t_time)
 
         end_time = time.perf_counter()
@@ -87,7 +90,9 @@ class Simulator(ABC):
                 round((end_time-start_time)/60, 2)}m     '''
         )
 
-    def simulate_in_parallel(self, max_workers: int | None = None):
+        return self._performane_log
+
+    def simulate_in_parallel(self, max_workers: int | None = None) -> set[dict[str, float | int]]:
         '''Start simulation execution in parallel (by default as many CPU cores)
 
         Parameters
@@ -121,6 +126,7 @@ class Simulator(ABC):
 
                 _t_time += __t
                 CSV_logger(performane_log, self._CSV)
+                self._performane_log.append(performane_log)
                 self._simulation_progress(completed_count, _t_time)
 
         end_time = time.perf_counter()
@@ -128,6 +134,8 @@ class Simulator(ABC):
             f'''Total {len(self._simulation_jobs)} simulation(s) completed in: {
                 round((end_time-start_time)/60, 2)}m       '''
         )
+
+        return self._performane_log
 
     def _leo_param_to_dict(self, leo_con: Constellation) -> dict[str, float | int]:
         '''Create a dict of the given leo constellation parameters
