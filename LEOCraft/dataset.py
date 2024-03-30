@@ -36,4 +36,5 @@ class InternetTrafficOnAir:
     1. Matthew Roughan. 2005. Simplifying the synthesis of internet traffic matrices. SIGCOMM Comput. Commun. Rev. 35, 5 (October 2005), 93–96. https://doi.org/10.1145/1096536.1096551
     '''
 
-    ONLY_POP_100 = 'dataset/air_traffic/flight_cluster_population_only_tm_100.json'
+    ONLY_POP_100_300Kbps = 'dataset/air_traffic/flight_cluster_population_only_tm_100_300Kbps.json'
+    ONLY_POP_100_5Mbps = 'dataset/air_traffic/flight_cluster_population_only_tm_100_5Mbps.json'
