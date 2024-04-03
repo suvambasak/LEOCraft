@@ -52,18 +52,20 @@ class LEOConstellation(Constellation):
     def _proutes(self) -> None:
         "Compute grouts in parallel mode"
 
-        path_compute = set()
-        with concurrent.futures.ProcessPoolExecutor() as executor:
+        for sgid in range(len(self.ground_stations.terminals)):
+            if not self.gsls[sgid]:
+                continue
 
-            for sgid in range(len(self.ground_stations.terminals)):
-                if not self.gsls[sgid]:
-                    continue
-                source = self.ground_stations.encode_name(sgid)
-                self.connect_ground_station(source)
+            source = self.ground_stations.encode_name(sgid)
+            self.connect_ground_station(source)
+
+            path_compute = set()
+            with concurrent.futures.ProcessPoolExecutor() as executor:
 
                 for dgid in range(sgid+1, len(self.ground_stations.terminals)):
                     if not self.gsls[dgid]:
                         continue
+
                     destination = self.ground_stations.encode_name(dgid)
                     self.connect_ground_station(destination)
 
@@ -82,19 +84,17 @@ class LEOConstellation(Constellation):
 
                     self.disconnect_ground_station(destination)
 
-                self.disconnect_ground_station(source)
-                self.v.clr()
+                for compute in concurrent.futures.as_completed(path_compute):
+                    self.v.rlog(
+                        f'''Route processing complete ({round(
+                            sgid/len(self.ground_stations.terminals)*100
+                        )}%)...       '''
+                    )
+                    compute_status, flow, k_path = compute.result()
+                    self._add_route(compute_status, flow, k_path)
 
-            path_compute_count = 0
-            for compute in concurrent.futures.as_completed(path_compute):
-                path_compute_count += 1
-                self.v.rlog(
-                    f'''Route processing complete ({round(
-                        path_compute_count/len(path_compute)*100
-                    )}%)...  '''
-                )
-                compute_status, flow, k_path = compute.result()
-                self._add_route(compute_status, flow, k_path)
+            self.disconnect_ground_station(source)
+            self.v.clr()
 
     def _sroutes(self) -> None:
         "Compute routes in serial mode"
