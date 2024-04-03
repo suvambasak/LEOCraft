@@ -93,7 +93,8 @@ leo_con.generate_routes()
 # Throughput
 th = Throughput(
     leo_con,
-    InternetTrafficOnAir.ONLY_POP_100
+    # InternetTrafficOnAir.ONLY_POP_100_300Kbps
+    InternetTrafficOnAir.ONLY_POP_100_5Mbps
 )
 th.build()
 th.compute()

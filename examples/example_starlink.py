@@ -26,8 +26,9 @@ leo_con = LEOConstellation('Starlink')
 leo_con.v.verbose = True
 leo_con.add_ground_stations(
     GroundStation(
-        GroundStationAtCities.TOP_100
+        # GroundStationAtCities.TOP_100
         # GroundStationAtCities.TOP_1000
+        GroundStationAtCities.COUNTRY_CAPITALS
     )
 )
 
@@ -83,9 +84,10 @@ leo_con.generate_routes()
 # Throughput
 th = Throughput(
     leo_con,
+    # InternetTrafficAcrossCities.ONLY_POP_100
+    # InternetTrafficAcrossCities.POP_GDP_100
     # InternetTrafficAcrossCities.ONLY_POP_1000
-    InternetTrafficAcrossCities.POP_GDP_100
-    # InternetTrafficAcrossCities.ONLY_POP_1000
+    InternetTrafficAcrossCities.COUNTRY_CAPITALS_ONLY_POP
 )
 th.build()
 th.compute()

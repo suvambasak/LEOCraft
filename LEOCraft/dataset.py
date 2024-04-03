@@ -1,8 +1,10 @@
 class GroundStationAtCities:
     'Ground stations across most populous cities CSV dataset'
 
-    TOP_100 = 'dataset/ground_stations/ground_stations_cities_sorted_by_estimated_2025_pop_top_100.csv'
-    TOP_1000 = 'dataset/ground_stations/ground_stations_cities_sorted_by_estimated_2025_pop_top_1000.csv'
+    TOP_100 = 'dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_100.csv'
+    TOP_1000 = 'dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_1000.csv'
+
+    COUNTRY_CAPITALS = 'dataset/ground_stations/country_capitals.csv'
 
 
 class InternetTrafficAcrossCities:
@@ -17,6 +19,8 @@ class InternetTrafficAcrossCities:
     POP_GDP_100 = 'dataset/traffic_metrics/population_GDP_tm_Gbps_100.json'
     ONLY_POP_100 = 'dataset/traffic_metrics/population_only_tm_Gbps_100.json'
     ONLY_POP_1000 = 'dataset/traffic_metrics/population_only_tm_Gbps_1000.json'
+
+    COUNTRY_CAPITALS_ONLY_POP = 'dataset/traffic_metrics/country_capital_population_only_tm.json'
 
 
 class FlightOnAir:

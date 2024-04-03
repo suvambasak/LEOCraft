@@ -17,6 +17,23 @@ class SatView2D(Render):
         leo_con: LEOConstellation,
         default_zoom: int = 2, lat: float = 0.0, long: float = 0.0,
     ) -> None:
+        '''
+        Creates SatView 3D renderer
+
+        Parameters
+        ----------
+        leo_con: LEOConstellation
+            Object of LEO constellation 
+
+        default_zoom: int, optional
+            Zoom of the view (default 2)
+
+        lat: float, optional
+            View center latitude (default 0.0 degree)
+        long: float, optional
+            View center longitude (default 0.0 degree)
+        '''
+
         super().__init__(leo_con)
 
         self.map = folium.Map(
@@ -25,6 +42,8 @@ class SatView2D(Render):
         )
 
     def build(self) -> None:
+        'Generate the view'
+
         self.v.log('Building view 2D...  ')
 
         if len(self._cov):

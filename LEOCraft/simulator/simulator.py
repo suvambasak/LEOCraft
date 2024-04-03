@@ -59,11 +59,11 @@ class Simulator(ABC):
         _eta = round(_left*_avg_t/self.max_workers, 2)
 
         self.v.log(
-            f'''Simulation progress [{_percent}%]: {_progress}  Left: {_left} Avg time: {
+            f'''Simulation progress.........{_percent}%: {_progress}  Left: {_left} Avg time: {
                 _avg_t}m ETA: {_eta}m    '''
         )
 
-    def simulate_in_serial(self) -> set[dict[str, float | int]]:
+    def simulate_in_serial(self) -> list[dict[str, float | int]]:
         'Start simulation execution in serial (one by one)'
 
         self.v.log(
@@ -92,7 +92,7 @@ class Simulator(ABC):
 
         return self._performane_log
 
-    def simulate_in_parallel(self, max_workers: int | None = None) -> set[dict[str, float | int]]:
+    def simulate_in_parallel(self, max_workers: int | None = None) -> list[dict[str, float | int]]:
         '''Start simulation execution in parallel (by default as many CPU cores)
 
         Parameters
@@ -160,7 +160,7 @@ class Simulator(ABC):
             performane_log[f'{shell.name}_h_km'] = shell.altitude_m/1000
             performane_log[f'{shell.name}_i'] = shell.inclination_degree
             performane_log[f'{shell.name}_e'] = shell.angle_of_elevation_degree
-            performane_log[f'{shell.name}_p'] = shell.phase_offset
+            performane_log[f'{shell.name}_p'] = shell.phase_offset*100
 
         return performane_log
 
