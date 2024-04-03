@@ -43,9 +43,11 @@ if __name__ == '__main__':
 
     # Simulation setup
     simulator = LEOConstellationSimulator(
-        InternetTrafficAcrossCities.ONLY_POP_100, CSV_FILE
+        # InternetTrafficAcrossCities.POP_GDP_100,
+        # InternetTrafficAcrossCities.ONLY_POP_100,
+        InternetTrafficAcrossCities.COUNTRY_CAPITALS_ONLY_POP,
+        CSV_FILE
     )
-
     # for t_m in range(0, 24*60+1, 5):
     for h in range(300, 2000, 10):
         # for e in range(5, 85+1, 3):
@@ -55,7 +57,8 @@ if __name__ == '__main__':
 
         leo_con = LEOConstellation()
         leo_con.add_ground_stations(GroundStation(
-            GroundStationAtCities.TOP_100
+            # GroundStationAtCities.TOP_100
+            GroundStationAtCities.COUNTRY_CAPITALS
         ))
         leo_con.set_time(minute=t_m)
         leo_con.set_loss_model(get_loss_model())

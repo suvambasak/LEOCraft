@@ -2,17 +2,17 @@ from LEOCraft.optimization.best_first_search import BestFirstSearch
 
 
 bfs = BestFirstSearch(
-    e=10.0,
+    e=25.0,
     h=550,
     i=30.0,
 
-    n=11,
-    o=144,
+    n=144,
+    o=11,
     p=50
 )
 
 
-# bfs.set_e_bound(20, 30)
+bfs.set_e_bound(20, 30)
 # bfs.set_h_bound(560, 580)
 # bfs.set_i_bound(30, 90)
 bfs.set_max_step_size(hstep=0, istep=5, estep=5)

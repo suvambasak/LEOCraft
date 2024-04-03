@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
     # Simulation setup
     simulator = LEOAviationConstellationSimulator(
-        InternetTrafficOnAir.ONLY_POP_100, CSV_FILE
+        InternetTrafficOnAir.ONLY_POP_100_5Mbps, CSV_FILE
     )
 
     # for t_m in range(0, 24*60+1, 5):
