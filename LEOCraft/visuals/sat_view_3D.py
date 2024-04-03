@@ -18,8 +18,25 @@ class SatView3D(Render):
     def __init__(
         self,
         leo_con: LEOConstellation,
-        lat: float = 0.0, long: float = 0.0,
+        lat: float = 0.0, long: float = 0.0, title: str | None = None
     ) -> None:
+        '''
+        Creates SatView 3D renderer
+
+        Parameters
+        ----------
+        leo_con: LEOConstellation
+            Object of LEO constellation 
+
+        lat: float, optional
+            View center latitude (default 0.0 degree)
+        long: float, optional
+            View center longitude (default 0.0 degree)
+
+        title: str, optional
+            Title (default classname)
+        '''
+
         super().__init__(leo_con)
 
         self.fig = go.Figure()
@@ -29,23 +46,33 @@ class SatView3D(Render):
 
         self.fig.update_layout(
             margin={"b": 0, "t": 35, "l": 0},
-            title=self.leo_con.name,
+            title=title if title else self.leo_con.name,
             geo=dict(projection_type="orthographic")
         )
 
         # Set the view location here
         self.fig.update_geos(
             projection_rotation=dict(
-                lon=lat,
-                lat=long,
+                lon=long,
+                lat=lat,
                 roll=0
             ),
         )
 
     def highlight_satellites(self, sat_names: list[str]) -> None:
+        '''
+        Marks satellites with large markers
+
+        Paramters
+        --------
+        sat_names: list[str]
+            List of sat names
+        '''
         self._special_sats.update(sat_names)
 
     def build(self) -> None:
+        'Generate the view'
+
         self.v.log('Building view 3D...  ')
 
         if len(self._gsl):
