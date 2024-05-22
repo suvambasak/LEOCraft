@@ -24,6 +24,12 @@ class SatelliteInfo:
     orbit_num: int
     sat_num: int
 
+    altitude_km: float
+
+    cartesian_x: float
+    cartesian_y: float
+    cartesian_z: float
+
 
 class LEOSatelliteTopology(ABC):
     """
@@ -46,7 +52,6 @@ class LEOSatelliteTopology(ABC):
         orbits: int,
         sat_per_orbit: int,
 
-        altitude_m: float,
         inclination_degree: float,
         angle_of_elevation_degree: float,
         phase_offset: float,
@@ -61,13 +66,10 @@ class LEOSatelliteTopology(ABC):
             Number of orbits
         sat_per_orbit: int
             Number of satellites per orbit
-        altitude_m : float
-            Satellite altitude in meter(s)
         inclination_degree : float
             Angle of inclination in degree
         angle_of_elevation_degree:
             Min angle of elevation in degree
-
         phase_offset: float: float
             Offset between satellite of adjacent orbit
         """
@@ -80,7 +82,6 @@ class LEOSatelliteTopology(ABC):
 
         self.orbits = orbits
         self.sat_per_orbit = sat_per_orbit
-        self.altitude_m = altitude_m
         self.inclination_degree = inclination_degree
         self.angle_of_elevation_degree = angle_of_elevation_degree
         self.phase_offset = round(float(phase_offset)/100, 2)
@@ -97,53 +98,100 @@ class LEOSatelliteTopology(ABC):
         "Creates ISL links (sat_1, sat_2)"
         pass
 
+    @abstractmethod
     def build_satellites(self) -> None:
         "Build TLEs and set epoch time satellites of this shell"
+        pass
 
-        satellite_counter = 0
+    @property
+    @abstractmethod
+    def filename(self) -> str:
+        """Generates file name from orbital parameters
 
-        for orbit in range(0, self.orbits):
+        Returns
+        -------
+        str
+            File name 
+        """
+        # return f'{self.__class__.__name__}_{self.id}_o{self.orbits}n{self.sat_per_orbit}h{self.altitude_m}i{self.inclination_degree}e{self.angle_of_elevation_degree}p{self.phase_offset}'
+        pass
 
-            # Orbit across longitude
-            raan_degree = orbit * 360.0 / self.orbits
-            orbit_wise_shift = 0
-            if orbit % 2 == 1:
-                # Phase_offset between two adjacent orbits
-                orbit_wise_shift = 360.0 / self.sat_per_orbit * self.phase_offset
+    def cartesian_coordinates_of_sat(self, sid: int, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)) -> tuple[float, float, float]:
+        """Convert from satellites TLE to cartesian coordinates (x, y, z) system
 
-            # For each satellite in the orbit
-            for n_sat in range(0, self.sat_per_orbit):
+        Parameters
+        ----------
+        sid: int
+            Satellite ID
+        time_delta : float, optional
+            Time passed from the epoch
 
-                # Position of the satellite in orbit
-                mean_anomaly_degree = orbit_wise_shift + \
-                    (n_sat * 360 / self.sat_per_orbit)
+        Returns
+        -------
+        tuple[float, float, float]
+            cartesian coordinates (x, y, z)
+        """
 
-                # Creating satellites
-                leosat = LEOSatellite(
-                    altitude_m=self.altitude_m,
-                    inclination_degree=self.inclination_degree,
-                    angle_of_elevation_degree=self.angle_of_elevation_degree,
-                    satellite_catalog_number=satellite_counter+1,
-                    raan_degree=raan_degree,
-                    mean_anomaly_degree=mean_anomaly_degree,
-                    satellite_name=self.name
-                )
-                leosat.build()
+        _satellite = self.satellites[sid].get_satellite()
 
-                # Fetch and check the epoch from the TLES data
-                # In the TLE, the epoch is given with a Julian data of yyddd.fraction
-                # ddd is actually one-based, meaning e.g. 18001 is 1st of January, or 2018-01-01 00:00.
-                # As such, to convert it to Astropy Time, we add (ddd - 1) days to it
-                # See also: https://www.celestrak.com/columns/v04n03/#FAQ04
+        # Set an observer location and date/time
+        _observer = ephem.Observer()
+        _observer.lat = '0'   # Equator
+        _observer.lon = '0'   # Prime meridian
+        _observer.elevation = 0
 
-                # Consistent epoch check
-                if self.universal_epoch is None:
-                    self.universal_epoch = leosat.epoch
-                if leosat.epoch != self.universal_epoch:
-                    raise ValueError("The epoch of all TLES must be the same")
-                self.satellites.append(leosat)
+        _observer.epoch = str(self.universal_epoch)
+        _observer.date = str(self.universal_epoch+time_delta)
 
-                satellite_counter += 1
+        # Compute the satellite position
+        _satellite.compute(_observer)
+
+        # Get the x, y, z coordinates
+        r = _satellite.range  # Distance to satellite in meters
+        alt = _satellite.alt  # Altitude in radians
+        az = _satellite.az    # Azimuth in radians
+
+        # Convert spherical coordinates (range, altitude, azimuth) to Cartesian coordinates (x, y, z)
+        x = r * math.cos(alt) * math.cos(az)
+        y = r * math.cos(alt) * math.sin(az)
+        z = r * math.sin(alt)
+
+        return (x, y, z)
+
+    def euclidean_distance_between_sat_m(
+            self, sid_a: int, sid_b: int, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)
+    ) -> tuple[float, bool]:
+        """Calculates euclidean distance (x, y, z) between two satellite in meters and checks the range of the ISL
+
+        Parameters
+        ----------
+        sid_a: int
+            Satellite ID
+        sid_b: int
+            Satellite ID
+        time_delta : float, optional
+            Time passed from the epoch
+
+        Returns
+        -------
+        tuple[float, bool]
+            (Distance in meters, if satellites in ISL range)
+        """
+
+        # Get the positions of both satellites
+        sat_a_x, sat_a_y, sat_a_z = self.cartesian_coordinates_of_sat(
+            sid_a, time_delta)
+        sat_b_x, sat_b_y, sat_b_z = self.cartesian_coordinates_of_sat(
+            sid_b, time_delta)
+
+        # Calculate the Euclidean distance between the two satellites
+        distance_m = math.sqrt((sat_a_x - sat_b_x)**2 +
+                               (sat_a_y - sat_b_y) ** 2 + (sat_a_z - sat_b_z)**2)
+
+        in_ISL_range = self.satellites[sid_a].max_ISL_length_m(
+        ) >= distance_m and self.satellites[sid_b].max_ISL_length_m() >= distance_m
+
+        return distance_m, in_ISL_range
 
     def distance_between_sat_m(
         self,
@@ -165,15 +213,17 @@ class LEOSatelliteTopology(ABC):
         Returns
         -------
         tuple[float, bool]
-            (Diatnce in meters, if satellites in ISL range) 
+            (Distance in meters, if satellites in ISL range)
         """
 
         # Create an observer somewhere on the planet
         observer = ephem.Observer()
         observer.epoch = str(self.universal_epoch)
         observer.date = str(self.universal_epoch+time_delta)
-        observer.lat = 0
-        observer.lon = 0
+        observer.lat = '0'
+        observer.lon = '0'
+        # lat, long = self.satellites[sid_a].nadir()
+        # observer.lat, observer.lon = str(lat), str(long)
         observer.elevation = 0
 
         # Calculate the relative location of the satellites to this observer
@@ -183,10 +233,14 @@ class LEOSatelliteTopology(ABC):
         _satellite_a.compute(observer)
         _satellite_b.compute(observer)
 
+        # print('_satellite_a', round(_satellite_a.range/1000, 1), 'km')
+        # print('_satellite_b', round(_satellite_b.range/1000, 1), 'km')
+
         # Calculate the angle observed by the observer to the satellites (this is done because the .compute() calls earlier)
         angle_radians = float(
             repr(ephem.separation(_satellite_a, _satellite_b))
         )
+        # print('Angle C:', math.degrees(angle_radians))
 
         # Now we have a triangle with three knows:
         # (1) a = sat1.range (distance observer to satellite 1)
@@ -276,18 +330,6 @@ class LEOSatelliteTopology(ABC):
             sats_range_m.append(distance_m)
 
         return tid, visible_sats, sats_range_m
-
-    @property
-    def filename(self) -> str:
-        """Generates file name from orbital parameters
-
-        Returns
-        -------
-        str
-            File name 
-        """
-
-        return f'{self.__class__.__name__}_{self.id}_o{self.orbits}n{self.sat_per_orbit}h{self.altitude_m}i{self.inclination_degree}e{self.angle_of_elevation_degree}p{self.phase_offset}'
 
     @property
     def name(self) -> str:
@@ -383,14 +425,24 @@ class LEOSatelliteTopology(ABC):
             Satellite details
         """
 
-        loc = self.satellites[sid].nadir(time_delta)
+        latitude, longitude = self.satellites[sid].nadir(time_delta)
+        x, y, z = self.cartesian_coordinates_of_sat(sid, time_delta)
+
         return SatelliteInfo(
             id=sid,
             shell_id=self.id,
-            nadir_latitude=loc[0],
-            nadir_longitude=loc[1],
+
+            nadir_latitude=latitude,
+            nadir_longitude=longitude,
+
             sat_num=self._get_sat_num_in_orbit(sid),
-            orbit_num=self._get_orbit_num(sid)
+            orbit_num=self._get_orbit_num(sid),
+
+            altitude_km=round(self.satellites[sid].altitude_m/1000, 2),
+
+            cartesian_x=x,
+            cartesian_y=y,
+            cartesian_z=z
         )
 
     def export_satellites(self, prefix_path: str = '.') -> str:
