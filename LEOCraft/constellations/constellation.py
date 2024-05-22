@@ -220,11 +220,8 @@ class Constellation(ABC):
             )
 
             if not in_ISL_range:
-                raise ValueError(
-                    "The distance between two satellites (%d and %d) "
-                    "with an ISL exceeded the maximum ISL length (%.2fm > %.2fm at time_delta=%d)"
-                    % (sid_a, sid_b, distance_m, shell.satellites[sid_a].max_ISL_length_m, self.time_delta)
-                )
+                raise ValueError(f"""The distance between two satellites ({sid_a} and {sid_b}) with an ISL exceeded the maximum ISL length ({
+                                 distance_m/1000}km > {shell.satellites[sid_a].max_ISL_length_m()/1000}km at time_delta={self.time_delta})""")
 
             self.sat_net_graph.add_edge(
                 shell.encode_sat_name(sid_a),
