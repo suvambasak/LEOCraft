@@ -8,7 +8,7 @@ from astropy import units as u
 from astropy.time import TimeDelta
 
 from LEOCraft.satellite import LEOSatellite
-from LEOCraft.user_terminals.terminal import TerminalCoordinates
+from LEOCraft.user_terminals.terminal import TerminalCoordinates, UserTerminal
 
 
 @dataclass
@@ -18,14 +18,16 @@ class SatelliteInfo:
     id: int
     shell_id: int
 
-    nadir_latitude: float
-    nadir_longitude: float
+    nadir_latitude_deg: float
+    nadir_longitude_deg: float
+    elevation_m: float
 
     orbit_num: int
     sat_num: int
 
     altitude_km: float
 
+    # ECEF: Earth-centered, Earth-fixed coordinates, also known as geocentric coordinates
     cartesian_x: float
     cartesian_y: float
     cartesian_z: float
@@ -116,8 +118,10 @@ class LEOSatelliteTopology(ABC):
         # return f'{self.__class__.__name__}_{self.id}_o{self.orbits}n{self.sat_per_orbit}h{self.altitude_m}i{self.inclination_degree}e{self.angle_of_elevation_degree}p{self.phase_offset}'
         pass
 
-    def cartesian_coordinates_of_sat(self, sid: int, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)) -> tuple[float, float, float]:
-        """Convert from satellites TLE to cartesian coordinates (x, y, z) system
+    def cartesian_coordinates_of_sat(
+            self, sid: int, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)
+    ) -> tuple[float, float, float]:
+        """Convert from satellites TLE to cartesian coordinates (x, y, z) system respect to lat: 0, long: 0, elevation: 0
 
         Parameters
         ----------
@@ -156,7 +160,7 @@ class LEOSatelliteTopology(ABC):
         y = r * math.cos(alt) * math.sin(az)
         z = r * math.sin(alt)
 
-        return (x, y, z)
+        return x, y, z
 
     def euclidean_distance_between_sat_m(
             self, sid_a: int, sid_b: int, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)
@@ -195,9 +199,7 @@ class LEOSatelliteTopology(ABC):
 
     def distance_between_sat_m(
         self,
-        sid_a: int, sid_b: int,
-
-        time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)
+        sid_a: int, sid_b: int, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)
     ) -> tuple[float, bool]:
         """Calculates distance between two satellite in meters and checks the range of the ISL
 
@@ -261,7 +263,9 @@ class LEOSatelliteTopology(ABC):
 
         return distance_m, in_ISL_range
 
-    def distance_between_terminal_sat_m(self, terminal: TerminalCoordinates, sat: LEOSatellite, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)) -> float:
+    def distance_between_terminal_sat_m(
+            self, terminal: TerminalCoordinates, sat: LEOSatellite, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)
+    ) -> float:
         """Computes the straight distance between a ground station and a satellite in meters
 
         Parameters
@@ -297,7 +301,9 @@ class LEOSatelliteTopology(ABC):
         # Return distance
         return _satellite.range
 
-    def get_satellites_in_range(self, terminal: TerminalCoordinates, tid: int = -1, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)) -> tuple[int, list[str], list[float]]:
+    def get_satellites_in_range(
+            self, terminal: TerminalCoordinates, tid: int = -1, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)
+    ) -> tuple[int, list[str], list[float]]:
         """Generates list of satellites of this shell in the range of given user terminal 
 
         Parameters
@@ -425,15 +431,19 @@ class LEOSatelliteTopology(ABC):
             Satellite details
         """
 
-        latitude, longitude = self.satellites[sid].nadir(time_delta)
-        x, y, z = self.cartesian_coordinates_of_sat(sid, time_delta)
+        latitude, longitude, elevation_m = self.satellites[sid].nadir(
+            time_delta)
+        # x, y, z = self.cartesian_coordinates_of_sat(sid, time_delta)
+        x, y, z = UserTerminal.geodetic_to_cartesian(
+            latitude, longitude, elevation_m)
 
         return SatelliteInfo(
             id=sid,
             shell_id=self.id,
 
-            nadir_latitude=latitude,
-            nadir_longitude=longitude,
+            nadir_latitude_deg=latitude,
+            nadir_longitude_deg=longitude,
+            elevation_m=elevation_m,
 
             sat_num=self._get_sat_num_in_orbit(sid),
             orbit_num=self._get_orbit_num(sid),
@@ -442,7 +452,7 @@ class LEOSatelliteTopology(ABC):
 
             cartesian_x=x,
             cartesian_y=y,
-            cartesian_z=z
+            cartesian_z=z,
         )
 
     def export_satellites(self, prefix_path: str = '.') -> str:
