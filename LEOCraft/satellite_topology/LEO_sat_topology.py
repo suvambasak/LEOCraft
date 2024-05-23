@@ -32,6 +32,10 @@ class SatelliteInfo:
     cartesian_y: float
     cartesian_z: float
 
+    nadir_x: float
+    nadir_y: float
+    nadir_z: float
+
 
 class LEOSatelliteTopology(ABC):
     """
@@ -433,9 +437,18 @@ class LEOSatelliteTopology(ABC):
 
         latitude, longitude, elevation_m = self.satellites[sid].nadir(
             time_delta)
+
+        # Nadir altitude comes with few km of error
+        # So updated with actual altitude input paramater
+        elevation_m = self.satellites[sid].altitude_m
+
         # x, y, z = self.cartesian_coordinates_of_sat(sid, time_delta)
-        x, y, z = UserTerminal.geodetic_to_cartesian(
-            latitude, longitude, elevation_m)
+        sx, sy, sz = UserTerminal.geodetic_to_cartesian(
+            latitude, longitude, elevation_m
+        )
+        nx, ny, nz = UserTerminal.geodetic_to_cartesian(
+            latitude, longitude, 0
+        )
 
         return SatelliteInfo(
             id=sid,
@@ -448,11 +461,15 @@ class LEOSatelliteTopology(ABC):
             sat_num=self._get_sat_num_in_orbit(sid),
             orbit_num=self._get_orbit_num(sid),
 
-            altitude_km=round(self.satellites[sid].altitude_m/1000, 2),
+            altitude_km=round(elevation_m/1000, 2),
 
-            cartesian_x=x,
-            cartesian_y=y,
-            cartesian_z=z,
+            cartesian_x=sx,
+            cartesian_y=sy,
+            cartesian_z=sz,
+
+            nadir_x=nx,
+            nadir_y=ny,
+            nadir_z=nz,
         )
 
     def export_satellites(self, prefix_path: str = '.') -> str:
