@@ -1,3 +1,5 @@
+from project_path import *
+
 from LEOCraft.attenuation.fspl import FSPL
 from LEOCraft.constellations.LEO_aviation_constellation import \
     LEOAviationConstellation

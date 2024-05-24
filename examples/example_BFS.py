@@ -1,5 +1,6 @@
-from LEOCraft.optimization.best_first_search import BestFirstSearch
+from project_path import *
 
+from LEOCraft.optimization.best_first_search import BestFirstSearch
 
 bfs = BestFirstSearch(
     e=25.0,

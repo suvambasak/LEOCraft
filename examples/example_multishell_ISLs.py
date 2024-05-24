@@ -8,7 +8,8 @@ from LEOCraft.dataset import GroundStationAtCities, InternetTrafficAcrossCities
 from LEOCraft.performance.basic.coverage import Coverage
 from LEOCraft.performance.basic.stretch import Stretch
 from LEOCraft.performance.basic.throughput import Throughput
-from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
+from LEOCraft.satellite_topology.plus_grid_zigzag_elevation import \
+    PlusGridZigzagElevation
 from LEOCraft.user_terminals.ground_station import GroundStation
 
 start_time = time.perf_counter()
@@ -24,7 +25,7 @@ loss_model = FSPL(
 loss_model.set_Tx_antenna_gain(gain_dB=34.5)
 
 
-leo_con = LEOConstellation('Starlink')
+leo_con = LEOConstellation('MultiShell')
 leo_con.v.verbose = True
 leo_con.add_ground_stations(
     GroundStation(
@@ -37,40 +38,15 @@ leo_con.add_ground_stations(
 # Adding Shells
 # Starlink Shell 1
 leo_con.add_shells(
-    PlusGridShell(
+    PlusGridZigzagElevation(
         id=0,
-        orbits=72,
-        sat_per_orbit=22,
-        altitude_m=550000.0,
-        inclination_degree=53.0,
-        angle_of_elevation_degree=25.0,
-        phase_offset=50.0
-    )
-)
-
-# Starlink Shell 2
-leo_con.add_shells(
-    PlusGridShell(
-        id=1,
-        orbits=72,
-        sat_per_orbit=22,
-        altitude_m=540000.0,
-        inclination_degree=53.2,
-        angle_of_elevation_degree=25.0,
-        phase_offset=50.0
-    )
-)
-
-# Starlink Shell 3
-leo_con.add_shells(
-    PlusGridShell(
-        id=2,
-        orbits=36,
+        orbits=20,
         sat_per_orbit=20,
-        altitude_m=570000.0,
-        inclination_degree=70.0,
-        angle_of_elevation_degree=25.0,
-        phase_offset=50.0
+        # altitude_pattern_m=[500000.0, 1000000.0],
+        altitude_pattern_m=[500000.0, 1000000.0, 1500000.0, 1000000.0,],
+        inclination_degree=80.0,
+        angle_of_elevation_degree=30.0,
+        phase_offset=0.0
     )
 )
 
@@ -108,31 +84,4 @@ sth.compute()
 
 
 end_time = time.perf_counter()
-
-
-# Exporting all simulation datasets
-ouput_path = '/home/suvam/Desktop/Starlink'
-
-# Constellation
-leo_con.export_gsls(ouput_path)
-leo_con.export_routes(ouput_path)
-leo_con.export_no_path_found(ouput_path)
-leo_con.export_k_path_not_found(ouput_path)
-
-# Shells
-for shell in leo_con.shells:
-    shell.export_satellites(ouput_path)
-    shell.export_isls(ouput_path)
-
-# Ground stations
-leo_con.ground_stations.export(ouput_path)
-
-# Throughputs
-th.export_path_selection(ouput_path)
-th.export_LP_model(ouput_path)
-
-# Stretch
-sth.export_stretch_dataset(ouput_path)
-
-
 print(f'Total simulation time: {round((end_time-start_time)/60, 2)}m')
