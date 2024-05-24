@@ -338,15 +338,15 @@ class SatRawView3D(Render):
             # print(sat_info)
 
             if sat_info.altitude_km not in color_map:
-                color_map[sat_info.altitude_km] = self._SHELL_COLORS.pop()
+                color_map[sat_info.altitude_km] = self._shell_colors.pop()
 
             dict_list.append({
                 self._X: sat_info.cartesian_x,
                 self._Y: sat_info.cartesian_y,
                 self._Z: sat_info.cartesian_z,
 
-                # self._COLOR_CODE: self._SHELL_COLORS[
-                #     sat_info.shell_id % len(self._SHELL_COLORS)
+                # self._COLOR_CODE: self._shell_colors[
+                #     sat_info.shell_id % len(self._shell_colors)
                 # ],
                 self._COLOR_CODE: color_map[sat_info.altitude_km],
 

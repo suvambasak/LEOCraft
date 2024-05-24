@@ -12,24 +12,11 @@ class Render(ABC):
     implement the build method to add all the components from the instance of view dataclass
     '''
 
-    # _COVERAGE_COLOR = "#FF6666"
     _COVERAGE_COLOR = "rgb(255,102,102)"
     _GROUND_STATION_COLOR = "rgb(15,157,88)"
     _GSL_COLOR = "rgb(219,68,55)"
     _ISL_COLOR = "rgb(244,160,0)"
     _R_ISL_COLOR = "rgb(153, 51, 255)"
-    _SHELL_COLORS = [
-        'rgb(226, 133, 244)',
-        'rgb(142, 133, 244)',
-        'rgb(96, 52, 33)',
-        'rgb(30, 41, 33)',
-        'rgb(102, 63, 89)',
-        'rgb(46, 182, 191)',
-        'rgb(205, 79, 81)',
-        'rgb(246, 0, 244)',
-        'rgb(94, 41, 191)',
-        'rgb(66,133,244)'
-    ]
 
     _DEFAULT_WIDTH = 3
     _THICK_WIDTH = 5
@@ -50,6 +37,20 @@ class Render(ABC):
     def __init__(self, leo_con: Constellation) -> None:
         self.v = ProcessingLog(self.__class__.__name__)
         self.leo_con = leo_con
+
+        self._shell_colors = [
+            'rgb(46, 182, 191)',
+            'rgb(96, 52, 33)',
+            'rgb(30, 41, 33)',
+            'rgb(66, 133, 244)',
+            'rgb(226, 133, 244)',
+            'rgb(94, 41, 191)',
+            'rgb(102, 63, 89)',
+            'rgb(246, 0, 244)',
+            'rgb(142, 133, 244)',
+            'rgb(205, 79, 81)',
+            'rgb(0, 0, 0)',
+        ]
 
         # Keep track of unique objects in view
         self._sat = set()
