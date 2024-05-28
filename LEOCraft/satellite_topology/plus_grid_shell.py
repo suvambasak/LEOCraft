@@ -1,5 +1,5 @@
-from LEOCraft.satellite import LEOSatellite
 from LEOCraft.satellite_topology.LEO_sat_topology import LEOSatelliteTopology
+from LEOCraft.satellite_topology.satellite import LEOSatellite
 
 
 class PlusGridShell(LEOSatelliteTopology):

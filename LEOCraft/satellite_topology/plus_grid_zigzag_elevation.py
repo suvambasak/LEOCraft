@@ -1,5 +1,5 @@
-from LEOCraft.satellite import LEOSatellite
 from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
+from LEOCraft.satellite_topology.satellite import LEOSatellite
 
 
 class PlusGridZigzagElevation(PlusGridShell):

@@ -7,7 +7,7 @@ import ephem
 from astropy import units as u
 from astropy.time import TimeDelta
 
-from LEOCraft.satellite import LEOSatellite
+from LEOCraft.satellite_topology.satellite import LEOSatellite
 from LEOCraft.user_terminals.terminal import TerminalCoordinates, UserTerminal
 
 
