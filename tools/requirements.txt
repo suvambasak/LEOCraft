@@ -55,6 +55,7 @@ pytz==2024.1
 PyYAML==6.0.1
 pyzmq==25.1.2
 requests==2.31.0
+scipy==1.13.1
 setuptools==68.2.2
 sgp4==2.23
 six==1.16.0
