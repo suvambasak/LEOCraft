@@ -1,7 +1,4 @@
-import sys
-
-LEOCRAFT_PATH = '/home/suvam/Projects/LEOCraft'
-sys.path.append(LEOCRAFT_PATH)
+from LEOCraft.attenuation.fspl import FSPL
 
 
 def get_possible_oxn_arrangements(total_sat: int, min_sat_per_orbit: int) -> list[tuple[int, int]]:
@@ -40,3 +37,16 @@ class PerformanceCache:
 
     def get(self, key: str) -> float:
         return self._cache.get(key)
+
+
+def get_loss_model() -> FSPL:
+    'Path loass model'
+
+    loss_model = FSPL(
+        28.5*1000000000,    # Frequency in Hz
+        98.4,               # Tx power dBm
+        0.5*1000000000,     # Bandwidth Hz
+        13.6                # G/T ratio
+    )
+    loss_model.set_Tx_antenna_gain(gain_dB=34.5)
+    return loss_model
