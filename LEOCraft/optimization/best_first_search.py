@@ -437,7 +437,19 @@ class BestFirstSearch:
                    self.__extract_state_info(best_performance)}""")
         self.v.log(f'Total BFS time: {round((end_time-start_time)/60, 1)}m')
 
-        return best_performance
+        return self.__standard_dict_format(best_performance)
 
     def __extract_state_info(self, metrics: dict[str, float | int]) -> str:
         return f"""h{metrics.get('S0_h_km')} e{metrics.get('S0_e')} i{metrics.get('S0_i')} | o{metrics.get('S0_o')} n{metrics.get('S0_n')} p{metrics.get('S0_p')} \t th: {round(metrics.get('throughput_Gbps'), 1)}Gbps"""
+
+    def __standard_dict_format(self, metrics: dict[str, float | int]) -> dict[str, float | int]:
+        return {
+            'o': metrics.get('S0_o'), 'n': metrics.get('S0_n'),
+
+            'h': round(metrics.get('S0_h_km'), 1),
+            'i': round(metrics.get('S0_i'), 1),
+            'e': round(metrics.get('S0_e'), 1),
+            'p': round(metrics.get('S0_p'), 1),
+
+            'gbps': metrics.get('throughput_Gbps')
+        }

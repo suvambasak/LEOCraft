@@ -122,11 +122,9 @@ class LEOSatellite:
                           scale="tdb") + (epoch_day - 1) * u.day
 
     def nadir(
-        self,
-        time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)
-    ) -> tuple[float, float]:
-        """Calculates satellite shadow/nadir (latitude, longitude) 
-        At given time by default at epoch 
+        self, time_delta: TimeDelta = TimeDelta(0.0 * u.nanosecond)
+    ) -> tuple[float, float, float]:
+        """Calculates satellite shadow/nadir (latitude, longitude, elevation in meter) at given time by default at epoch 
 
         Parameters
         ----------
@@ -135,8 +133,8 @@ class LEOSatellite:
 
         Returns
         -------
-        tuple[float, float]
-            (latitude, longitude) 
+        tuple[float, float, float]
+            (latitude, longitude, elevation in meter)
         """
 
         _satellite = self.get_satellite()
@@ -144,7 +142,7 @@ class LEOSatellite:
             str(self.epoch+time_delta),
             epoch=str(self.epoch)
         )
-        return math.degrees(_satellite.sublat), math.degrees(_satellite.sublong)
+        return math.degrees(_satellite.sublat), math.degrees(_satellite.sublong),  _satellite.elevation
 
     def _build_TLE(self) -> None:
         'Create TLE three line'

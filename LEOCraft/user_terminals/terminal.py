@@ -17,6 +17,7 @@ class TerminalCoordinates:
 
     elevation_m: float
 
+    # ECEF: Earth-centered, Earth-fixed coordinates, also known as geocentric coordinates
     cartesian_x: float
     cartesian_y: float
     cartesian_z: float

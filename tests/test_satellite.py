@@ -1,7 +1,7 @@
 import unittest
 
 from LEOCraft.constellations.constellation import Constellation
-from LEOCraft.satellite import LEOSatellite
+from LEOCraft.satellite_topology.satellite import LEOSatellite
 
 
 class TestSatellite(unittest.TestCase):

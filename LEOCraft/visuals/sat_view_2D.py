@@ -91,8 +91,8 @@ class SatView2D(Render):
                 sat_info = self.leo_con.sat_info(sat_name)
 
                 trail_coordinates = [
-                    (float(sat_info.nadir_latitude),
-                     float(sat_info.nadir_longitude)),
+                    (float(sat_info.nadir_latitude_deg),
+                     float(sat_info.nadir_longitude_deg)),
                     (float(terminal.latitude_degree),
                      float(terminal.longitude_degree))
                 ]
@@ -107,16 +107,23 @@ class SatView2D(Render):
                 ).add_to(self.map)
 
     def _build_satellites(self) -> None:
+        color_map = dict()
+
         for sat_name in self._sat:
             sat_info = self.leo_con.sat_info(sat_name)
 
+            if sat_info.altitude_km not in color_map:
+                color_map[sat_info.altitude_km] = self._shell_colors.pop()
+
             self._add_circle(
-                float(sat_info.nadir_latitude),
-                float(sat_info.nadir_longitude),
+                float(sat_info.nadir_latitude_deg),
+                float(sat_info.nadir_longitude_deg),
                 tooltip_text=sat_name,
-                color=self._SHELL_COLORS[
-                    sat_info.shell_id % len(self._SHELL_COLORS)
-                ],
+
+                # color=self._shell_colors[
+                #     sat_info.shell_id % len(self._shell_colors)
+                # ],
+                color=color_map[sat_info.altitude_km],
 
                 popup_text=f'''Name:{sat_name} O: {
                     sat_info.orbit_num} N: {sat_info.sat_num}'''
@@ -129,8 +136,8 @@ class SatView2D(Render):
             )
 
             self._add_circle(
-                float(sat_info.nadir_latitude),
-                float(sat_info.nadir_longitude),
+                float(sat_info.nadir_latitude_deg),
+                float(sat_info.nadir_longitude_deg),
                 radius=radius,
                 tooltip_text=sat_name,
                 color=self._COVERAGE_COLOR,
@@ -148,10 +155,10 @@ class SatView2D(Render):
             distance_m = self.leo_con.link_length(sat_name_a, sat_name_b)
 
             trail_coordinates = [
-                (float(sat_info_a.nadir_latitude),
-                 float(sat_info_a.nadir_longitude)),
-                (float(sat_info_b.nadir_latitude),
-                 float(sat_info_b.nadir_longitude))
+                (float(sat_info_a.nadir_latitude_deg),
+                 float(sat_info_a.nadir_longitude_deg)),
+                (float(sat_info_b.nadir_latitude_deg),
+                 float(sat_info_b.nadir_longitude_deg))
             ]
 
             folium.PolyLine(

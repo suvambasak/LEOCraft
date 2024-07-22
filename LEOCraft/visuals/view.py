@@ -12,24 +12,11 @@ class Render(ABC):
     implement the build method to add all the components from the instance of view dataclass
     '''
 
-    _COVERAGE_COLOR = "#FF6666"
     _COVERAGE_COLOR = "rgb(255,102,102)"
     _GROUND_STATION_COLOR = "rgb(15,157,88)"
     _GSL_COLOR = "rgb(219,68,55)"
     _ISL_COLOR = "rgb(244,160,0)"
     _R_ISL_COLOR = "rgb(153, 51, 255)"
-    _SHELL_COLORS = [
-        "rgb(66,133,244)",
-        "rgb(94, 41, 191)",
-        "rgb(246, 0, 244)",
-        "rgb(205, 79, 81)",
-        "rgb(46, 182, 191)",
-        "rgb(102, 63, 89)",
-        "rgb(30, 41, 33)",
-        "rgb(96, 52, 33)",
-        "rgb(142, 133, 244)",
-        "rgb(226, 133, 244)"
-    ]
 
     _DEFAULT_WIDTH = 3
     _THICK_WIDTH = 5
@@ -44,9 +31,26 @@ class Render(ABC):
 
     _rlink: set[tuple[str, str]]
 
+    # Satellite to be tracked or need attention
+    _special_sats: set[str]
+
     def __init__(self, leo_con: Constellation) -> None:
         self.v = ProcessingLog(self.__class__.__name__)
         self.leo_con = leo_con
+
+        self._shell_colors = [
+            'rgb(46, 182, 191)',
+            'rgb(96, 52, 33)',
+            'rgb(30, 41, 33)',
+            'rgb(66, 133, 244)',
+            'rgb(226, 133, 244)',
+            'rgb(94, 41, 191)',
+            'rgb(102, 63, 89)',
+            'rgb(246, 0, 244)',
+            'rgb(142, 133, 244)',
+            'rgb(205, 79, 81)',
+            'rgb(0, 0, 0)',
+        ]
 
         # Keep track of unique objects in view
         self._sat = set()
@@ -58,10 +62,23 @@ class Render(ABC):
         # Links belong to routes view
         self._rlink = set()
 
+        # Satellite to be tracked or need attention
+        self._special_sats: set[str] = set()
+
         for gid in range(len(self.leo_con.gsls)):
             self.leo_con.connect_ground_station(
                 self.leo_con.ground_stations.encode_name(gid)
             )
+
+    def highlight_satellites(self, sat_names: list[str]) -> None:
+        '''Marks satellites with large markers
+
+        Paramters
+        --------
+        sat_names: list[str]
+            List of sat names
+        '''
+        self._special_sats.update(sat_names)
 
     def _valid_sat_name(self, sat_name: str) -> None:
         shell_id, sid = LEOSatelliteTopology.decode_sat_name(sat_name)
@@ -83,7 +100,6 @@ class Render(ABC):
         --------
         gs_names: tuple[str]
             Ground station names
-
         '''
 
         for gs_name in gs_names:
@@ -105,7 +121,6 @@ class Render(ABC):
         --------
         gs_names: tuple[str]
             Ground station names
-
         '''
 
         for gs_name in gs_names:

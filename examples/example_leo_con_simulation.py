@@ -1,3 +1,5 @@
+from project_path import *
+
 from LEOCraft.attenuation.fspl import FSPL
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
 from LEOCraft.dataset import GroundStationAtCities, InternetTrafficAcrossCities

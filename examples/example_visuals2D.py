@@ -1,5 +1,7 @@
 import time
 
+from project_path import *
+
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
 from LEOCraft.dataset import GroundStationAtCities
 from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
@@ -67,7 +69,9 @@ leo_con.create_network_graph()
 leo_con.generate_routes()
 
 
-view = SatView2D(leo_con)
+view = SatView2D(leo_con, default_zoom=2.0)
+
+# # View selected components
 # view.add_ground_stations('G-0', 'G-1', 'G-2', 'G-3')
 # view.add_satellites('S0-0', 'S0-1', 'S0-2', 'S0-3', 'S0-26')
 # view.add_coverages('S0-0', 'S0-1', 'S0-40', 'S0-31', 'S0-30')
@@ -78,6 +82,7 @@ view.add_routes('G-0_G-1', 'G-1_G-2', 'G-2_G-3', 'G-30_G-33', k=1)
 for sat in leo_con.routes['G-2_G-3'][0][1:-1]:
     view.add_coverages(sat)
 
+# # View all components
 # view.add_all_ground_stations()
 # view.add_all_satellites()
 # view.add_all_coverages()
