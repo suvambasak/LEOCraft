@@ -210,13 +210,14 @@ if __name__ == '__main__':
     cache = PerformanceCache()
     _start_time = time.perf_counter()
 
-    CSV = 'SA_WDK.csv'
-    result = simulated_annealing_without_domain_knowledge(
-        maxiter=70, no_local_search=True
-    )
+    # CSV = 'SA_WDK.csv'
+    # result = simulated_annealing_without_domain_knowledge(
+    #     maxiter=100, no_local_search=True
+    # )
 
-    # CSV = 'SA_DK.csv'
-    # result = simulated_annealing_with_domain_knowledge(maxiter=50, no_local_search=True)
+    CSV = 'SA_DK.csv'
+    result = simulated_annealing_with_domain_knowledge(
+        maxiter=60, no_local_search=True)
 
     _end_time = time.perf_counter()
     print(f"""Total optimization time: {

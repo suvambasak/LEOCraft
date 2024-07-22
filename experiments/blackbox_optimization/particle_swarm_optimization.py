@@ -294,11 +294,11 @@ if __name__ == '__main__':
     cache = PerformanceCache()
     _start_time = time.perf_counter()
 
-    CSV = 'PSO_WDK.csv'
-    result = without_domain_knowledge(maxiter=25, num_particles=10)
+    # CSV = 'PSO_WDK.csv'
+    # result = without_domain_knowledge(maxiter=25, num_particles=20)
 
-    # CSV = 'PSO_DK.csv'
-    # result = with_domain_knowledge(maxiter=25, num_particles=20)
+    CSV = 'PSO_DK.csv'
+    result = with_domain_knowledge(maxiter=25, num_particles=10)
 
     _end_time = time.perf_counter()
     print(f"""Total optimization time: {
