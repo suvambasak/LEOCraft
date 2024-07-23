@@ -22,6 +22,7 @@ class Render(ABC):
     _THICK_WIDTH = 5
     _DEFAULT_SAT_SIZE = 9
     _SPECIAL_SAT_SIZE = 18
+    _DEFAULT_GS_SIZE = 9
 
     _sat: set[str]
     _gs: set[str]
@@ -308,7 +309,7 @@ class Render(ABC):
             hop_a, hop_b
         ) else self._DEFAULT_WIDTH
 
-    def get_color(self, hop_a: str, hop_b: str) -> int:
+    def get_color(self, hop_a: str, hop_b: str) -> str:
         '''GSL and ISL link line thickness
 
         Parameters
@@ -320,9 +321,13 @@ class Render(ABC):
 
         Returns
         -------
-        int
-            Thickness
+        str
+            Color code
         '''
+
+        # __color_code = ['rgb(255, 0, 0)', 'rgb(0, 255, 0)', 'rgb(0, 0, 255)']
+        # shell_id, _ = LEOSatelliteTopology.decode_sat_name(hop_a)
+        # return __color_code[shell_id]
 
         return self._R_ISL_COLOR if self._is_route_link(
             hop_a, hop_b

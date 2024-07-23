@@ -298,7 +298,10 @@ class SatRawView3D(Render):
             z=df[self._Z],
             text=df[self._TEXT],
             mode="markers",
-            marker=dict(size=5, color=self._GROUND_STATION_COLOR)
+            marker=dict(
+                size=self._DEFAULT_GS_SIZE,
+                color=self._GROUND_STATION_COLOR
+            )
         )
 
     def _build_GSLs(self) -> list[go.Scatter3d]:
