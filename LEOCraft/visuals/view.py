@@ -20,6 +20,8 @@ class Render(ABC):
 
     _DEFAULT_WIDTH = 3
     _THICK_WIDTH = 5
+    _DEFAULT_SAT_SIZE = 9
+    _SPECIAL_SAT_SIZE = 18
 
     _sat: set[str]
     _gs: set[str]

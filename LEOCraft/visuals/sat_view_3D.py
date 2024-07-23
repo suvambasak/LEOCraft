@@ -120,7 +120,7 @@ class SatView3D(SatRawView3D):
                 self._COLOR_CODE: color_map[sat_info.altitude_km],
 
                 self._TEXT: f'''ID: {sat_name} O: {sat_info.orbit_num} N: {sat_info.sat_num}''',
-                self._SIZE: 18 if sat_name in self._special_sats else 9
+                self._SIZE: self._SPECIAL_SAT_SIZE if sat_name in self._special_sats else self._DEFAULT_SAT_SIZE
             })
 
         df = pd.DataFrame.from_dict(dict_list)
