@@ -1,3 +1,4 @@
+import concurrent.futures
 import time
 
 import numpy as np
@@ -9,6 +10,10 @@ from LEOCraft.performance.basic.throughput import Throughput
 from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
 from LEOCraft.user_terminals.ground_station import GroundStation
 from LEOCraft.utilities import CSV_logger
+
+
+def parallel_cost(cost_fun: callable, particle: np.ndarray, index: int) -> tuple[float, int]:
+    return cost_fun(particle), index
 
 
 def adaptive_particle_swarm_optimization(
@@ -42,15 +47,37 @@ def adaptive_particle_swarm_optimization(
         size=(num_particles, num_of_params)
     )
 
-    # Start
-    personal_best_values = np.apply_along_axis(
-        cost_fun, 1, particles
-    )
+    # Start A-PSO
+
+    # # Serial mode
+    # --------------------
+    # personal_best_values = np.array(
+    #     [cost_fun(particle)[0] for particle in particles]
+    # )
+    # --------------------
+
+    # Parallel mode
+    # --------------------
+    tasks = set()
+    with concurrent.futures.ProcessPoolExecutor(max_workers=MAX_WORKERS) as executor:
+
+        # Evaulate in parallel
+        for i, particle in enumerate(particles):
+            tasks.add(executor.submit(parallel_cost, cost_fun, particle, i))
+
+        _personal_best_values = [None]*num_particles
+        for compute in concurrent.futures.as_completed(tasks):
+            _personal_best_value, _index = compute.result()
+            _personal_best_values[_index] = _personal_best_value
+    # --------------------
+
+    personal_best_values = np.array(_personal_best_values)
     personal_best_positions = np.copy(particles)
+
+    global_best_value = np.min(personal_best_values)
     global_best_position = personal_best_positions[
         np.argmin(personal_best_values)
     ]
-    global_best_value = np.min(personal_best_values)
 
     # PSO main loop
     for iter in range(maxiter):
@@ -72,22 +99,54 @@ def adaptive_particle_swarm_optimization(
         print('\n_______________________________________________________ Iter:', iter+1)
         print(f' [Hyperparameters]\tw: {w}, c1: {c1}, c2: {c2}')
 
-        for i in range(num_particles):
-            r1, r2 = np.random.rand(
-                num_of_params), np.random.rand(num_of_params)
-            velocities[i] = (w * velocities[i] +
-                             c1 * r1 * (personal_best_positions[i] - particles[i]) +
-                             c2 * r2 * (global_best_position - particles[i]))
-            particles[i] += velocities[i]
+        # # Serial mode
+        # # --------------------
+        # for i in range(num_particles):
+        #     r1, r2 = np.random.rand(
+        #         num_of_params), np.random.rand(num_of_params)
+        #     velocities[i] = (w * velocities[i] +
+        #                      c1 * r1 * (personal_best_positions[i] - particles[i]) +
+        #                      c2 * r2 * (global_best_position - particles[i]))
+        #     particles[i] += velocities[i]
 
-            # Boundary handling
-            particles[i] = np.clip(particles[i], lb, ub)
+        #     # Boundary handling
+        #     particles[i] = np.clip(particles[i], lb, ub)
+
+        #     # Update personal bests
+        #     current_value = cost_fun(particles[i])[0]
+        #     if current_value < personal_best_values[i]:
+        #         personal_best_values[i] = current_value
+        #         personal_best_positions[i] = particles[i]
+        # # --------------------
+
+        # Parallel mode
+        # --------------------
+        tasks = set()
+        with concurrent.futures.ProcessPoolExecutor(max_workers=MAX_WORKERS) as executor:
+            for i in range(num_particles):
+                r1, r2 = np.random.rand(
+                    num_of_params), np.random.rand(num_of_params)
+
+                velocities[i] = (w * velocities[i] + c1 * r1 * (personal_best_positions[i] -
+                                 particles[i]) + c2 * r2 * (global_best_position - particles[i]))
+                particles[i] += velocities[i]
+
+                # Boundary handling
+                particles[i] = np.clip(particles[i], lb, ub)
+
+                # Evaulate in parallel
+                tasks.add(executor.submit(
+                    parallel_cost, cost_fun, particles[i], i
+                ))
 
             # Update personal bests
-            current_value = cost_fun(particles[i])
-            if current_value < personal_best_values[i]:
-                personal_best_values[i] = current_value
-                personal_best_positions[i] = particles[i]
+            for compute in concurrent.futures.as_completed(tasks):
+                _value, _index = compute.result()
+
+                if _value < personal_best_values[_index]:
+                    personal_best_values[_index] = _value
+                    personal_best_positions[_index] = particles[_index]
+        # --------------------
 
         # Update global best
         best_particle_index = np.argmin(personal_best_values)
@@ -291,14 +350,15 @@ if __name__ == '__main__':
     TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
 
+    MAX_WORKERS = None
     cache = PerformanceCache()
     _start_time = time.perf_counter()
 
-    # CSV = 'PSO_WDK.csv'
-    # result = without_domain_knowledge(maxiter=25, num_particles=20)
+    CSV = 'PSO_WDK.csv'
+    result = without_domain_knowledge(maxiter=25, num_particles=20)
 
-    CSV = 'PSO_DK.csv'
-    result = with_domain_knowledge(maxiter=25, num_particles=10)
+    # CSV = 'PSO_DK.csv'
+    # result = with_domain_knowledge(maxiter=25, num_particles=10)
 
     _end_time = time.perf_counter()
     print(f"""Total optimization time: {
