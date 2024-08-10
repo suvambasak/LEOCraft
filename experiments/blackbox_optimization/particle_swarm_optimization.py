@@ -268,9 +268,9 @@ def without_domain_knowledge(maxiter: int, num_particles: int) -> dict[str, floa
     # - ['e', 'h', 'i', 'o', 'p']
 
     # Lower bounds
-    lb = np.array([5.0, ALTITUDE_LB_KM, 30.0, 0, 0.0])
+    lb = np.array([0.0, ALTITUDE_LB_KM, 0.0, 0, 0.0])
     # Upper bounds
-    ub = np.array([50.0, ALTITUDE_UB_KM, 90.0, len(OXN)-1, 50.0])
+    ub = np.array([90.0, ALTITUDE_UB_KM, 180.0, len(OXN)-1, 50.0])
 
     global_best_position, global_best_value = adaptive_particle_swarm_optimization(
         maxiter, num_particles,
@@ -350,7 +350,7 @@ if __name__ == '__main__':
     TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
 
-    MAX_WORKERS = None
+    MAX_WORKERS = 3
     cache = PerformanceCache()
     _start_time = time.perf_counter()
 

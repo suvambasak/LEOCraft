@@ -159,11 +159,11 @@ def without_domain_knowledge() -> dict[str, float | int]:
     # - ['0', '1', '2', '3', '4']
     # - ['e', 'h', 'i', 'o', 'p']
     bounds = (
-        [5.0, 50.0],        # e (degree)
+        [0.0, 90.0],                        # e (degree)
         [ALTITUDE_LB_KM, ALTITUDE_UB_KM],   # h (km)
-        [30.0, 90.0],       # i (degree)
-        [0, len(OXN)-1],    # index of oxn arrangment
-        [0.0, 50.0]         # P (%)
+        [0.0, 180.0],                       # i (degree)
+        [0, len(OXN)-1],                    # index of oxn arrangment
+        [0.0, 50.0]                         # P (%)
     )
 
     result = scipy.optimize.differential_evolution(

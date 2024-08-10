@@ -11,7 +11,7 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 565
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'RBFS.csv'
+    CSV = 'VNS_DK.csv'
 
     _start_time = time.perf_counter()
     bfs = BestFirstSearch(
