@@ -69,11 +69,11 @@ class LEOSatellite:
             raise ValueError(
                 "[Required] 300.0 KM <= altitude_m <= 2000.0 KM"
             )
-        if inclination_degree < 5.0 or inclination_degree > 175.0:
+        if inclination_degree < 0.0 or inclination_degree > 180.0:
             raise ValueError(
                 "[Required] 5.0 <= inclination_degree <= 175.0"
             )
-        if angle_of_elevation_degree < 5.0 or angle_of_elevation_degree > 90.0:
+        if angle_of_elevation_degree < 1.0 or angle_of_elevation_degree > 90.0:
             raise ValueError(
                 "[Required] 5.0 <= angle_of_elevation_degree <= 90.0"
             )

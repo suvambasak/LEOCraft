@@ -120,7 +120,7 @@ def simulated_annealing_without_domain_knowledge(maxiter: int, no_local_search: 
     # - ['0', '1', '2', '3', '4']
     # - ['e', 'h', 'i', 'o', 'p']
     bounds = (
-        [0.0, 50.0],                        # e (degree)
+        [1.0, 90.0],                        # e (degree)
         [ALTITUDE_LB_KM, ALTITUDE_UB_KM],   # h (km)
         [0.0, 180.0],                       # i (degree)
         [0, len(OXN)-1],                    # index of oxn arrangment
@@ -210,14 +210,14 @@ if __name__ == '__main__':
     cache = PerformanceCache()
     _start_time = time.perf_counter()
 
-    # CSV = 'SA_WDK.csv'
-    # result = simulated_annealing_without_domain_knowledge(
-    #     maxiter=100, no_local_search=True
-    # )
+    CSV = 'SA_WDK.csv'
+    result = simulated_annealing_without_domain_knowledge(
+        maxiter=100, no_local_search=True
+    )
 
-    CSV = 'SA_DK.csv'
-    result = simulated_annealing_with_domain_knowledge(
-        maxiter=60, no_local_search=True)
+    # CSV = 'SA_DK.csv'
+    # result = simulated_annealing_with_domain_knowledge(
+    #     maxiter=60, no_local_search=True)
 
     _end_time = time.perf_counter()
     print(f"""Total optimization time: {

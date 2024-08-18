@@ -159,7 +159,7 @@ def without_domain_knowledge() -> dict[str, float | int]:
     # - ['0', '1', '2', '3', '4']
     # - ['e', 'h', 'i', 'o', 'p']
     bounds = (
-        [0.0, 90.0],                        # e (degree)
+        [1.0, 90.0],                        # e (degree)
         [ALTITUDE_LB_KM, ALTITUDE_UB_KM],   # h (km)
         [0.0, 180.0],                       # i (degree)
         [0, len(OXN)-1],                    # index of oxn arrangment
@@ -209,11 +209,11 @@ if __name__ == '__main__':
     cache = PerformanceCache()
     _start_time = time.perf_counter()
 
-    # CSV = 'DE_WDK.csv'
-    # result = without_domain_knowledge()
+    CSV = 'DE_WDK.csv'
+    result = without_domain_knowledge()
 
-    CSV = 'DE_DK.csv'
-    result = with_domain_knowledge()
+    # CSV = 'DE_DK.csv'
+    # result = with_domain_knowledge()
 
     _end_time = time.perf_counter()
     print(f"""Total optimization time: {

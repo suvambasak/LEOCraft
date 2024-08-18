@@ -268,7 +268,7 @@ def without_domain_knowledge(maxiter: int, num_particles: int) -> dict[str, floa
     # - ['e', 'h', 'i', 'o', 'p']
 
     # Lower bounds
-    lb = np.array([0.0, ALTITUDE_LB_KM, 0.0, 0, 0.0])
+    lb = np.array([1.0, ALTITUDE_LB_KM, 0.0, 0, 0.0])
     # Upper bounds
     ub = np.array([90.0, ALTITUDE_UB_KM, 180.0, len(OXN)-1, 50.0])
 
@@ -343,8 +343,8 @@ def with_domain_knowledge(maxiter: int, num_particles: int) -> dict[str, float |
 if __name__ == '__main__':
     TOTAL_SATS = 720
     MIN_SAT_PER_ORBIT = 10
-    ALTITUDE_UB_KM = 575
-    ALTITUDE_LB_KM = 565
+    ALTITUDE_UB_KM = 570+5
+    ALTITUDE_LB_KM = 570-5
 
     GROUND_STATIONS = GroundStationAtCities.TOP_100
     TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100

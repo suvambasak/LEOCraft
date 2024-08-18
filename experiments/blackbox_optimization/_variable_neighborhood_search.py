@@ -114,7 +114,7 @@ class BestFirstSearch:
         ]
 
         # Step size towads each direction (e, h, i)
-        self._steps = (5.0, 5.0, 5.0, 5.0, 5.0)
+        self._steps = (5.0, 5.0, 5.0, 2.0*len(OXN), 10.0)
 
         # Legal range of the params
         self._bounds = [
@@ -187,7 +187,7 @@ class BestFirstSearch:
         istep: int, optional
             Step size for Inclination
         '''
-        self._steps = (estep, hstep, istep, 5, 5)
+        self._steps = (estep, hstep, istep, 2.0*len(OXN), 10.0)
 
     def _bound(self, params: list[float]) -> list[float]:
         '''
@@ -517,7 +517,7 @@ if __name__ == '__main__':
 
     _start_time = time.perf_counter()
     bfs = BestFirstSearch(
-        e=random.uniform(0, 90),
+        e=random.uniform(1, 90),
         h=random.uniform(ALTITUDE_UB_KM, ALTITUDE_LB_KM),
         i=random.uniform(0, 180),
 
@@ -525,12 +525,12 @@ if __name__ == '__main__':
         p=random.uniform(0, 50)
     )
     bfs.set_h_bound(ALTITUDE_UB_KM, ALTITUDE_LB_KM)
-    bfs.set_max_step_size(hstep=5, istep=5, estep=5)
-    result = bfs.search(tolerance=3, max_iter=100)
+    bfs.set_max_step_size(hstep=5, istep=10, estep=10)
+    result = bfs.search(tolerance=5, max_iter=100)
 
     _end_time = time.perf_counter()
     print(f"""Total optimization time: {
-        round((_end_time-_start_time)/3600, 2)}h""")
+          round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
     CSV_logger(result, CSV)
