@@ -65,7 +65,32 @@ MIN_SAT_PER_ORBIT = 10
 oxn = []
 for orbital_plane in range(MIN_SAT_PER_ORBIT, TOTAL_SAT):
     if TOTAL_SAT % orbital_plane == 0 and TOTAL_SAT/orbital_plane >= MIN_SAT_PER_ORBIT:
-        oxn.append((orbital_plane, int(TOTAL_SAT/orbital_plane)))
+        sat_per_plane = int(TOTAL_SAT/orbital_plane)
+
+        print(f"[Validating OxN] {orbital_plane}x{sat_per_plane}...", end="")
+        try:
+            leo_con = LEOConstellation()
+            leo_con.v.verbose = False
+            leo_con.add_ground_stations(GroundStation(GS))
+            leo_con.set_time(minute=t_m)
+            leo_con.set_loss_model(get_loss_model())
+            leo_con.add_shells(PlusGridShell(
+                id=0,
+                orbits=orbital_plane,
+                sat_per_orbit=sat_per_plane,
+                phase_offset=p,
+                altitude_m=1000.0*h,
+                angle_of_elevation_degree=e,
+                inclination_degree=i
+            ))
+            leo_con.build()
+            leo_con.create_network_graph()
+
+            oxn.append((orbital_plane, sat_per_plane))
+
+            print(" Valid.")
+        except Exception as exception:
+            print(" Invalid.")
 
 # ------------------------------------------------------------------
 # Simulation starts here
