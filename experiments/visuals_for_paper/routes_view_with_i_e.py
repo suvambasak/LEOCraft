@@ -18,12 +18,12 @@ leo_con.add_shells(PlusGridShell(
     orbits=72,
     sat_per_orbit=22,
     altitude_m=550000.0,
-    inclination_degree=30.0,
-    angle_of_elevation_degree=25.0,
+    inclination_degree=53.0,
+    angle_of_elevation_degree=30.0,
     phase_offset=50.0
 ))
-# leo_con.set_time(minute=3)
-leo_con.set_time()
+leo_con.set_time(minute=3)
+# leo_con.set_time()
 leo_con.set_loss_model(None)
 leo_con.build()
 leo_con.create_network_graph()
@@ -45,7 +45,7 @@ flows: dict[str, str] = dict()
 # dst = 'G-71'
 
 
-# flows['G-34_G-73'] = "rgb(0, 0, 255)"
+flows['G-34_G-73'] = "rgb(0, 0, 255)"
 flows['G-72_G-80'] = "rgb(128, 0, 128)"
 flows['G-45_G-71'] = "rgb(255, 0, 0)"
 
@@ -107,18 +107,19 @@ view = SatView3D(
 )
 view._GSL_COLOR = "rgb(255, 0, 255)"
 view._GROUND_STATION_COLOR = "rgb(0, 255, 0)"
-
-# view._DEFAULT_SAT_SIZE = 17
 # view._DEFAULT_GS_SIZE = 17
 
+view._DEFAULT_SAT_SIZE = 17
+view._DEFAULT_GS_SIZE = 23
+
 for flow in leo_con.routes.keys():
-    # view.add_satellites(leo_con.routes[flow][0][1])
+    view.add_satellites(leo_con.routes[flow][0][1])
     view.add_routes(flow)
 
     view._R_ISL_COLOR = flows[flow]
     view.fig.add_traces(view._build_ISLs())
     view._isl = set()
 
-view.add_all_satellites()
+# view.add_all_satellites()
 view.build()
 view.show()
