@@ -10,8 +10,7 @@ from LEOCraft.simulator.LEO_constellation_simulator import \
     LEOConstellationSimulator
 from LEOCraft.user_terminals.ground_station import GroundStation
 
-
-INPUT_CSV_FILE = '/home/suvam/Projects/simulation-data-analysis/2025_INFOCOM/CSVs/optimization/DE/DE_DK.csv'
+INPUT_CSV_FILE = '/mnt/Storage/Projects/simulation-data-analysis/TrajectoryDesign/CSVs/DesignOptimization/DE/DE_DK.csv'
 OUTPUT_CSV_FILE = 'DE_DK_PERF.csv'
 
 
