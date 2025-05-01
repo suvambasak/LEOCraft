@@ -1,6 +1,21 @@
-import time
+'''
+This example demonstrates how to create a LEO constellation for aviation
+using the LEOCraft. 
 
-from project_path import *
+It includes the following steps:
+1. Import necessary modules and classes.
+2. Define the path loss model using FSPL (Free Space Path Loss).
+3. Create an instance of the LEOAviationConstellation class.
+4. Add ground stations and aircrafts to the constellation.
+5. Define the satellite shells using PlusGridShell.
+6. Set the time and loss model for the constellation.
+7. Build the constellation and create the network graph.
+8. Generate routes for the aircrafts.
+9. Compute throughput, coverage, and latency/stretch metrics.
+10. Export the simulation datasets to a specified output path.
+'''
+
+import time
 
 from LEOCraft.attenuation.fspl import FSPL
 from LEOCraft.constellations.LEO_aviation_constellation import \
@@ -13,6 +28,10 @@ from LEOCraft.performance.aviation.throughput import Throughput
 from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
 from LEOCraft.user_terminals.aircraft import Aircraft
 from LEOCraft.user_terminals.ground_station import GroundStation
+
+
+# Exporting all simulation datasets
+OUTPUT_PATH = './Starlink'
 
 start_time = time.perf_counter()
 
@@ -29,6 +48,8 @@ loss_model.set_Tx_antenna_gain(gain_dB=34.5)
 
 leo_con = LEOAviationConstellation('Starlink-aviation')
 leo_con.v.verbose = True
+
+# Adding Ground Stations and Aircrafts
 leo_con.add_ground_stations(
     GroundStation(
         GroundStationAtCities.TOP_100
@@ -44,6 +65,7 @@ leo_con.add_aircrafts(
 
 
 # Adding Shells
+
 # Starlink Shell 1
 leo_con.add_shells(
     PlusGridShell(
@@ -56,7 +78,6 @@ leo_con.add_shells(
         phase_offset=50.0
     )
 )
-
 # Starlink Shell 2
 leo_con.add_shells(
     PlusGridShell(
@@ -69,7 +90,6 @@ leo_con.add_shells(
         phase_offset=50.0
     )
 )
-
 # Starlink Shell 3
 leo_con.add_shells(
     PlusGridShell(
@@ -115,32 +135,29 @@ sth.compute()
 end_time = time.perf_counter()
 
 
-# Exporting all simulation datasets
-ouput_path = '/home/suvam/Desktop/Starlink'
-
 # Constellation
-leo_con.export_gsls(ouput_path)
-leo_con.export_fsls(ouput_path)
-leo_con.export_routes(ouput_path)
-leo_con.export_no_path_found(ouput_path)
-leo_con.export_k_path_not_found(ouput_path)
+leo_con.export_gsls(OUTPUT_PATH)
+leo_con.export_fsls(OUTPUT_PATH)
+leo_con.export_routes(OUTPUT_PATH)
+leo_con.export_no_path_found(OUTPUT_PATH)
+leo_con.export_k_path_not_found(OUTPUT_PATH)
 
 # Shells
 for shell in leo_con.shells:
-    shell.export_satellites(ouput_path)
-    shell.export_isls(ouput_path)
+    shell.export_satellites(OUTPUT_PATH)
+    shell.export_isls(OUTPUT_PATH)
 
 # Ground stations
-leo_con.ground_stations.export(ouput_path)
+leo_con.ground_stations.export(OUTPUT_PATH)
 # Flight terminals
-leo_con.aircrafts.export(ouput_path)
+leo_con.aircrafts.export(OUTPUT_PATH)
 
 # Throughputs
-th.export_path_selection(ouput_path)
-th.export_LP_model(ouput_path)
+th.export_path_selection(OUTPUT_PATH)
+th.export_LP_model(OUTPUT_PATH)
 
 # Stretch
-sth.export_stretch_dataset(ouput_path)
+sth.export_stretch_dataset(OUTPUT_PATH)
 
 
 print(f'Total simulation time: {round((end_time-start_time)/60, 2)}m')

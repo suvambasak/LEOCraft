@@ -1,6 +1,10 @@
-import time
+'''
+This example simulates the Starlink constellation with three shells.
+It uses the FSPL path loss model and computes the throughput, coverage, and latency/stretch performance metrics.
+It also exports the simulation datasets for further analysis.
+'''
 
-from project_path import *
+import time
 
 from LEOCraft.attenuation.fspl import FSPL
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
@@ -10,6 +14,10 @@ from LEOCraft.performance.basic.stretch import Stretch
 from LEOCraft.performance.basic.throughput import Throughput
 from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
 from LEOCraft.user_terminals.ground_station import GroundStation
+
+# Exporting all simulation datasets
+OUTPUT_PATH = './Starlink'
+
 
 start_time = time.perf_counter()
 
@@ -28,13 +36,14 @@ leo_con = LEOConstellation('Starlink')
 leo_con.v.verbose = True
 leo_con.add_ground_stations(
     GroundStation(
-        # GroundStationAtCities.TOP_100
+        GroundStationAtCities.TOP_100
         # GroundStationAtCities.TOP_1000
-        GroundStationAtCities.COUNTRY_CAPITALS
+        # GroundStationAtCities.COUNTRY_CAPITALS
     )
 )
 
 # Adding Shells
+
 # Starlink Shell 1
 leo_con.add_shells(
     PlusGridShell(
@@ -86,10 +95,10 @@ leo_con.generate_routes()
 # Throughput
 th = Throughput(
     leo_con,
-    # InternetTrafficAcrossCities.ONLY_POP_100
+    InternetTrafficAcrossCities.ONLY_POP_100
     # InternetTrafficAcrossCities.POP_GDP_100
     # InternetTrafficAcrossCities.ONLY_POP_1000
-    InternetTrafficAcrossCities.COUNTRY_CAPITALS_ONLY_POP
+    # InternetTrafficAcrossCities.COUNTRY_CAPITALS_ONLY_POP
 )
 th.build()
 th.compute()
@@ -110,29 +119,26 @@ sth.compute()
 end_time = time.perf_counter()
 
 
-# Exporting all simulation datasets
-ouput_path = '/home/suvam/Desktop/Starlink'
-
 # Constellation
-leo_con.export_gsls(ouput_path)
-leo_con.export_routes(ouput_path)
-leo_con.export_no_path_found(ouput_path)
-leo_con.export_k_path_not_found(ouput_path)
+leo_con.export_gsls(OUTPUT_PATH)
+leo_con.export_routes(OUTPUT_PATH)
+leo_con.export_no_path_found(OUTPUT_PATH)
+leo_con.export_k_path_not_found(OUTPUT_PATH)
 
 # Shells
 for shell in leo_con.shells:
-    shell.export_satellites(ouput_path)
-    shell.export_isls(ouput_path)
+    shell.export_satellites(OUTPUT_PATH)
+    shell.export_isls(OUTPUT_PATH)
 
 # Ground stations
-leo_con.ground_stations.export(ouput_path)
+leo_con.ground_stations.export(OUTPUT_PATH)
 
 # Throughputs
-th.export_path_selection(ouput_path)
-th.export_LP_model(ouput_path)
+th.export_path_selection(OUTPUT_PATH)
+th.export_LP_model(OUTPUT_PATH)
 
 # Stretch
-sth.export_stretch_dataset(ouput_path)
+sth.export_stretch_dataset(OUTPUT_PATH)
 
 
 print(f'Total simulation time: {round((end_time-start_time)/60, 2)}m')
