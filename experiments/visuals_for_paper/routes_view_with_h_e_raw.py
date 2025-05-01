@@ -1,5 +1,9 @@
 
-'''View all type of routes with AoE and inclination'''
+'''
+View all type of routes with AoE and inclination
+
+Figure. 26 (a)-(b) in the paper
+'''
 
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
 from LEOCraft.dataset import GroundStationAtCities
@@ -15,16 +19,18 @@ leo_con.v.verbose = True
 leo_con.k = 1
 
 leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
-leo_con.add_shells(PlusGridShell(
-    id=0,
-    orbits=72,
-    sat_per_orbit=22,
-    # altitude_m=1000.0*550,
-    altitude_m=1000.0*1000,
-    inclination_degree=53.0,
-    angle_of_elevation_degree=25.0,
-    phase_offset=50.0
-))
+leo_con.add_shells(
+    PlusGridShell(
+        id=0,
+        orbits=72,
+        sat_per_orbit=22,
+        # altitude_m=1000.0*550,
+        altitude_m=1000.0*1000,
+        inclination_degree=53.0,
+        angle_of_elevation_degree=25.0,
+        phase_offset=50.0
+    )
+)
 # leo_con.set_time(minute=3)
 leo_con.set_time(second=100)
 leo_con.set_loss_model(None)

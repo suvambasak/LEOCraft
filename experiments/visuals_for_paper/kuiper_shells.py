@@ -1,8 +1,8 @@
 
 
 '''
-
-Generate multi shell constellation design of kuiper
+Generate multi shell constellation design of kuiper, Starlink, Telesat, OneWeb
+Figure. 1 (b) and Figure. 24 in the paper.
 
 
 Enable this code in view.py: def get_color(self, hop_a: str, hop_b: str) -> str:

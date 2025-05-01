@@ -1,6 +1,8 @@
 
-
-'''Generate coverage cone of satellites with e=30.0 and e=40.0'''
+'''
+Generate coverage cone of satellites with e=30.0 and e=40.0
+Figure. 1 (a) in the paper
+'''
 
 
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
@@ -9,29 +11,32 @@ from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
 from LEOCraft.user_terminals.ground_station import GroundStation
 from LEOCraft.visuals.sat_raw_view_3D import SatRawView3D
 
-
 leo_con = LEOConstellation('Test')
 leo_con.v.verbose = True
 leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
 
-leo_con.add_shells(PlusGridShell(
-    id=0,
-    orbits=20,
-    sat_per_orbit=20,
-    altitude_m=2000000.0,
-    inclination_degree=90.0,
-    angle_of_elevation_degree=40.0,
-    phase_offset=0.0
-))
-leo_con.add_shells(PlusGridShell(
-    id=1,
-    orbits=20,
-    sat_per_orbit=20,
-    altitude_m=2000000.0,
-    inclination_degree=90.0,
-    angle_of_elevation_degree=30.0,
-    phase_offset=0.0
-))
+leo_con.add_shells(
+    PlusGridShell(
+        id=0,
+        orbits=20,
+        sat_per_orbit=20,
+        altitude_m=2000000.0,
+        inclination_degree=90.0,
+        angle_of_elevation_degree=40.0,
+        phase_offset=0.0
+    )
+)
+leo_con.add_shells(
+    PlusGridShell(
+        id=1,
+        orbits=20,
+        sat_per_orbit=20,
+        altitude_m=2000000.0,
+        inclination_degree=90.0,
+        angle_of_elevation_degree=30.0,
+        phase_offset=0.0
+    )
+)
 
 leo_con.set_time()
 leo_con.set_loss_model(None)

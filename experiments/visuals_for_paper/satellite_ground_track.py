@@ -1,6 +1,11 @@
 
+'''
+Generate the ground track of a satellites
+Figure. 27 in the paper
+'''
 
 import concurrent.futures
+
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
 from LEOCraft.dataset import GroundStationAtCities
 from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
@@ -37,15 +42,17 @@ if __name__ == '__main__':
     leo_con = LEOConstellation()
     leo_con.v.verbose = True
     leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
-    leo_con.add_shells(PlusGridShell(
-        id=0,
-        orbits=20,
-        sat_per_orbit=20,
-        altitude_m=1000.0*600,
-        inclination_degree=50.0,
-        angle_of_elevation_degree=25.0,
-        phase_offset=50.0
-    ))
+    leo_con.add_shells(
+        PlusGridShell(
+            id=0,
+            orbits=20,
+            sat_per_orbit=20,
+            altitude_m=1000.0*600,
+            inclination_degree=50.0,
+            angle_of_elevation_degree=25.0,
+            phase_offset=50.0
+        )
+    )
     leo_con.set_time(minute=0)  # Time passed after epoch
     leo_con.set_loss_model(None)
     leo_con.build()

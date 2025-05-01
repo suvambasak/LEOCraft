@@ -1,9 +1,19 @@
+
+'''
+Generate a 3D view of the LEO constellation with inter-shell ISLs
+Illustartes the how +Grid topology in inter-shell ISLs deforms over 
+time due to orbital period difference of satellites in different shells 
+altitudes. 
+
+Figure is not included in the paper.
+'''
+
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
 from LEOCraft.dataset import GroundStationAtCities
-from LEOCraft.satellite_topology.plus_grid_zigzag_elevation import PlusGridZigzagElevation
+from LEOCraft.satellite_topology.plus_grid_zigzag_elevation import \
+    PlusGridZigzagElevation
 from LEOCraft.user_terminals.ground_station import GroundStation
 from LEOCraft.visuals.sat_raw_view_3D import SatRawView3D
-
 
 RED = 'rgb(153, 0, 0)'
 GREEN = 'rgb(0, 153, 0)'
@@ -27,20 +37,22 @@ leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
 COLORS = [RED, GREEN, BLUE, GREEN]
 _COLORS = [_RED, _GREEN, _BLUE, _GREEN]
 
-leo_con.add_shells(PlusGridZigzagElevation(
+leo_con.add_shells(
+    PlusGridZigzagElevation(
 
 
-    # altitude_pattern_m=[500000.0, 510000.0],
-    altitude_pattern_m=[500000.0, 510000.0, 520000.0, 510000.0,],
+        # altitude_pattern_m=[500000.0, 510000.0],
+        altitude_pattern_m=[500000.0, 510000.0, 520000.0, 510000.0,],
 
 
-    id=0,
-    orbits=20,
-    sat_per_orbit=20,
-    inclination_degree=80.0,
-    angle_of_elevation_degree=30.0,
-    phase_offset=0.0
-))
+        id=0,
+        orbits=20,
+        sat_per_orbit=20,
+        inclination_degree=80.0,
+        angle_of_elevation_degree=30.0,
+        phase_offset=0.0
+    )
+)
 
 leo_con.set_time(hour=x)  # Time passed after epoch
 leo_con.set_loss_model(None)

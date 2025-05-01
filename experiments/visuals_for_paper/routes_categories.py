@@ -5,6 +5,8 @@ Generate different class of routes
 - east west routes
 - northeast southwest routes
 - high geodesic route
+
+Figure. 2 in the paper
 '''
 
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
@@ -20,15 +22,17 @@ leo_con.v.verbose = True
 leo_con.k = 1
 leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
 
-leo_con.add_shells(PlusGridShell(
-    id=0,
-    orbits=30,
-    sat_per_orbit=30,
-    altitude_m=550000.0,
-    inclination_degree=90.0,
-    angle_of_elevation_degree=25.0,
-    phase_offset=0.0
-))
+leo_con.add_shells(
+    PlusGridShell(
+        id=0,
+        orbits=30,
+        sat_per_orbit=30,
+        altitude_m=550000.0,
+        inclination_degree=90.0,
+        angle_of_elevation_degree=25.0,
+        phase_offset=0.0
+    )
+)
 # leo_con.set_time(minute=5)
 leo_con.set_time()
 leo_con.set_loss_model(None)

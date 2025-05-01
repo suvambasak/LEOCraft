@@ -1,5 +1,8 @@
 
-'''View path diversity of high geodesig distance routes'''
+'''
+View path diversity of high geodesig distance routes
+Figure. 13 in the paper
+'''
 
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
 from LEOCraft.dataset import GroundStationAtCities
@@ -12,27 +15,29 @@ leo_con = LEOConstellation('Starlink')
 leo_con.v.verbose = True
 
 leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
-leo_con.add_shells(PlusGridShell(
-    id=0,
+leo_con.add_shells(
+    PlusGridShell(
+        id=0,
 
 
-    orbits=144,
-    sat_per_orbit=11,
-    phase_offset=50.0,
+        orbits=144,
+        sat_per_orbit=11,
+        phase_offset=50.0,
 
-    # orbits=144,
-    # sat_per_orbit=11,
-    # phase_offset=0.0,
+        # orbits=144,
+        # sat_per_orbit=11,
+        # phase_offset=0.0,
 
-    # orbits=48,
-    # sat_per_orbit=33,
-    # phase_offset=50.0,
+        # orbits=48,
+        # sat_per_orbit=33,
+        # phase_offset=50.0,
 
 
-    altitude_m=550000.0,
-    inclination_degree=38.6,
-    angle_of_elevation_degree=12.1
-))
+        altitude_m=550000.0,
+        inclination_degree=38.6,
+        angle_of_elevation_degree=12.1
+    )
+)
 
 
 leo_con.set_time(minute=5)

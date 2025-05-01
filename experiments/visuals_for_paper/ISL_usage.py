@@ -1,4 +1,9 @@
 
+'''
+Generate ISls usage visualization
+Figure. 28 in the paper
+'''
+
 import math
 
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
@@ -61,21 +66,25 @@ class CustomSatView3D(SatView3D):
 
 leo_con = LEOConstellation()
 leo_con.v.verbose = True
-leo_con.add_ground_stations(GroundStation(
-    GroundStationAtCities.TOP_100
-    # GroundStationAtCities.COUNTRY_CAPITALS
-))
-leo_con.add_shells(PlusGridShell(
-    id=0,
-    orbits=72,
-    sat_per_orbit=22,
-    # orbits=30,
-    # sat_per_orbit=30,
-    altitude_m=1000.0*550,
-    inclination_degree=53.0,
-    angle_of_elevation_degree=25.0,
-    phase_offset=50.0
-))
+leo_con.add_ground_stations(
+    GroundStation(
+        GroundStationAtCities.TOP_100
+        # GroundStationAtCities.COUNTRY_CAPITALS
+    )
+)
+leo_con.add_shells(
+    PlusGridShell(
+        id=0,
+        orbits=72,
+        sat_per_orbit=22,
+        # orbits=30,
+        # sat_per_orbit=30,
+        altitude_m=1000.0*550,
+        inclination_degree=53.0,
+        angle_of_elevation_degree=25.0,
+        phase_offset=50.0
+    )
+)
 
 leo_con.set_time(minute=0)  # Time passed after epoch
 leo_con.set_loss_model(None)

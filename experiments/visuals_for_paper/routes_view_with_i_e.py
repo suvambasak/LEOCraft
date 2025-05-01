@@ -1,5 +1,9 @@
 
-'''View all type of routes with AoE and inclination'''
+'''
+View all type of routes with AoE and inclination
+
+Figure. 8 and Figure. 10 in the paper
+'''
 
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
 from LEOCraft.dataset import GroundStationAtCities
