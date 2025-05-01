@@ -1,3 +1,8 @@
+'''
+This is a common module for the blackbox optimization experiments.
+It contains functions and classes that are used in multiple experiments.
+'''
+
 from LEOCraft.attenuation.fspl import FSPL
 
 

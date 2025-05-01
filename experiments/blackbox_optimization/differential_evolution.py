@@ -1,3 +1,19 @@
+'''
+Differential Evolution (DE) for LEO constellation optimization
+- The code uses the `scipy.optimize.differential_evolution` function to optimize the parameters of a LEO constellation.
+- The parameters being optimized include:
+    - e: angle of elevation (degree)
+    - h: altitude (km)
+    - i: inclination (degree)
+    - o: number of orbits
+    - n: number of satellites per orbit
+    - p: phase offset (%)
+- The cost function is defined as the negative throughput of the constellation, which is calculated using the `Throughput` class.
+- The code also includes a cache mechanism to store previously computed costs for specific parameter combinations.
+- The optimization is performed for different configurations of the LEO constellation, including variations in the total number of satellites, altitude, and other parameters.
+- The results of the optimization are logged to a CSV file, including the optimized parameters and the corresponding throughput.
+'''
+
 import time
 
 import numpy as np
@@ -163,7 +179,7 @@ def without_domain_knowledge() -> dict[str, float | int]:
         [ALTITUDE_LB_KM, ALTITUDE_UB_KM],   # h (km)
         [0.0, 180.0],                       # i (degree)
         [0, len(OXN)-1],                    # index of oxn arrangment
-        [0.0, 50.0]                         # P (%)
+        [0.0, 50.0]                         # p (%)
     )
 
     result = scipy.optimize.differential_evolution(
@@ -197,10 +213,186 @@ def without_domain_knowledge() -> dict[str, float | int]:
 
 
 if __name__ == '__main__':
+
     TOTAL_SATS = 720
     MIN_SAT_PER_ORBIT = 10
-    ALTITUDE_UB_KM = 575
-    ALTITUDE_LB_KM = 565
+    ALTITUDE_UB_KM = 570+5
+    ALTITUDE_LB_KM = 570-5
+
+    GROUND_STATIONS = GroundStationAtCities.TOP_100
+    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
+    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+
+    cache = PerformanceCache()
+    _start_time = time.perf_counter()
+
+    CSV = 'DE_WDK.csv'
+    result = without_domain_knowledge()
+
+    # CSV = 'DE_DK.csv'
+    # result = with_domain_knowledge()
+
+    _end_time = time.perf_counter()
+    print(f"""Total optimization time: {
+        round((_end_time-_start_time)/3600, 2)}h""")
+    result['time_s'] = _end_time-_start_time
+    result['total_sat'] = TOTAL_SATS
+    CSV_logger(result, CSV)
+
+    TOTAL_SATS = 784
+    MIN_SAT_PER_ORBIT = 10
+    ALTITUDE_UB_KM = 590+5
+    ALTITUDE_LB_KM = 590-5
+
+    GROUND_STATIONS = GroundStationAtCities.TOP_100
+    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
+    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+
+    cache = PerformanceCache()
+    _start_time = time.perf_counter()
+
+    CSV = 'DE_WDK.csv'
+    result = without_domain_knowledge()
+
+    # CSV = 'DE_DK.csv'
+    # result = with_domain_knowledge()
+
+    _end_time = time.perf_counter()
+    print(f"""Total optimization time: {
+        round((_end_time-_start_time)/3600, 2)}h""")
+    result['time_s'] = _end_time-_start_time
+    result['total_sat'] = TOTAL_SATS
+    CSV_logger(result, CSV)
+
+    TOTAL_SATS = 1156
+    MIN_SAT_PER_ORBIT = 10
+    ALTITUDE_UB_KM = 630+5
+    ALTITUDE_LB_KM = 630-5
+
+    GROUND_STATIONS = GroundStationAtCities.TOP_100
+    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
+    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+
+    cache = PerformanceCache()
+    _start_time = time.perf_counter()
+
+    CSV = 'DE_WDK.csv'
+    result = without_domain_knowledge()
+
+    # CSV = 'DE_DK.csv'
+    # result = with_domain_knowledge()
+
+    _end_time = time.perf_counter()
+    print(f"""Total optimization time: {
+        round((_end_time-_start_time)/3600, 2)}h""")
+    result['time_s'] = _end_time-_start_time
+    result['total_sat'] = TOTAL_SATS
+    CSV_logger(result, CSV)
+
+    TOTAL_SATS = 1296
+    MIN_SAT_PER_ORBIT = 10
+    ALTITUDE_UB_KM = 610+5
+    ALTITUDE_LB_KM = 610-5
+
+    GROUND_STATIONS = GroundStationAtCities.TOP_100
+    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
+    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+
+    cache = PerformanceCache()
+    _start_time = time.perf_counter()
+
+    CSV = 'DE_WDK.csv'
+    result = without_domain_knowledge()
+
+    # CSV = 'DE_DK.csv'
+    # result = with_domain_knowledge()
+
+    _end_time = time.perf_counter()
+    print(f"""Total optimization time: {
+        round((_end_time-_start_time)/3600, 2)}h""")
+    result['time_s'] = _end_time-_start_time
+    result['total_sat'] = TOTAL_SATS
+    CSV_logger(result, CSV)
+
+    TOTAL_SATS = 1584
+    MIN_SAT_PER_ORBIT = 10
+    ALTITUDE_UB_KM = 550+5
+    ALTITUDE_LB_KM = 550-5
+
+    GROUND_STATIONS = GroundStationAtCities.TOP_100
+    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
+    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+
+    cache = PerformanceCache()
+    _start_time = time.perf_counter()
+
+    CSV = 'DE_WDK.csv'
+    result = without_domain_knowledge()
+
+    # CSV = 'DE_DK.csv'
+    # result = with_domain_knowledge()
+
+    _end_time = time.perf_counter()
+    print(f"""Total optimization time: {
+        round((_end_time-_start_time)/3600, 2)}h""")
+    result['time_s'] = _end_time-_start_time
+    result['total_sat'] = TOTAL_SATS
+    CSV_logger(result, CSV)
+
+    TOTAL_SATS = 3230
+    MIN_SAT_PER_ORBIT = 10
+    ALTITUDE_UB_KM = 630+5
+    ALTITUDE_LB_KM = 630-5
+
+    GROUND_STATIONS = GroundStationAtCities.TOP_100
+    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
+    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+
+    cache = PerformanceCache()
+    _start_time = time.perf_counter()
+
+    CSV = 'DE_WDK.csv'
+    result = without_domain_knowledge()
+
+    # CSV = 'DE_DK.csv'
+    # result = with_domain_knowledge()
+
+    _end_time = time.perf_counter()
+    print(f"""Total optimization time: {
+        round((_end_time-_start_time)/3600, 2)}h""")
+    result['time_s'] = _end_time-_start_time
+    result['total_sat'] = TOTAL_SATS
+    CSV_logger(result, CSV)
+
+    TOTAL_SATS = 3360
+    MIN_SAT_PER_ORBIT = 10
+    ALTITUDE_UB_KM = 525+5
+    ALTITUDE_LB_KM = 525-5
+
+    GROUND_STATIONS = GroundStationAtCities.TOP_100
+    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
+    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+
+    cache = PerformanceCache()
+    _start_time = time.perf_counter()
+
+    CSV = 'DE_WDK.csv'
+    result = without_domain_knowledge()
+
+    # CSV = 'DE_DK.csv'
+    # result = with_domain_knowledge()
+
+    _end_time = time.perf_counter()
+    print(f"""Total optimization time: {
+        round((_end_time-_start_time)/3600, 2)}h""")
+    result['time_s'] = _end_time-_start_time
+    result['total_sat'] = TOTAL_SATS
+    CSV_logger(result, CSV)
+
+    TOTAL_SATS = 3888
+    MIN_SAT_PER_ORBIT = 10
+    ALTITUDE_UB_KM = 550+5
+    ALTITUDE_LB_KM = 550-5
 
     GROUND_STATIONS = GroundStationAtCities.TOP_100
     TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
