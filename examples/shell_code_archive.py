@@ -231,3 +231,27 @@ PlusGridShell(
     angle_of_elevation_degree=5.0,
     phase_offset=50.0
 )
+
+
+# Telesat
+
+# Telesat 1
+PlusGridShell(
+    id=0,
+    orbits=27,
+    sat_per_orbit=13,
+    altitude_m=1000.0 * 1015,
+    inclination_degree=98.98,
+    angle_of_elevation_degree=10.0,
+    phase_offset=50.0
+)
+# Telesat 2
+PlusGridShell(
+    id=1,
+    orbits=40,
+    sat_per_orbit=33,
+    altitude_m=1000.0 * 1325,
+    inclination_degree=50.88,
+    angle_of_elevation_degree=10.0,
+    phase_offset=50.0
+)
