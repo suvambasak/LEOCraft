@@ -1,3 +1,14 @@
+'''
+This module contains unit tests for the `PlusGridShell` class from the `LEOCraft` package. 
+It tests the following functionalities:
+1. Validation of input parameters for `PlusGridShell` initialization.
+2. Exporting satellite data to files and verifying the satellite count.
+3. Exporting inter-satellite link (ISL) data to files and verifying the ISL count.
+4. Calculating distances between satellites and verifying their correctness.
+5. Determining satellites in range of a terminal and comparing results for different shell configurations.
+'''
+
+
 import os
 import shutil
 import unittest

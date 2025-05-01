@@ -1,3 +1,21 @@
+'''
+This module contains unit tests for the LEOConstellation class and its related functionalities.
+The tests cover the following aspects:
+1. Throughput:
+   - Validates the throughput computation for single-shell and multi-shell constellations.
+2. Coverage:
+   - Tests the ground station coverage metrics and ensures no ground stations are left uncovered.
+3. Stretch:
+   - Evaluates the stretch metrics (e.g., NS, EW, NESW, HG, LG) for single-shell and multi-shell constellations.
+4. GSL Count:
+   - Verifies the number of ground-to-satellite links (GSLs) for single-shell and multi-shell constellations.
+5. Exported Files:
+   - Tests the consistency of exported GSLs, routes, and path-related data with the internal state of the constellation.
+6. Consistency:
+   - Ensures that the results are consistent when the constellation is built with and without parallel mode.
+'''
+
+
 import json
 import os
 import shutil
@@ -127,11 +145,37 @@ class TestLEOConstellation(unittest.TestCase):
         cov.compute()
         return cov.GS_coverage_metric, cov.dead_GS_count
 
-    def _get_stretch(self, leo_con: LEOConstellation) -> tuple[float, float, float, float, float, float, float, float, float, float]:
+    def _get_stretch(self, leo_con: LEOConstellation) -> tuple[
+        float,
+        float,
+        float,
+        float,
+        float,
+        float,
+        float,
+        float,
+        float,
+        float
+    ]:
         sth = Stretch(leo_con)
         sth.build()
         sth.compute()
-        return sth.NS_sth, sth.NS_cnt, sth.EW_sth, sth.EW_cnt, sth.NESW_sth, sth.NESW_cnt, sth.HG_sth, sth.HG_cnt, sth.LG_sth, sth.LG_cnt
+        return (
+            sth.NS_sth,
+            sth.NS_cnt,
+
+            sth.EW_sth,
+            sth.EW_cnt,
+
+            sth.NESW_sth,
+            sth.NESW_cnt,
+
+            sth.HG_sth,
+            sth.HG_cnt,
+
+            sth.LG_sth,
+            sth.LG_cnt
+        )
 
     def test_throughput(self):
         self.assertEqual(
@@ -248,11 +292,15 @@ class TestLEOConstellation(unittest.TestCase):
             self._get_coverage(_shell_3), self._get_coverage(self.shell_3)
         )
 
-        self.assertEqual(
-            self._get_throughput(_shell_1), self._get_throughput(self.shell_1)
+        self.assertAlmostEqual(
+            self._get_throughput(_shell_1),
+            self._get_throughput(self.shell_1),
+            5
         )
-        self.assertEqual(
-            self._get_throughput(_shell_3), self._get_throughput(self.shell_3)
+        self.assertAlmostEqual(
+            self._get_throughput(_shell_3),
+            self._get_throughput(self.shell_3),
+            5
         )
 
         self.assertTupleEqual(

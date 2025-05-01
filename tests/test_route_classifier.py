@@ -1,3 +1,12 @@
+'''
+This module tests the functionality of the `calculate_slope` method in the `AviationClassifier` and `BasicClassifier` classes. 
+It ensures the method handles edge cases such as:
+1. Zero denominator (vertical slope).
+2. Zero numerator (horizontal slope).
+3. Both numerator and denominator being zero (invalid slope).
+'''
+
+
 import random
 import unittest
 

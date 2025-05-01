@@ -1,3 +1,14 @@
+'''
+This module contains unit tests for the LEO constellation and aviation constellation simulators.
+The tests verify the functionality of single-shell and multi-shell simulations in both serial and parallel modes.
+Summary of tests:
+1. `test_leo_con_simulator_single_shell`: Tests the LEO constellation simulator with a single shell in both serial and parallel modes.
+2. `test_leo_con_simulator_multi_shell`: Tests the LEO constellation simulator with multiple shells in both serial and parallel modes.
+3. `test_leo_aviation_con_simulator_single_shell`: Tests the LEO aviation constellation simulator with a single shell in both serial and parallel modes.
+4. `test_leo_aviation_con_simulator_multi_shell`: Tests the LEO aviation constellation simulator with multiple shells in both serial and parallel modes.
+'''
+
+
 import os
 import shutil
 import unittest
@@ -17,7 +28,7 @@ from tests.test_LEO_constellation import _create_gs, _create_loss_model
 
 def _create_aviation_con(log: str, multi_shell: bool = False) -> LEOAviationConstellationSimulator:
     simulator = LEOAviationConstellationSimulator(
-        InternetTrafficOnAir.ONLY_POP_100, log
+        InternetTrafficOnAir.ONLY_POP_100_300Kbps, log
     )
     for x in [30.0, 40.0, 50.0]:
         leo_con = LEOAviationConstellation()

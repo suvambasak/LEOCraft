@@ -1,3 +1,13 @@
+'''
+This module contains unit tests for the FSPL (Free Space Path Loss) model in the LEOCraft project.
+It tests the following functionalities:
+1. Data rate calculations based on altitude and the number of ground stations served.
+2. Legacy functionality of the FSPL model, including:
+    - Setting and verifying transmitter (Tx) and receiver (Rx) antenna gains.
+    - Calculating received power.
+    - Calculating data rates for specific conditions.
+'''
+
 import unittest
 
 from LEOCraft.attenuation.fspl import FSPL
@@ -5,6 +15,7 @@ from LEOCraft.attenuation.fspl import FSPL
 
 class TestLossModel(unittest.TestCase):
     def setUp(self) -> None:
+
         # Starlink gen 2 model
         # self.loss_model = LossModel(
         #     28.3*1000000000, 58.64, 1.6*1000000000, 13.6

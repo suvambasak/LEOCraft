@@ -1,3 +1,13 @@
+'''
+This module tests the functionality of the LEOSatellite class, including:
+- Validation of input parameters for satellite creation (e.g., altitude, inclination, etc.).
+- Calculation of coverage cone radius and its dependency on altitude and angle of elevation.
+- Orbital period calculations and their consistency with altitude changes.
+- Maximum Inter-Satellite Link (ISL) and Ground-Satellite Link (GSL) lengths.
+- TLE (Two-Line Element) generation for satellites.
+- Nadir position calculations and their consistency over time intervals.
+'''
+
 import unittest
 
 from LEOCraft.constellations.constellation import Constellation
@@ -28,7 +38,7 @@ class TestSatellite(unittest.TestCase):
                     satellite_name=self.satellite_name
                 )
 
-        for i in [3, 180]:
+        for i in [-3, 185]:
             with self.assertRaises(ValueError):
                 LEOSatellite(
                     altitude_m=self.altitude_m,
@@ -39,7 +49,7 @@ class TestSatellite(unittest.TestCase):
                     mean_anomaly_degree=self.mean_anomaly_degree,
                     satellite_name=self.satellite_name
                 )
-        for e in [3, 180]:
+        for e in [0, 180]:
             with self.assertRaises(ValueError):
                 LEOSatellite(
                     altitude_m=self.altitude_m,
@@ -316,8 +326,8 @@ class TestSatellite(unittest.TestCase):
                 Constellation.calculate_time_delta(nanosecond=1000000))
         )
 
-        lat_1, _ = leo_con.nadir()
-        lat_2, _ = leo_con.nadir(
+        lat_1, _, _ = leo_con.nadir()
+        lat_2, _, _ = leo_con.nadir(
             Constellation.calculate_time_delta(
                 second=leo_con.orbital_period_s()
             )

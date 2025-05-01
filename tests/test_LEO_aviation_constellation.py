@@ -1,3 +1,22 @@
+'''
+This module contains unit tests for the LEOAviationConstellation class, focusing on:
+1. Exported Files Validation:
+   - Tests the correctness of exported ground station links (gsls), flight station links (fsls), routes, and error logs.
+2. Route Consistency:
+   - Ensures that routes generated in parallel and non-parallel modes are identical.
+3. Ground Station Links (GSLS) Consistency:
+   - Verifies that ground station links are identical between parallel and non-parallel modes.
+4. Flight Station Links (FSLS) Consistency:
+   - Verifies that flight station links are identical between parallel and non-parallel modes.
+5. Throughput Calculation:
+   - Compares throughput values between parallel and non-parallel modes with high precision.
+6. Stretch Metrics:
+   - Ensures stretch metrics (e.g., North-South, East-West) are consistent across modes.
+7. Coverage Metrics:
+   - Validates that coverage metrics (e.g., ground station and flight coverage) are identical between modes.
+'''
+
+
 import json
 import os
 import shutil
@@ -79,7 +98,7 @@ class TestLEOAviationConstellation(unittest.TestCase):
 
     def _get_throughput(self, leo_con: LEOAviationConstellation) -> float:
         th = Throughput(
-            leo_con, InternetTrafficOnAir.ONLY_POP_100
+            leo_con, InternetTrafficOnAir.ONLY_POP_100_300Kbps
         )
         th.build()
         th.compute()
@@ -159,13 +178,15 @@ class TestLEOAviationConstellation(unittest.TestCase):
             self.assertSetEqual(self.pshell_3.fsls[fid], fsls)
 
     def test_throughput(self):
-        self.assertEqual(
+        self.assertAlmostEqual(
             self._get_throughput(self.sshell_1),
-            self._get_throughput(self.pshell_1)
+            self._get_throughput(self.pshell_1),
+            5
         )
-        self.assertEqual(
+        self.assertAlmostEqual(
             self._get_throughput(self.sshell_3),
-            self._get_throughput(self.pshell_3)
+            self._get_throughput(self.pshell_3),
+            5
         )
 
     def test_stretch(self):

@@ -1,3 +1,11 @@
+'''
+This module contains unit tests for the `GroundStation` class and its functionality.
+It tests the following:
+1. Encoding and decoding of terminal IDs to ensure consistency.
+2. Calculation of geodesic distances between terminals to verify correctness.
+3. Exporting terminal data to a CSV file and validating its contents.
+'''
+
 import csv
 import os
 import shutil
@@ -96,8 +104,10 @@ class TestGroundStation(unittest.TestCase):
 
     def test_export(self):
         self._test_csv(
-            self.small_gs.export(self.test_directory), self.small_gs
+            self.small_gs.export(self.test_directory),
+            self.small_gs
         )
         self._test_csv(
-            self.big_gs.export(self.test_directory), self.small_gs
+            self.big_gs.export(self.test_directory),
+            self.small_gs
         )

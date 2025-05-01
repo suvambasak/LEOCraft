@@ -1,3 +1,14 @@
+'''
+This module tests the visualization functionality of the LEOCraft project for both 2D and 3D satellite views.
+- `test_2D`: Tests the 2D satellite view (`SatView2D`) 
+   by building a visualization for single-shell and multi-shell constellations, 
+   exporting it as an HTML file, and verifying the file's existence.
+- `test_3D`: Tests the 3D satellite view (`SatView3D`) 
+   by building a visualization for single-shell and multi-shell constellations, 
+   exporting it as both an HTML file and a PNG image, and verifying the existence of these files.
+'''
+
+
 import os
 import shutil
 import unittest
