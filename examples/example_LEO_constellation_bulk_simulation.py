@@ -1,4 +1,22 @@
-from project_path import *
+'''
+This example demonstrates how to use the LEOConstellationSimulator
+to simulate a LEO constellations in bulk.
+
+It includes the following steps:
+- Define the loss model using FSPL (Free Space Path Loss).
+- Initialize the LEOConstellationSimulator with the desired traffic model 
+  and CSV file for logging performance evaulation dataset.
+- Loop through the combinations of parameters and create a LEOConstellationSimulator
+  object for each combination.
+- Add ground stations, aircrafts, set the time, and loss model for the constellation.
+- Add shells to the constellation, for this instance the Starlink Shell-1 parameters.
+  Optionally, add more shells for a multi-shell LEO constellation.
+- Run the simulation in parallel for all combinations of parameters.
+  This example is designed to be run in parallel to speed up the simulation process.
+  It is important to note that the simulation may take a significant amount of time
+  to complete, depending on the number of combinations and the complexity of the
+  constellation.
+'''
 
 from LEOCraft.attenuation.fspl import FSPL
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
@@ -36,31 +54,36 @@ if __name__ == '__main__':
     n = 22
     p = 50
 
+    # Time in minutes
     t_m = 0
 
+    # All possible combinations of orbital planes and satellites per orbital plane for given budget TOTAL_SAT
     oxn = []
     for orbital_plane in range(MIN_SAT_PER_ORBIT, TOTAL_SAT):
         if TOTAL_SAT % orbital_plane == 0 and TOTAL_SAT/orbital_plane >= MIN_SAT_PER_ORBIT:
             oxn.append((orbital_plane, int(TOTAL_SAT/orbital_plane)))
 
-    # Simulation setup
+    # Simulation to be run in parallel
+    # Add a bulk of simulations for different parameters (i.e., parameters sweeping)
+
     simulator = LEOConstellationSimulator(
-        # InternetTrafficAcrossCities.POP_GDP_100,
+        InternetTrafficAcrossCities.POP_GDP_100,
         # InternetTrafficAcrossCities.ONLY_POP_100,
-        InternetTrafficAcrossCities.COUNTRY_CAPITALS_ONLY_POP,
+        # InternetTrafficAcrossCities.COUNTRY_CAPITALS_ONLY_POP,
         CSV_FILE
     )
+
     # for t_m in range(0, 24*60+1, 5):
-    for h in range(300, 2000, 10):
-        # for e in range(5, 85+1, 3):
-        # for i in range(5, 175+1, 3):
-        # for p in range(0, 51, 5):
-        # for o, n in oxn:
+    # for h in range(300, 2000, 10):
+    # for e in range(5, 85+1, 3):
+    # for i in range(5, 175+1, 3):
+    # for p in range(0, 51, 5):
+    for o, n in oxn:
 
         leo_con = LEOConstellation()
         leo_con.add_ground_stations(GroundStation(
-            # GroundStationAtCities.TOP_100
-            GroundStationAtCities.COUNTRY_CAPITALS
+            GroundStationAtCities.TOP_100
+            # GroundStationAtCities.COUNTRY_CAPITALS
         ))
         leo_con.set_time(minute=t_m)
         leo_con.set_loss_model(get_loss_model())
@@ -77,6 +100,8 @@ if __name__ == '__main__':
             angle_of_elevation_degree=e,
             inclination_degree=i
         ))
+
+        # Could add more shells for multi shell LEO constellation
 
         # leo_con.add_shells(PlusGridShell(
         #     id=1,
