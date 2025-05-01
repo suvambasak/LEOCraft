@@ -1,6 +1,13 @@
-import time
+'''
+This exmple shows how to visualize the LEO constellation with 2D view.
+The example uses the Starlink constellation with three shells to show:
+- Ground stations
+- Satellites
+- Coverages
+- routes
+'''
 
-from project_path import *
+import time
 
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
 from LEOCraft.dataset import GroundStationAtCities

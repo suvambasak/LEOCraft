@@ -1,6 +1,13 @@
-import time
+'''
+This example shows how to render evolution of a LEO constellation network fame by frame
+Which allows to visualize:
+- Network topology changes
+- Coverage changes
+- Route changes
+- Handover between satellites and ground stations
+'''
 
-from project_path import *
+import time
 
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
 from LEOCraft.dataset import GroundStationAtCities

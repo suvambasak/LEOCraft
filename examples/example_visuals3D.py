@@ -1,6 +1,11 @@
+'''
+This example shows how to visualize the LEO constellation in 3D using the SatView3D class.
+It demonstrates how to add ground stations, satellites, and routes to the visualization.
+It also shows how to highlight specific satellites and export the visualization as HTML and PNG files.
+'''
+
 import time
 
-from project_path import *
 
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
 from LEOCraft.dataset import GroundStationAtCities

@@ -1,6 +1,17 @@
-import time
+'''
+This example shows how to visualize the LEO constellation in 3D using the SatRawView3D class.
+The example uses the Starlink constellation with a single shell to demonstrates how to add 
+- Ground stations
+- Satellites
+- Satellite's coverage area
+- Routes 
+to the visualization
 
-from project_path import *
+It also shows how to generate a specific route between two ground stations and visualize it 
+then export into interactive HTML and PNG formats.
+'''
+
+import time
 
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
 from LEOCraft.dataset import GroundStationAtCities
@@ -41,8 +52,10 @@ leo_con.set_loss_model(None)
 leo_con.build()
 leo_con.create_network_graph()
 
+# # -----------------------------------
 # # Generates all the routes
 # leo_con.generate_routes()
+# # -----------------------------------
 
 
 # -----------------------------------
@@ -61,7 +74,7 @@ leo_con.no_path_found = set()
 leo_con.k_path_not_found = set()
 
 leo_con._add_route(compute_status, flow, k_path)
-
+# -----------------------------------
 
 view = SatRawView3D(
     leo_con,
