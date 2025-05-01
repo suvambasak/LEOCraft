@@ -1,3 +1,20 @@
+'''
+This script is used to simulate all parameter sweeping at once and generate 
+CSV file for each paramters with the evaluation results (throughput, coverage, 
+stretch/latency, hop counts, etc.).
+
+The script by default runs the simulations in parallel using the LEOAviationConstellationSimulator.
+
+One can set default parameters of a LEO constellation:
+1. Altitude
+2. Angle of elevation
+3. Phase offset
+4. Number of orbital planes and satellites per orbital plane
+5. Time in minutes
+
+To generate the CSV files for each parameter sweep at once.
+'''
+
 import time
 
 import pandas as pd
@@ -14,23 +31,6 @@ from LEOCraft.user_terminals.aircraft import Aircraft
 from LEOCraft.user_terminals.ground_station import GroundStation
 
 
-TM = InternetTrafficOnAir.ONLY_POP_100_300Kbps
-GS = GroundStationAtCities.TOP_100
-
-# Starlink Shell-3
-o = 36
-n = 20
-
-i = 70
-e = 25
-
-h = 570
-
-
-p = 50
-t_m = 0
-
-
 def get_loss_model() -> FSPL:
     loss_model = FSPL(
         28.5*1000000000,    # Frequency in Hz
@@ -42,7 +42,25 @@ def get_loss_model() -> FSPL:
     return loss_model
 
 
-# OUTOUR FILEs
+# Starlink Shell-3 default
+o = 36      # orbital planes
+n = 20      # satellites per plane
+
+i = 70      # inclination
+e = 25      # angle of elevation
+
+h = 570     # altitude
+
+
+p = 50      # phase offset
+t_m = 0     # time in minutes
+
+
+TM = InternetTrafficOnAir.ONLY_POP_100_300Kbps
+# TM = InternetTrafficOnAir.ONLY_POP_100_5Mbps
+GS = GroundStationAtCities.TOP_100
+
+# Simulation output files
 CSV_FILE_H_24 = 'h_24.csv'
 
 CSV_FILE_H = 'h_300_2000.csv'
@@ -57,10 +75,12 @@ CSV_FILE_HP_P = 'HP_p_0_50.csv'
 CSV_FILE_OXN_VS_P = 'OXN_VS_P.csv'
 
 
-# Constellation defaults
 TOTAL_SAT = o*n
 MIN_SAT_PER_ORBIT = 10
 
+
+# All possible combinations of orbital planes and satellites per orbital plane for given budget TOTAL_SAT
+# While validating, if such design is possible
 oxn = []
 for orbital_plane in range(MIN_SAT_PER_ORBIT, TOTAL_SAT):
     if TOTAL_SAT % orbital_plane == 0 and TOTAL_SAT/orbital_plane >= MIN_SAT_PER_ORBIT:
@@ -110,21 +130,25 @@ simulator = LEOAviationConstellationSimulator(TM, CSV_FILE_H_24)
 for _t_m in range(0, 24*60+1, 5):
     leo_con = LEOAviationConstellation()
     leo_con.add_ground_stations(GroundStation(GS))
-    leo_con.add_aircrafts(Aircraft(
-        FlightOnAir.FLIGHT_REPLACED_TERMINALS,
-        FlightOnAir.FLIGHTS_CLUSTERS
-    ))
+    leo_con.add_aircrafts(
+        Aircraft(
+            FlightOnAir.FLIGHT_REPLACED_TERMINALS,
+            FlightOnAir.FLIGHTS_CLUSTERS
+        )
+    )
     leo_con.set_time(minute=_t_m)
     leo_con.set_loss_model(get_loss_model())
-    leo_con.add_shells(PlusGridShell(
-        id=0,
-        orbits=o,
-        sat_per_orbit=n,
-        phase_offset=p,
-        altitude_m=1000.0*h,
-        angle_of_elevation_degree=e,
-        inclination_degree=i
-    ))
+    leo_con.add_shells(
+        PlusGridShell(
+            id=0,
+            orbits=o,
+            sat_per_orbit=n,
+            phase_offset=p,
+            altitude_m=1000.0*h,
+            angle_of_elevation_degree=e,
+            inclination_degree=i
+        )
+    )
     simulator.add_constellation(leo_con)
 perf_log = simulator.simulate_in_parallel(max_workers=3)
 end_time = time.perf_counter()
@@ -141,21 +165,25 @@ simulator = LEOAviationConstellationSimulator(TM, CSV_FILE_H)
 for _h in range(500, 1001, 10):
     leo_con = LEOAviationConstellation()
     leo_con.add_ground_stations(GroundStation(GS))
-    leo_con.add_aircrafts(Aircraft(
-        FlightOnAir.FLIGHT_REPLACED_TERMINALS,
-        FlightOnAir.FLIGHTS_CLUSTERS
-    ))
+    leo_con.add_aircrafts(
+        Aircraft(
+            FlightOnAir.FLIGHT_REPLACED_TERMINALS,
+            FlightOnAir.FLIGHTS_CLUSTERS
+        )
+    )
     leo_con.set_time(minute=t_m)
     leo_con.set_loss_model(get_loss_model())
-    leo_con.add_shells(PlusGridShell(
-        id=0,
-        orbits=o,
-        sat_per_orbit=n,
-        phase_offset=p,
-        altitude_m=1000.0*_h,
-        angle_of_elevation_degree=e,
-        inclination_degree=i
-    ))
+    leo_con.add_shells(
+        PlusGridShell(
+            id=0,
+            orbits=o,
+            sat_per_orbit=n,
+            phase_offset=p,
+            altitude_m=1000.0*_h,
+            angle_of_elevation_degree=e,
+            inclination_degree=i
+        )
+    )
     simulator.add_constellation(leo_con)
 perf_log = simulator.simulate_in_parallel(max_workers=3)
 end_time = time.perf_counter()
@@ -172,21 +200,25 @@ simulator = LEOAviationConstellationSimulator(TM, CSV_FILE_E)
 for _e in range(5, 50+1, 3):
     leo_con = LEOAviationConstellation()
     leo_con.add_ground_stations(GroundStation(GS))
-    leo_con.add_aircrafts(Aircraft(
-        FlightOnAir.FLIGHT_REPLACED_TERMINALS,
-        FlightOnAir.FLIGHTS_CLUSTERS
-    ))
+    leo_con.add_aircrafts(
+        Aircraft(
+            FlightOnAir.FLIGHT_REPLACED_TERMINALS,
+            FlightOnAir.FLIGHTS_CLUSTERS
+        )
+    )
     leo_con.set_time(minute=t_m)
     leo_con.set_loss_model(get_loss_model())
-    leo_con.add_shells(PlusGridShell(
-        id=0,
-        orbits=o,
-        sat_per_orbit=n,
-        phase_offset=p,
-        altitude_m=1000.0*h,
-        angle_of_elevation_degree=_e,
-        inclination_degree=i
-    ))
+    leo_con.add_shells(
+        PlusGridShell(
+            id=0,
+            orbits=o,
+            sat_per_orbit=n,
+            phase_offset=p,
+            altitude_m=1000.0*h,
+            angle_of_elevation_degree=_e,
+            inclination_degree=i
+        )
+    )
     simulator.add_constellation(leo_con)
 perf_log = simulator.simulate_in_parallel(max_workers=3)
 end_time = time.perf_counter()
@@ -203,21 +235,25 @@ simulator = LEOAviationConstellationSimulator(TM, CSV_FILE_I)
 for _i in range(5, 90+1, 3):
     leo_con = LEOAviationConstellation()
     leo_con.add_ground_stations(GroundStation(GS))
-    leo_con.add_aircrafts(Aircraft(
-        FlightOnAir.FLIGHT_REPLACED_TERMINALS,
-        FlightOnAir.FLIGHTS_CLUSTERS
-    ))
+    leo_con.add_aircrafts(
+        Aircraft(
+            FlightOnAir.FLIGHT_REPLACED_TERMINALS,
+            FlightOnAir.FLIGHTS_CLUSTERS
+        )
+    )
     leo_con.set_time(minute=t_m)
     leo_con.set_loss_model(get_loss_model())
-    leo_con.add_shells(PlusGridShell(
-        id=0,
-        orbits=o,
-        sat_per_orbit=n,
-        phase_offset=p,
-        altitude_m=1000.0*h,
-        angle_of_elevation_degree=e,
-        inclination_degree=_i
-    ))
+    leo_con.add_shells(
+        PlusGridShell(
+            id=0,
+            orbits=o,
+            sat_per_orbit=n,
+            phase_offset=p,
+            altitude_m=1000.0*h,
+            angle_of_elevation_degree=e,
+            inclination_degree=_i
+        )
+    )
     simulator.add_constellation(leo_con)
 perf_log = simulator.simulate_in_parallel(max_workers=3)
 end_time = time.perf_counter()
@@ -234,21 +270,25 @@ simulator = LEOAviationConstellationSimulator(TM, CSV_FILE_OXN)
 for _o, _n in oxn:
     leo_con = LEOAviationConstellation()
     leo_con.add_ground_stations(GroundStation(GS))
-    leo_con.add_aircrafts(Aircraft(
-        FlightOnAir.FLIGHT_REPLACED_TERMINALS,
-        FlightOnAir.FLIGHTS_CLUSTERS
-    ))
+    leo_con.add_aircrafts(
+        Aircraft(
+            FlightOnAir.FLIGHT_REPLACED_TERMINALS,
+            FlightOnAir.FLIGHTS_CLUSTERS
+        )
+    )
     leo_con.set_time(minute=t_m)
     leo_con.set_loss_model(get_loss_model())
-    leo_con.add_shells(PlusGridShell(
-        id=0,
-        orbits=_o,
-        sat_per_orbit=_n,
-        phase_offset=p,
-        altitude_m=1000.0*h,
-        angle_of_elevation_degree=e,
-        inclination_degree=i
-    ))
+    leo_con.add_shells(
+        PlusGridShell(
+            id=0,
+            orbits=_o,
+            sat_per_orbit=_n,
+            phase_offset=p,
+            altitude_m=1000.0*h,
+            angle_of_elevation_degree=e,
+            inclination_degree=i
+        )
+    )
     simulator.add_constellation(leo_con)
 perf_log = simulator.simulate_in_parallel(max_workers=3)
 end_time = time.perf_counter()
@@ -265,21 +305,25 @@ simulator = LEOAviationConstellationSimulator(TM, CSV_FILE_P)
 for _p in range(0, 51, 5):
     leo_con = LEOAviationConstellation()
     leo_con.add_ground_stations(GroundStation(GS))
-    leo_con.add_aircrafts(Aircraft(
-        FlightOnAir.FLIGHT_REPLACED_TERMINALS,
-        FlightOnAir.FLIGHTS_CLUSTERS
-    ))
+    leo_con.add_aircrafts(
+        Aircraft(
+            FlightOnAir.FLIGHT_REPLACED_TERMINALS,
+            FlightOnAir.FLIGHTS_CLUSTERS
+        )
+    )
     leo_con.set_time(minute=t_m)
     leo_con.set_loss_model(get_loss_model())
-    leo_con.add_shells(PlusGridShell(
-        id=0,
-        orbits=o,
-        sat_per_orbit=n,
-        phase_offset=_p,
-        altitude_m=1000.0*h,
-        angle_of_elevation_degree=e,
-        inclination_degree=i
-    ))
+    leo_con.add_shells(
+        PlusGridShell(
+            id=0,
+            orbits=o,
+            sat_per_orbit=n,
+            phase_offset=_p,
+            altitude_m=1000.0*h,
+            angle_of_elevation_degree=e,
+            inclination_degree=i
+        )
+    )
     simulator.add_constellation(leo_con)
 perf_log = simulator.simulate_in_parallel(max_workers=3)
 end_time = time.perf_counter()
@@ -306,21 +350,25 @@ simulator = LEOAviationConstellationSimulator(TM, CSV_FILE_HP_OXN)
 for _o, _n in oxn:
     leo_con = LEOAviationConstellation()
     leo_con.add_ground_stations(GroundStation(GS))
-    leo_con.add_aircrafts(Aircraft(
-        FlightOnAir.FLIGHT_REPLACED_TERMINALS,
-        FlightOnAir.FLIGHTS_CLUSTERS
-    ))
+    leo_con.add_aircrafts(
+        Aircraft(
+            FlightOnAir.FLIGHT_REPLACED_TERMINALS,
+            FlightOnAir.FLIGHTS_CLUSTERS
+        )
+    )
     leo_con.set_time(minute=t_m)
     leo_con.set_loss_model(get_loss_model())
-    leo_con.add_shells(PlusGridShell(
-        id=0,
-        orbits=_o,
-        sat_per_orbit=_n,
-        phase_offset=p,
-        altitude_m=1000.0*h,
-        angle_of_elevation_degree=_e,
-        inclination_degree=_i
-    ))
+    leo_con.add_shells(
+        PlusGridShell(
+            id=0,
+            orbits=_o,
+            sat_per_orbit=_n,
+            phase_offset=p,
+            altitude_m=1000.0*h,
+            angle_of_elevation_degree=_e,
+            inclination_degree=_i
+        )
+    )
     simulator.add_constellation(leo_con)
 perf_log = simulator.simulate_in_parallel(max_workers=3)
 end_time = time.perf_counter()
@@ -337,21 +385,25 @@ simulator = LEOAviationConstellationSimulator(TM, CSV_FILE_HP_P)
 for _p in range(0, 51, 5):
     leo_con = LEOAviationConstellation()
     leo_con.add_ground_stations(GroundStation(GS))
-    leo_con.add_aircrafts(Aircraft(
-        FlightOnAir.FLIGHT_REPLACED_TERMINALS,
-        FlightOnAir.FLIGHTS_CLUSTERS
-    ))
+    leo_con.add_aircrafts(
+        Aircraft(
+            FlightOnAir.FLIGHT_REPLACED_TERMINALS,
+            FlightOnAir.FLIGHTS_CLUSTERS
+        )
+    )
     leo_con.set_time(minute=t_m)
     leo_con.set_loss_model(get_loss_model())
-    leo_con.add_shells(PlusGridShell(
-        id=0,
-        orbits=o,
-        sat_per_orbit=n,
-        phase_offset=_p,
-        altitude_m=1000.0*h,
-        angle_of_elevation_degree=_e,
-        inclination_degree=_i
-    ))
+    leo_con.add_shells(
+        PlusGridShell(
+            id=0,
+            orbits=o,
+            sat_per_orbit=n,
+            phase_offset=_p,
+            altitude_m=1000.0*h,
+            angle_of_elevation_degree=_e,
+            inclination_degree=_i
+        )
+    )
     simulator.add_constellation(leo_con)
 perf_log = simulator.simulate_in_parallel(max_workers=3)
 end_time = time.perf_counter()
@@ -369,21 +421,25 @@ for _o, _n in oxn:
     for _p in range(0, 51, 5):
         leo_con = LEOAviationConstellation()
         leo_con.add_ground_stations(GroundStation(GS))
-        leo_con.add_aircrafts(Aircraft(
-            FlightOnAir.FLIGHT_REPLACED_TERMINALS,
-            FlightOnAir.FLIGHTS_CLUSTERS
-        ))
+        leo_con.add_aircrafts(
+            Aircraft(
+                FlightOnAir.FLIGHT_REPLACED_TERMINALS,
+                FlightOnAir.FLIGHTS_CLUSTERS
+            )
+        )
         leo_con.set_time(minute=t_m)
         leo_con.set_loss_model(get_loss_model())
-        leo_con.add_shells(PlusGridShell(
-            id=0,
-            orbits=_o,
-            sat_per_orbit=_n,
-            phase_offset=_p,
-            altitude_m=1000.0*h,
-            angle_of_elevation_degree=_e,
-            inclination_degree=_i
-        ))
+        leo_con.add_shells(
+            PlusGridShell(
+                id=0,
+                orbits=_o,
+                sat_per_orbit=_n,
+                phase_offset=_p,
+                altitude_m=1000.0*h,
+                angle_of_elevation_degree=_e,
+                inclination_degree=_i
+            )
+        )
         simulator.add_constellation(leo_con)
 perf_log = simulator.simulate_in_parallel(max_workers=3)
 end_time = time.perf_counter()
