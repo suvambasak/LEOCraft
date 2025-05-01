@@ -1,6 +1,21 @@
+'''
+This example shows how to create a multi-shell LEO constellation with inter shell ISLs.
+It uses the PlusGridZigzagElevation class to create the shells which creates plus grid
+between shells i.e., consecutive orbit at different altitudes.
+
+In this example, 
+we use: altitude_pattern_m=[500000.0, 1000000.0, 1500000.0, 1000000.0,] which means
+- Orbit 1 at 500km
+- Orbit 2 at 1000km
+- Orbit 3 at 1500km
+- Orbit 4 at 1000km
+- Orbit 5 at 500km
+- ..
+- ..
+'''
+
 import time
 
-from project_path import *
 
 from LEOCraft.attenuation.fspl import FSPL
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
@@ -29,13 +44,14 @@ leo_con = LEOConstellation('MultiShell')
 leo_con.v.verbose = True
 leo_con.add_ground_stations(
     GroundStation(
-        # GroundStationAtCities.TOP_100
+        GroundStationAtCities.TOP_100
         # GroundStationAtCities.TOP_1000
-        GroundStationAtCities.COUNTRY_CAPITALS
+        # GroundStationAtCities.COUNTRY_CAPITALS
     )
 )
 
 # Adding Shells
+
 # Starlink Shell 1
 leo_con.add_shells(
     PlusGridZigzagElevation(
@@ -62,10 +78,10 @@ leo_con.generate_routes()
 # Throughput
 th = Throughput(
     leo_con,
-    # InternetTrafficAcrossCities.ONLY_POP_100
+    InternetTrafficAcrossCities.ONLY_POP_100
     # InternetTrafficAcrossCities.POP_GDP_100
     # InternetTrafficAcrossCities.ONLY_POP_1000
-    InternetTrafficAcrossCities.COUNTRY_CAPITALS_ONLY_POP
+    # InternetTrafficAcrossCities.COUNTRY_CAPITALS_ONLY_POP
 )
 th.build()
 th.compute()
