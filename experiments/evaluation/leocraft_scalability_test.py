@@ -1,3 +1,11 @@
+
+'''
+This script is used to test the scalability of the LEOCraft simulator.
+It creates a LEO constellation with a large number of satellites and ground stations,
+and evaluates the performance of the constellation.
+'''
+
+
 import time
 
 from LEOCraft.attenuation.fspl import FSPL
