@@ -2,7 +2,7 @@
 '''
 This script illustrates how intershell ISLs goes out of range 
 by rendering frame by frame 3D view of inter and intra shell 
-ISLs between two consecutive orbits in .
+ISLs between two consecutive orbit.
 '''
 
 
@@ -53,7 +53,7 @@ for t in range(0, 1500000):
         leo_con,
         lat=sat_info.nadir_latitude_deg,
         long=sat_info.nadir_longitude_deg,
-        title=f'Time: {t}h'
+        title=f'Time: {t} minute(s) from epoch',
     )
     # view.add_all_satellites()
     # view.add_all_ISLs()
