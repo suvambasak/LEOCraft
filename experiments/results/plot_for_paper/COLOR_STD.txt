@@ -1,0 +1,8 @@
+NS - Blue - rgb(0, 0, 255)
+EW - Red - rgb(255, 0, 0)
+NESW - Purple - rgb(128, 0, 128)
+HG - Green - rgb(0, 128, 0)
+LG - Orange
+
+GS - rgb(0, 255, 0)
+GSL - rgb(255, 0, 255)
