@@ -54,12 +54,14 @@ def find_GDP_per_capita_by_city_name():
 
 if __name__ == '__main__':
 
-    ALL_GDP_CSV = 'dataset/src/CSVs/List_of_cities_by_GDP_2.csv'
+    # Input CSV files
+    ALL_GDP_CSV = 'dataset/src/ground_stations/CSVs/raw/List_of_cities_by_GDP_2.csv'
+    CITIES_CSV = 'dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_100.csv'
 
-    # CITIES_CSV = 'dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_100.csv'
-    # GDP_PER_CAPITA_OF_CITIES_CSV = 'dataset/src/CSVs/GDP_per_capita_100.csv'
+    # Output CSV file
+    GDP_PER_CAPITA_OF_CITIES_CSV = 'dataset/src/ground_stations/CSVs/preprocess/GDP_PER_CAPITA_100.csv'
 
-    CITIES_CSV = 'dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_1000.csv'
-    GDP_PER_CAPITA_OF_CITIES_CSV = 'dataset/src/CSVs/GDP_per_capita_1000.csv'
+    # CITIES_CSV = 'dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_1000.csv'
+    # GDP_PER_CAPITA_OF_CITIES_CSV = 'dataset/src/CSVs/GDP_per_capita_1000.csv'
 
     find_GDP_per_capita_by_city_name()

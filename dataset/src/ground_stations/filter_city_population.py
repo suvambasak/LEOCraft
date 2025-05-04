@@ -78,32 +78,36 @@ def find_population_by_city_name():
 
         if not result_city.empty:
             population_record['name_2'] = result_city.iloc[0]['city']
-            population_record['population'] = str(
-                int(result_city.iloc[0]['population'])
-            )
+            population_record['population'] = result_city.iloc[0]['population']
             print(
-                f'|- {row.name}:{result_city.iloc[0]["city"]} {result_city.iloc[0]["population"]}'
+                f'|- [{row.id}] {row.name}:{result_city.iloc[0]["city"]} {result_city.iloc[0]["population"]}'
             )
 
         elif not result_city_ascii.empty:
             population_record['name_2'] = result_city_ascii.iloc[0]['city_ascii']
-            population_record['population'] = str(
-                int(result_city_ascii.iloc[0]['population'])
-            )
+            population_record['population'] = result_city_ascii.iloc[0]['population']
             print(
-                f'|- {row.name}:{result_city_ascii.iloc[0]["city_ascii"]} {result_city_ascii.iloc[0]["population"]}'
+                f'|- [{row.id}] {row.name}:{result_city_ascii.iloc[0]["city_ascii"]} {result_city_ascii.iloc[0]["population"]}'
             )
 
         else:
             city_name, city_population, min_distance = find_closest_city(
                 row, df_all_cities
             )
-            population_record['name_2'] = city_name
-            population_record['population'] = str(int(city_population))
-            population_record['distance_km'] = 0.0
+
             print(
-                f'|x {row.name}: [closest] : {city_name} {city_population} ## {min_distance:.2f} km'
+                f'|x [{row.id}] {row.name}: [closest] : {city_name} {city_population} ## {min_distance:.2f} km'
             )
+
+            # When the population is not found, ask the user for input
+            if pd.isna(city_population):
+                city_population = input(
+                    f'|xx [{row.id}] {row.name}: [closest] : {city_name} POPULATION?: '
+                )
+
+            population_record['name_2'] = city_name
+            population_record['population'] = city_population
+            population_record['distance_km'] = 0.0
 
         population_dataset.append(population_record)
 
@@ -114,12 +118,13 @@ def find_population_by_city_name():
 
 if __name__ == '__main__':
 
-    ALL_CITIES_CSV = 'dataset/src/CSVs/worldcities.csv'
+    # Input CSV files
+    ALL_CITIES_CSV = 'dataset/src/ground_stations/CSVs/raw/worldcities.csv'
+    # FEW_CITIES_CSV = 'dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_100.csv'
+    FEW_CITIES_CSV = 'dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_1000.csv'
 
-    FEW_CITIES_CSV = 'dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_100.csv'
-    POPULATION_CSV = 'dataset/src/CSVs/population_100.csv'
-
-    # FEW_CITIES_CSV = 'dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_1000.csv'
-    # POPULATION_CSV = 'dataset/src/CSVs/population_1000.csv'
+    # Output CSV file
+    # POPULATION_CSV = 'dataset/src/ground_stations/CSVs/preprocess/POPULATION_100.csv'
+    POPULATION_CSV = 'dataset/src/ground_stations/CSVs/preprocess/POPULATION_1000.csv'
 
     find_population_by_city_name()
