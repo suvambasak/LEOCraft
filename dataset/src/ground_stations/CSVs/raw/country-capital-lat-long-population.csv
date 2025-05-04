@@ -1,0 +1,235 @@
+id,name,lat,lng,pop,capital_type,country
+0,Kabul,34.5289,69.1725,4011770,Capital,Afghanistan
+1,Tiranë (Tirana),41.3275,19.8189,475577,Capital,Albania
+2,El Djazaïr  (Algiers),36.7525,3.042,2693542,Capital,Algeria
+3,Pago Pago,-14.2781,-170.7025,48526,Capital,American Samoa
+4,Andorra la Vella,42.5078,1.5211,22614,Capital,Andorra
+5,Luanda,-8.8368,13.2343,7774200,Capital,Angola
+6,The Valley,18.217,-63.0578,1402,Capital,Anguilla
+7,St. John's,17.1172,-61.8457,20764,Capital,Antigua and Barbuda
+8,Buenos Aires,-34.6051,-58.4004,14966530,Capital,Argentina
+9,Yerevan,40.182,44.5146,1080324,Capital,Armenia
+10,Oranjestad,12.524,-70.027,29877,Capital,Aruba
+11,Canberra,-35.2835,149.1281,447692,Capital,Australia
+12,Wien (Vienna),48.2064,16.3707,1900547,Capital,Austria
+13,Baku,40.3777,49.892,2285729,Capital,Azerbaijan
+14,Nassau,25.0582,-77.3431,279668,Capital,Bahamas
+15,Al-Manamah (Manama),26.2154,50.5832,564631,Capital,Bahrain
+16,Dhaka,23.7104,90.4074,19578421,Capital,Bangladesh
+17,Bridgetown,13.1,-59.6167,89201,Capital,Barbados
+18,Minsk,53.9,27.5667,2004672,Capital,Belarus
+19,Bruxelles-Brussel,50.8467,4.3499,2049510,Capital,Belgium
+20,Belmopan,17.25,-88.7667,22964,Capital,Belize
+21,Cotonou,6.3654,2.4183,685458,Economic Capital,Benin
+22,Hamilton,32.2915,-64.778,10073,Capital,Bermuda
+23,Thimphu,27.4661,89.6419,203297,Capital,Bhutan
+24,La Paz,-16.5,-68.15,1814087,Seat of Government,Bolivia (Plurinational State of)
+25,Sarajevo,43.8486,18.3564,342577,Capital,Bosnia and Herzegovina
+26,Gaborone,-24.6545,25.9086,269338,Capital,Botswana
+27,Brasília,-15.7797,-47.9297,4469585,Capital,Brazil
+28,Road Town,18.4167,-64.6167,15137,Capital,British Virgin Islands
+29,Bandar Seri Begawan,4.9403,114.9481,40781,Capital,Brunei Darussalam
+30,Sofia,42.6975,23.3242,1272418,Capital,Bulgaria
+31,Ouagadougou,12.3642,-1.5383,2531381,Capital,Burkina Faso
+32,Bujumbura,-3.3822,29.3644,898968,Capital,Burundi
+33,Praia,14.9215,-23.5087,167504,Capital,Cabo Verde
+34,Phnum Pénh (Phnom Penh),11.5625,104.916,1952329,Capital,Cambodia
+35,Yaoundé,3.8667,11.5167,3655656,Capital,Cameroon
+36,Ottawa-Gatineau,45.4166,-75.698,1363159,Capital,Canada
+37,Kralendijk,12.15,-68.2667,11313,Capital,Caribbean Netherlands
+38,George Town,19.2866,-81.3744,34875,Capital,Cayman Islands
+39,Bangui,4.3612,18.555,850946,Capital,Central African Republic
+40,N'Djaména,12.1067,15.0444,1322679,Capital,Chad
+41,St. Helier,49.188,-2.1049,34386,Capital,Channel Islands
+42,St. Peter Port,49.4598,-2.5353,16271,Capital,Channel Islands
+43,Santiago,-33.4569,-70.6483,6680371,Capital,Chile
+44,Beijing,39.9075,116.3972,19617963,Capital,China
+45,Hong Kong,22.2796,114.1887,7428887,Capital,"China, Hong Kong SAR"
+46,Macao,22.2006,113.5461,632418,Capital,"China, Macao SAR"
+47,Taibei,25.047,121.5457,2705791,Others,"China, Taiwan Province of China"
+48,Bogotá,4.6097,-74.0818,10574409,Capital,Colombia
+49,Moroni,-11.7022,43.2551,62351,Capital,Comoros
+50,Brazzaville,-4.2658,15.2832,2229693,Capital,Congo
+51,Rarotonga,-21.23,-159.76,13067,Capital,Cook Islands
+52,San José,9.9278,-84.0807,1357745,Capital,Costa Rica
+53,Abidjan,5.3453,-4.0268,4920776,Administrative Capital,Côte d'Ivoire
+54,Zagreb,45.8144,15.978,685587,Capital,Croatia
+55,La Habana (Havana),23.1195,-82.3785,2136468,Capital,Cuba
+56,Willemstad,12.1084,-68.9335,144037,Capital,Curaçao
+57,Lefkosia (Nicosia),35.1595,33.3669,269469,Capital,Cyprus
+58,Praha (Prague),50.088,14.4208,1291552,Capital,Czechia
+59,P'yongyang,39.0339,125.7543,3037862,Capital,Dem. People's Republic of Korea
+60,Kinshasa,-4.3276,15.3136,13171256,Capital,Democratic Republic of the Congo
+61,København (Copenhagen),55.6759,12.5655,1320826,Capital,Denmark
+62,Djibouti,11.5877,43.1447,561564,Capital,Djibouti
+63,Roseau,15.3017,-61.3881,14942,Capital,Dominica
+64,Santo Domingo,18.4896,-69.9018,3172152,Capital,Dominican Republic
+65,Quito,-0.2299,-78.525,1822397,Capital,Ecuador
+66,Al-Qahirah (Cairo),30.0392,31.2394,20076002,Capital,Egypt
+67,San Salvador,13.6894,-89.1872,1106698,Capital,El Salvador
+68,Malabo,3.75,8.7833,296770,Capital,Equatorial Guinea
+69,Asmara,15.3333,38.9333,895863,Capital,Eritrea
+70,Tallinn,59.437,24.7535,437027,Capital,Estonia
+71,Addis Ababa,9.025,38.7469,4399674,Capital,Ethiopia
+72,Tórshavn,62.0097,-6.7716,20817,Capital,Faeroe Islands
+73,Stanley,-51.7012,-57.8494,2269,Others,Falkland Islands (Malvinas)
+74,Suva,-18.1416,178.4415,178339,Capital,Fiji
+75,Helsinki,60.1692,24.9402,1279096,Capital,Finland
+76,Paris,48.8534,2.3488,10900952,Capital,France
+77,Cayenne,4.9333,-52.3333,57506,Capital,French Guiana
+78,Papeete,-17.5333,-149.5667,136005,Capital,French Polynesia
+79,Libreville,0.3925,9.4537,813489,Capital,Gabon
+80,Banjul,13.4531,-16.6794,437161,Capital,Gambia
+81,Tbilisi,41.6941,44.8337,1077333,Capital,Georgia
+82,Berlin,52.5244,13.4105,3552123,Capital,Germany
+83,Accra,5.556,-0.1969,2439389,Capital,Ghana
+84,Gibraltar,36.1447,-5.3526,34733,Capital,Gibraltar
+85,Athínai (Athens),37.9534,23.749,3155600,Capital,Greece
+86,Nuuk (Godthåb),64.1835,-51.7216,18406,Capital,Greenland
+87,St.George's,12.0564,-61.7485,39297,Capital,Grenada
+88,Basse-Terre,15.9985,-61.7255,58397,Capital,Guadeloupe
+89,Hagåtña,13.4757,144.7489,146905,Capital,Guam
+90,Ciudad de Guatemala (Guatemala City),14.6127,-90.5307,2851104,Capital,Guatemala
+91,Conakry,9.5716,-13.6476,1843121,Capital,Guinea
+92,Bissau,11.8636,-15.5977,558399,Capital,Guinea-Bissau
+93,Georgetown,6.8045,-58.1553,109934,Capital,Guyana
+94,Port-au-Prince,18.5392,-72.335,2636763,Capital,Haiti
+95,Vatican City,41.9024,12.4533,801,Capital,Holy See
+96,Tegucigalpa,14.0818,-87.2068,1363041,Capital,Honduras
+97,Budapest,47.498,19.0399,1759497,Capital,Hungary
+98,Reykjavík,64.1355,-21.8954,216364,Capital,Iceland
+99,Delhi,28.6667,77.2167,28513682,Capital,India
+100,Jakarta,-6.2118,106.8416,10516927,Capital,Indonesia
+101,Tehran,35.6944,51.4215,8895947,Capital,Iran (Islamic Republic of)
+102,Baghdad,33.3406,44.4009,6811955,Capital,Iraq
+103,Dublin,53.3331,-6.2489,1201426,Capital,Ireland
+104,Douglas,54.15,-4.4833,27171,Capital,Isle of Man
+105,Jerusalem,31.769,35.2163,907062,Capital,Israel
+106,Roma (Rome),41.8947,12.4811,4209710,Capital,Italy
+107,Kingston,17.997,-76.7936,589083,Capital,Jamaica
+108,Tokyo,35.6895,139.6917,37468302,Capital,Japan
+109,Amman,31.9552,35.945,2064582,Capital,Jordan
+110,Astana,51.1801,71.446,1068113,Capital,Kazakhstan
+111,Nairobi,-1.2833,36.8167,4385853,Capital,Kenya
+112,Tarawa,1.3272,172.9813,64011,Capital,Kiribati
+113,Al Kuwayt (Kuwait City),29.3697,47.9783,2989270,Capital,Kuwait
+114,Bishkek,42.87,74.59,996319,Capital,Kyrgyzstan
+115,Vientiane,17.9667,102.6,664754,Capital,Lao People's Democratic Republic
+116,Riga,56.946,24.1059,637089,Capital,Latvia
+117,Bayrut (Beirut),33.9,35.4833,2385271,Capital,Lebanon
+118,Maseru,-29.3167,27.4833,201851,Capital,Lesotho
+119,Monrovia,6.3005,-10.7969,1418300,Capital,Liberia
+120,Tarabulus (Tripoli),32.8752,13.1875,1157746,Capital,Libya
+121,Vaduz,47.1415,9.5215,5470,Capital,Liechtenstein
+122,Vilnius,54.6892,25.2798,536055,Capital,Lithuania
+123,Luxembourg,49.6117,6.13,119752,Capital,Luxembourg
+124,Antananarivo,-18.9137,47.5361,3058387,Capital,Madagascar
+125,Lilongwe,-13.9669,33.7873,1029639,Capital,Malawi
+126,Kuala Lumpur,3.1412,101.6865,7563912,Capital,Malaysia
+127,Male,4.1748,73.5089,176851,Capital,Maldives
+128,Bamako,12.65,-8,2446749,Capital,Mali
+129,Valletta,35.8997,14.5147,212768,Capital,Malta
+130,Majuro,7.0897,171.3803,30661,Capital,Marshall Islands
+131,Fort-de-France,14.6089,-61.0733,79361,Capital,Martinique
+132,Nouakchott,18.0858,-15.9785,1205414,Capital,Mauritania
+133,Port Louis,-20.1619,57.4989,149365,Capital,Mauritius
+134,Mamoudzou,-12.7794,45.2272,6180,Capital,Mayotte
+135,Ciudad de México (Mexico City),19.4273,-99.1419,21580827,Capital,Mexico
+136,Palikir,6.9174,158.1588,6996,Capital,Micronesia (Fed. States of)
+137,Monaco,43.7333,7.4167,38897,Capital,Monaco
+138,Ulaanbaatar,47.9077,106.8832,1520381,Capital,Mongolia
+139,Podgorica,42.4411,19.2636,177177,Capital,Montenegro
+140,Brades Estate,16.7918,-62.2106,472,Capital,Montserrat
+141,Rabat,34.0133,-6.8326,1846661,Capital,Morocco
+142,Maputo,-25.9653,32.5892,1101771,Capital,Mozambique
+143,Nay Pyi Taw,19.745,96.1297,500218,Capital,Myanmar
+144,Windhoek,-22.5594,17.0832,404280,Capital,Namibia
+145,Nauru,-0.5308,166.9112,11312,Capital,Nauru
+146,Kathmandu,27.7017,85.3206,1329732,Capital,Nepal
+147,Amsterdam,52.374,4.8897,1131690,Capital,Netherlands
+148,Nouméa,-22.2763,166.4572,197787,Capital,New Caledonia
+149,Wellington,-41.2866,174.7756,411346,Capital,New Zealand
+150,Managua,12.1328,-86.2504,1047923,Capital,Nicaragua
+151,Niamey,13.5137,2.1098,1213781,Capital,Niger
+152,Abuja,9.0574,7.4898,2918518,Capital,Nigeria
+153,Alofi,-19.0585,-169.9213,727,Capital,Niue
+154,Saipan,15.2123,145.7545,50568,Capital,Northern Mariana Islands
+155,Oslo,59.9127,10.7461,1012225,Capital,Norway
+156,Masqat (Muscat),23.6139,58.5922,1446563,Capital,Oman
+157,Islamabad,33.7035,73.0594,1061412,Capital,Pakistan
+158,Koror,7.3426,134.4789,11410,Capital,Palau
+159,Ciudad de Panamá (Panama City),8.9958,-79.5196,1783490,Capital,Panama
+160,Port Moresby,-9.4431,147.1797,366862,Capital,Papua New Guinea
+161,Asunción,-25.3007,-57.6359,3222199,Capital,Paraguay
+162,Lima,-12.0432,-77.0282,10390607,Capital,Peru
+163,Manila,14.6042,120.9822,13482468,Capital,Philippines
+164,Warszawa (Warsaw),52.2298,21.0118,1767798,Capital,Poland
+165,Lisboa (Lisbon),38.7169,-9.1399,2927316,Capital,Portugal
+166,San Juan,18.4663,-66.1057,2454337,Capital,Puerto Rico
+167,Ad-Dawhah (Doha),25.2747,51.5245,633401,Capital,Qatar
+168,Seoul,37.5683,126.9778,9963497,Capital,Republic of Korea
+169,Chişinău,47.0056,28.8575,509707,Capital,Republic of Moldova
+170,Saint-Denis,-20.8823,55.4504,147209,Capital,Réunion
+171,Bucuresti (Bucharest),44.4328,26.1043,1821380,Capital,Romania
+172,Moskva (Moscow),55.755,37.6218,12409738,Capital,Russian Federation
+173,Kigali,-1.9474,30.0579,1057836,Capital,Rwanda
+174,Jamestown,-15.9387,-5.7168,603,Capital,Saint Helena
+175,Basseterre,17.2948,-62.7261,14434,Capital,Saint Kitts and Nevis
+176,Castries,14.006,-60.991,22258,Capital,Saint Lucia
+177,Saint-Pierre,46.7738,-56.1815,5723,Capital,Saint Pierre and Miquelon
+178,Kingstown,13.1587,-61.2248,26636,Capital,Saint Vincent and the Grenadines
+179,Apia,-13.8333,-171.7667,36066,Capital,Samoa
+180,San Marino,43.9333,12.45,4465,Capital,San Marino
+181,São Tomé,0.3365,6.7273,80099,Capital,Sao Tome and Principe
+182,Ar-Riyadh (Riyadh),24.6905,46.7096,6906595,Capital,Saudi Arabia
+183,Dakar,14.6937,-17.4441,2978419,Capital,Senegal
+184,Beograd (Belgrade),44.8176,20.4633,1389351,Capital,Serbia
+185,Victoria,-4.6167,55.45,28091,Capital,Seychelles
+186,Freetown,8.484,-13.2299,1135949,Capital,Sierra Leone
+187,Singapore,1.2897,103.8501,5791901,Capital,Singapore
+188,Philipsburg,18.026,-63.0458,40552,Capital,Sint Maarten (Dutch part)
+189,Bratislava,48.1482,17.1067,429920,Capital,Slovakia
+190,Ljubljana,46.0511,14.5051,286491,Capital,Slovenia
+191,Honiara,-9.4333,159.95,81801,Capital,Solomon Islands
+192,Muqdisho (Mogadishu),2.0416,45.3435,2081624,Capital,Somalia
+193,Cape Town,-33.9258,18.4232,4430367,Legislative Capital,South Africa
+194,Juba,4.8517,31.5825,368914,Capital,South Sudan
+195,Madrid,40.4165,-3.7026,6497124,Capital,Spain
+196,Colombo,6.9319,79.8478,599821,Capital,Sri Lanka
+197,Al-Quds[East Jerusalem],31.7834,35.2339,275086,Capital,State of Palestine
+198,Al-Khartum (Khartoum),15.5518,32.5324,5534079,Capital,Sudan
+199,Paramaribo,5.8664,-55.1668,239457,Capital,Suriname
+200,Mbabane,-26.3167,31.1333,68010,Capital,Swaziland
+201,Stockholm,59.3326,18.0649,1582968,Capital,Sweden
+202,Bern,46.9481,7.4474,422153,Capital,Switzerland
+203,Dimashq (Damascus),33.5086,36.3084,2319545,Capital,Syrian Arab Republic
+204,Dushanbe,38.5358,68.7791,872653,Capital,Tajikistan
+205,Skopje,42,21.4333,584208,Capital,TFYR Macedonia
+206,Krung Thep (Bangkok),13.722,100.5252,10156316,Capital,Thailand
+207,Dili,-8.5601,125.5668,281135,Capital,Timor-Leste
+208,Lomé,6.1375,1.2123,1745744,Capital,Togo
+209,Tokelau,-9.38,-171.25,0,Others,Tokelau
+210,Nuku'alofa,-21.1394,-175.2032,22904,Capital,Tonga
+211,Port of Spain,10.6662,-61.5166,544417,Capital,Trinidad and Tobago
+212,Tunis,36.819,10.1658,2290777,Capital,Tunisia
+213,Ankara,39.9199,32.8543,4919074,Capital,Turkey
+214,Ashgabat,37.95,58.3833,810186,Capital,Turkmenistan
+215,Cockburn Town,21.4612,-71.1419,5447,Capital,Turks and Caicos Islands
+216,Funafuti,-8.5189,179.1991,7042,Capital,Tuvalu
+217,Kampala,0.3163,32.5822,2986352,Capital,Uganda
+218,Kyiv (Kiev),50.4454,30.5186,2956706,Capital,Ukraine
+219,Abu Zaby (Abu Dhabi),24.4648,54.3618,1419699,Capital,United Arab Emirates
+220,London,51.5085,-0.1257,9046485,Capital,United Kingdom
+221,Dodoma,-6.1722,35.7395,261645,Capital,United Republic of Tanzania
+222,"Washington, D.C.",38.8951,-77.0364,5206593,Capital,United States of America
+223,Charlotte Amalie,18.3419,-64.9307,52322,Capital,United States Virgin Islands
+224,Montevideo,-34.8335,-56.1674,1736989,Capital,Uruguay
+225,Tashkent,41.2647,69.2163,2463969,Capital,Uzbekistan
+226,Port Vila,-17.7338,168.3219,52690,Capital,Vanuatu
+227,Caracas,10.488,-66.8792,2934560,Capital,Venezuela (Bolivarian Republic of)
+228,Hà Noi,21.0245,105.8412,4282738,Capital,Viet Nam
+229,Matu-Utu,-13.2816,-176.1745,1025,Capital,Wallis and Futuna Islands
+230,El Aaiún,27.1532,-13.2014,232388,Capital,Western Sahara
+231,Sana'a',15.3531,44.2078,2779317,Capital,Yemen
+232,Lusaka,-15.4134,28.2771,2523844,Capital,Zambia
+233,Harare,-17.8294,31.0539,1515016,Capital,Zimbabwe

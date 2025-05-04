@@ -131,7 +131,8 @@ if __name__ == "__main__":
 
     # Input CSV file
     # RAW_TM_GS_CSV = 'dataset/src/ground_stations/CSVs/preprocess/RAW_TM_GS_100.csv'
-    RAW_TM_GS_CSV = 'dataset/src/ground_stations/CSVs/preprocess/RAW_TM_GS_1000.csv'
+    # RAW_TM_GS_CSV = 'dataset/src/ground_stations/CSVs/preprocess/RAW_TM_GS_1000.csv'
+    RAW_TM_GS_CSV = 'dataset/src/ground_stations/CSVs/raw/country-capital-lat-long-population.csv'
 
     # Output JSON file
     TRAFFIC_MATRIX_JSON = 'traffic_matrix.json'
