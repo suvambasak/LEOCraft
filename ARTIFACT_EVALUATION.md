@@ -2,7 +2,6 @@
 
 ## Getting Started
 
-
 ### Setup Conda Environment
 
 Clone the LEOCraft repository.
@@ -221,8 +220,90 @@ python experiments/multi_shell_design/throughput_shift_inter_shell_ISL_without_h
 
 Then execute the first cell of [exploring_multi_shell_designs.ipynb](/experiments/results/plot_for_paper/exploring_multi_shell_designs.ipynb) to genrate the plot.
 
+
 ---
 
 ### Visualization of LEO Constellations
+
+
+- To regenerate Figure. 1 (b) and Figure. 24, execute script [kuiper_shells.py](experiments/visuals_for_paper/kuiper_shells.py).
+
+```bash
+python experiments/visuals_for_paper/kuiper_shells.py
+```
+
+- To regenerate Figure. 2, execute script [routes_categories.py](experiments/visuals_for_paper/routes_categories.py).
+
+```bash
+python experiments/visuals_for_paper/routes_categories.py
+```
+
+
+- To regenerate Figure. 1 (a), execute script [coverage_cone_with_e.py](/experiments/visuals_for_paper/coverage_cone_with_e.py)
+
+```bash
+python experiments/visuals_for_paper/coverage_cone_with_e.py
+```
+
+
+- To regenerate Figure. 4, execute script [constellation_coverage_change_with_altitude.py](/experiments/visuals_for_paper/constellation_coverage_change_with_altitude.py), open the generated HTML file.
+
+```bash
+python experiments/visuals_for_paper/constellation_coverage_change_with_altitude.py
+```
+
+
+- To regenerate Figure. 7 (a), execute script [GS_locations.py](/experiments/visuals_for_paper/GS_locations.py), then open the generated HTML file.
+
+```bash
+python experiments/visuals_for_paper/GS_locations.py
+```
+
+
+
+- To regenerate Figure. 7 (b)-(d), execute script: [inclination_change_starlink.py](/experiments/visuals_for_paper/inclination_change_starlink.py).
+
+```bash
+python experiments/visuals_for_paper/inclination_change_starlink.py
+```
+
+- To regenerate Figure. 8 and Figure. 10, execute [routes_view_with_i_e.py](/experiments/visuals_for_paper/routes_view_with_i_e.py).
+
+```bash
+python experiments/visuals_for_paper/routes_view_with_i_e.py
+```
+
+- To regenerate Figure. 11, execute script [topology_view_with_oxn_p.py](/experiments/visuals_for_paper/topology_view_with_oxn_p.py).
+
+```bash
+python experiments/visuals_for_paper/topology_view_with_oxn_p.py
+```
+
+
+- To regenerate Figure. 13, execute script [HC_route_path_diversity.py](/experiments/visuals_for_paper/HC_route_path_diversity.py)
+
+```bash
+python experiments/visuals_for_paper/HC_route_path_diversity.py
+```
+
+- To regenerate Figure. 26 (a)-(b), execute script [routes_view_with_h_e_raw.py](/experiments/visuals_for_paper/routes_view_with_h_e_raw.py).
+
+```bash
+python experiments/visuals_for_paper/routes_view_with_h_e_raw.py
+```
+
+- To regenerate Figure. 27, execute script [satellite_ground_track.py](/experiments/visuals_for_paper/satellite_ground_track.py).
+
+```bash
+python experiments/visuals_for_paper/satellite_ground_track.py
+```
+
+
+- To regenerate Figure. 28, execute script [ISL_usage.py](/experiments/visuals_for_paper/ISL_usage.py).
+
+```bash
+python experiments/visuals_for_paper/ISL_usage.py
+```
+
 
 ---
