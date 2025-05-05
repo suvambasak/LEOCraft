@@ -192,7 +192,7 @@ Execute the scripts
 python experiments/utilities/evaluate_optimized_params.py
 ```
 
-Then execute notebook [compare_optimization_techniques](/experiments/results/plot_for_paper/compare_optimization_techniques.ipynb) notebook. 
+Then execute notebook [compare_optimization_techniques.ipynb](/experiments/results/plot_for_paper/compare_optimization_techniques.ipynb) notebook. 
 
 ---
 
@@ -205,13 +205,21 @@ To generate the Figure. 15, first execute the script [single_vs_multi_shell_desi
 python experiments/multi_shell_design/single_vs_multi_shell_design.py
 ```
 
-Then execute the last two cells of notebook [exploring_multi_shell_designs](/experiments/results/plot_for_paper/exploring_multi_shell_designs.ipynb) to genrate the bar charts.
+Then execute the second and third cells of notebook [exploring_multi_shell_designs.ipynb](/experiments/results/plot_for_paper/exploring_multi_shell_designs.ipynb) to genrate the bar charts.
 
 To generate the Figure. 16, first execute the script [variable_neighborhood_search_for_intershell_ISLs.py](/experiments/blackbox_optimization/variable_neighborhood_search_for_intershell_ISLs.py).
 
 ```bash
 python experiments/blackbox_optimization/variable_neighborhood_search_for_intershell_ISLs.py
 ```
+
+Then execute the script [throughput_shift_inter_shell_ISL_without_handoff_h24.py](/experiments/multi_shell_design/throughput_shift_inter_shell_ISL_without_handoff_h24.py).
+
+```bash
+python experiments/multi_shell_design/throughput_shift_inter_shell_ISL_without_handoff_h24.py
+```
+
+Then execute the first cell of [exploring_multi_shell_designs.ipynb](/experiments/results/plot_for_paper/exploring_multi_shell_designs.ipynb) to genrate the plot.
 
 ---
 
