@@ -6,6 +6,7 @@ The PSO algorithm is implemented in a parallelized manner to speed up the evalua
 '''
 
 import concurrent.futures
+import multiprocessing as mp
 import os
 import time
 
@@ -67,7 +68,10 @@ def adaptive_particle_swarm_optimization(
     # Parallel mode
     # --------------------
     tasks = set()
-    with concurrent.futures.ProcessPoolExecutor(max_workers=MAX_WORKERS) as executor:
+    with concurrent.futures.ProcessPoolExecutor(
+        mp_context=mp.get_context('fork'),
+        max_workers=MAX_WORKERS
+    ) as executor:
 
         # Evaulate in parallel
         for i, particle in enumerate(particles):
@@ -130,7 +134,10 @@ def adaptive_particle_swarm_optimization(
         # Parallel mode
         # --------------------
         tasks = set()
-        with concurrent.futures.ProcessPoolExecutor(max_workers=MAX_WORKERS) as executor:
+        with concurrent.futures.ProcessPoolExecutor(
+            mp_context=mp.get_context('fork'),
+            max_workers=MAX_WORKERS
+        ) as executor:
             for i in range(num_particles):
                 r1, r2 = np.random.rand(
                     num_of_params), np.random.rand(num_of_params)

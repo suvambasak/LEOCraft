@@ -1,4 +1,5 @@
 import statistics
+
 from LEOCraft.constellations.constellation import Constellation
 from LEOCraft.performance.route_classifier.basic_classifier import \
     BasicClassifier

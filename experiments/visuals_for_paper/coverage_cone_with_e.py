@@ -11,7 +11,7 @@ from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
 from LEOCraft.user_terminals.ground_station import GroundStation
 from LEOCraft.visuals.sat_raw_view_3D import SatRawView3D
 
-leo_con = LEOConstellation('Test')
+leo_con = LEOConstellation('Single Satellite Coverage Cone')
 leo_con.v.verbose = True
 leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
 

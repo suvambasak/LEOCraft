@@ -1,4 +1,5 @@
 import concurrent.futures
+import multiprocessing as mp
 import os
 import time
 from abc import ABC, abstractmethod
@@ -113,7 +114,10 @@ class Simulator(ABC):
             self.max_workers = os.cpu_count()
 
         start_time = time.perf_counter()
-        with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
+        with concurrent.futures.ProcessPoolExecutor(
+            mp_context=mp.get_context('fork'),
+            max_workers=max_workers
+        ) as executor:
             simulation_computes = {
                 executor.submit(self._simulate, leo_con) for leo_con in self._simulation_jobs
             }

@@ -1,7 +1,7 @@
 import concurrent.futures
+import multiprocessing as mp
 import statistics
 import time
-
 
 from LEOCraft.constellations.constellation import Constellation
 from LEOCraft.satellite_topology.LEO_sat_topology import LEOSatelliteTopology
@@ -54,7 +54,7 @@ class LEOAviationConstellation(Constellation):
     def _pbuild_fsls(self) -> None:
         "Compute FSLs in parallel mode"
 
-        with concurrent.futures.ProcessPoolExecutor() as executor:
+        with concurrent.futures.ProcessPoolExecutor(mp_context=mp.get_context('fork')) as executor:
             fsl_compute = list()
             for fid, fterminal in enumerate(self.aircrafts.terminals):
                 self.fsls[fid] = set()
@@ -237,7 +237,7 @@ class LEOAviationConstellation(Constellation):
             self.connect_ground_station(source)
 
             path_compute = set()
-            with concurrent.futures.ProcessPoolExecutor() as executor:
+            with concurrent.futures.ProcessPoolExecutor(mp_context=mp.get_context('fork')) as executor:
 
                 for fid in range(len(self.aircrafts.terminals)):
                     if not self.fsls[fid]:

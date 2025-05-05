@@ -5,6 +5,7 @@ Figure. 27 in the paper
 '''
 
 import concurrent.futures
+import multiprocessing as mp
 
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
 from LEOCraft.dataset import GroundStationAtCities
@@ -67,7 +68,7 @@ if __name__ == '__main__':
 
     # ground track inclination 53 degree
     tasks = set()
-    with concurrent.futures.ProcessPoolExecutor() as executor:
+    with concurrent.futures.ProcessPoolExecutor(mp_context=mp.get_context('fork')) as executor:
 
         for s in range(1, 60*120, 30):
             tasks.add(executor.submit(leo_con_builder, 50, s))
@@ -81,7 +82,7 @@ if __name__ == '__main__':
 
     # ground track inclination 90 degree
     tasks = set()
-    with concurrent.futures.ProcessPoolExecutor() as executor:
+    with concurrent.futures.ProcessPoolExecutor(mp_context=mp.get_context('fork')) as executor:
 
         for s in range(0, 60*120, 30):
             tasks.add(executor.submit(leo_con_builder, 80, s))

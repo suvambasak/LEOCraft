@@ -1,5 +1,6 @@
 import concurrent.futures
 import json
+import multiprocessing as mp
 import os
 import time
 from abc import ABC, abstractmethod
@@ -148,7 +149,7 @@ class Constellation(ABC):
 
     def _pbuild_gsls(self) -> None:
         "Compute GSLs in parallel mode"
-        with concurrent.futures.ProcessPoolExecutor() as executor:
+        with concurrent.futures.ProcessPoolExecutor(mp_context=mp.get_context('fork')) as executor:
             gsl_compute = list()
             for gid, gs in enumerate(self.ground_stations.terminals):
                 self.gsls[gid] = set()

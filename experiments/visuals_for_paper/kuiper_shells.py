@@ -45,38 +45,39 @@ class CustomSatRawView3D(SatRawView3D):
 # Kuiper
 ###############################################################
 
-# leo_con = LEOConstellation('Kuiper')
-# leo_con.v.verbose = True
-# leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
 
-# leo_con.add_shells(PlusGridShell(
-#     id=0,
-#     orbits=34,
-#     sat_per_orbit=34,
-#     altitude_m=1500000.0,
-#     inclination_degree=51.9,
-#     angle_of_elevation_degree=35.0,
-#     phase_offset=0.0
-# ))
-# leo_con.add_shells(PlusGridShell(
-#     id=1,
-#     orbits=36,
-#     sat_per_orbit=36,
-#     altitude_m=1000000.0,
-#     inclination_degree=42.0,
-#     angle_of_elevation_degree=35.0,
-#     phase_offset=0.0
-# ))
+leo_con = LEOConstellation('Kuiper')
+leo_con.v.verbose = True
+leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
 
-# leo_con.add_shells(PlusGridShell(
-#     id=2,
-#     orbits=28,
-#     sat_per_orbit=28,
-#     altitude_m=500000.0,
-#     inclination_degree=33.0,
-#     angle_of_elevation_degree=35.0,
-#     phase_offset=0.0
-# ))
+leo_con.add_shells(PlusGridShell(
+    id=0,
+    orbits=34,
+    sat_per_orbit=34,
+    altitude_m=1500000.0,
+    inclination_degree=51.9,
+    angle_of_elevation_degree=35.0,
+    phase_offset=0.0
+))
+leo_con.add_shells(PlusGridShell(
+    id=1,
+    orbits=36,
+    sat_per_orbit=36,
+    altitude_m=1000000.0,
+    inclination_degree=42.0,
+    angle_of_elevation_degree=35.0,
+    phase_offset=0.0
+))
+
+leo_con.add_shells(PlusGridShell(
+    id=2,
+    orbits=28,
+    sat_per_orbit=28,
+    altitude_m=500000.0,
+    inclination_degree=33.0,
+    angle_of_elevation_degree=35.0,
+    phase_offset=0.0
+))
 
 ###############################################################
 
@@ -126,29 +127,29 @@ class CustomSatRawView3D(SatRawView3D):
 # Telesat
 ###############################################################
 
-leo_con = LEOConstellation('Telesat')
-leo_con.v.verbose = True
-leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
+# leo_con = LEOConstellation('Telesat')
+# leo_con.v.verbose = True
+# leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
 
-leo_con.add_shells(PlusGridShell(
-    id=0,
-    orbits=27,
-    sat_per_orbit=13,
-    altitude_m=1000000.0,
-    inclination_degree=98.98,
-    angle_of_elevation_degree=40.0,  # reducde for speed
-    phase_offset=50.0
-))
+# leo_con.add_shells(PlusGridShell(
+#     id=0,
+#     orbits=27,
+#     sat_per_orbit=13,
+#     altitude_m=1000000.0,
+#     inclination_degree=98.98,
+#     angle_of_elevation_degree=40.0,  # reducde for speed
+#     phase_offset=50.0
+# ))
 
-leo_con.add_shells(PlusGridShell(
-    id=1,
-    orbits=40,
-    sat_per_orbit=33,
-    altitude_m=1500000.0,
-    inclination_degree=50.88,
-    angle_of_elevation_degree=40.0,  # reducde for speed
-    phase_offset=50.0
-))
+# leo_con.add_shells(PlusGridShell(
+#     id=1,
+#     orbits=40,
+#     sat_per_orbit=33,
+#     altitude_m=1500000.0,
+#     inclination_degree=50.88,
+#     angle_of_elevation_degree=40.0,  # reducde for speed
+#     phase_offset=50.0
+# ))
 
 ###############################################################
 

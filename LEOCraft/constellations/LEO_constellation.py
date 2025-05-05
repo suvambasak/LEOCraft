@@ -1,4 +1,5 @@
 import concurrent.futures
+import multiprocessing as mp
 import time
 
 from LEOCraft.constellations.constellation import Constellation
@@ -60,7 +61,7 @@ class LEOConstellation(Constellation):
             self.connect_ground_station(source)
 
             path_compute = set()
-            with concurrent.futures.ProcessPoolExecutor() as executor:
+            with concurrent.futures.ProcessPoolExecutor(mp_context=mp.get_context('fork')) as executor:
 
                 for dgid in range(sgid+1, len(self.ground_stations.terminals)):
                     if not self.gsls[dgid]:
