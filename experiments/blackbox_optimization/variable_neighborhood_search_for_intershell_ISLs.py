@@ -106,6 +106,9 @@ class MultiShellVariableNeighborhoodSearchWithDomainKnowledge:
 
         p: float
             Phase offset
+
+        topology_type: TopologyType
+            Type of topology to be used
         '''
 
         self.v = ProcessingLog(self.__class__.__name__)
@@ -439,7 +442,7 @@ class MultiShellVariableNeighborhoodSearchWithDomainKnowledge:
             # ['0', '1', '2', '3', '4', '5']
             # ['e', 'h', 'i', 'n', 'o', 'p']
 
-            if topology_type == TopologyType.PLUS_GRID_ISL_WITHIN_SHELL_1:
+            if topology_type == TopologyType.SS_ISL:
                 shell = PlusGridShell(
                     id=0,
 
@@ -451,7 +454,7 @@ class MultiShellVariableNeighborhoodSearchWithDomainKnowledge:
                     angle_of_elevation_degree=state[0],
                     inclination_degree=state[2]
                 )
-            elif topology_type == TopologyType.PLUS_GRID_ISL_BETWEEN_SHELL_2:
+            elif topology_type == TopologyType.IS2_ISL:
                 shell = PlusGridZigzagElevation(
                     id=0,
                     orbits=state[4],
@@ -461,7 +464,7 @@ class MultiShellVariableNeighborhoodSearchWithDomainKnowledge:
                     angle_of_elevation_degree=state[0],
                     phase_offset=state[5]
                 )
-            elif topology_type == TopologyType.PLUS_GRID_ISL_BETWEEN_SHELL_3:
+            elif topology_type == TopologyType.IS3_ISL:
                 shell = PlusGridZigzagElevation(
                     id=0,
                     orbits=state[4],
@@ -504,7 +507,9 @@ if __name__ == '__main__':
 
             n=12,
             o=324,
-            p=50
+            p=50,
+
+            topology_type=topology_type
         )
 
         # bfs.set_e_bound(20, 30)
