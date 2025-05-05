@@ -7,6 +7,7 @@ with domain knowledge (heuristics in use) and without domain knowledge (heuristi
 import copy
 import heapq
 import itertools
+import os
 import random
 import time
 
@@ -871,6 +872,11 @@ class VariableNeighborhoodSearchWithoutDomainKnowledge:
 
 if __name__ == '__main__':
 
+    PREFIX_PATH = 'experiments/results/plot_for_paper/CSVs/blackbox_optimization/VNS'
+
+    WITH_DOMAIN_KNOWLEDGE = os.path.join(PREFIX_PATH, 'VNS_DK.csv')
+    WITHOUT_DOMAIN_KNOWLEDGE = os.path.join(PREFIX_PATH, 'VNS_WDK.csv')
+
     # ------------------------
     # With domain knowledge
     # ------------------------
@@ -881,7 +887,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 565
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_DK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithDomainKnowledge(
@@ -902,7 +907,9 @@ if __name__ == '__main__':
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 784
     MIN_SAT_PER_ORBIT = 10
@@ -910,7 +917,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 590-5
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_DK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithDomainKnowledge(
@@ -931,7 +937,9 @@ if __name__ == '__main__':
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 1156
     MIN_SAT_PER_ORBIT = 10
@@ -939,7 +947,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 630-5
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_DK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithDomainKnowledge(
@@ -960,7 +967,9 @@ if __name__ == '__main__':
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 1296
     MIN_SAT_PER_ORBIT = 10
@@ -968,7 +977,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 610-5
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_DK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithDomainKnowledge(
@@ -989,7 +997,9 @@ if __name__ == '__main__':
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 1584
     MIN_SAT_PER_ORBIT = 10
@@ -997,7 +1007,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 550-5
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_DK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithDomainKnowledge(
@@ -1018,7 +1027,9 @@ if __name__ == '__main__':
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 3230
     MIN_SAT_PER_ORBIT = 10
@@ -1026,7 +1037,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 630-5
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_DK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithDomainKnowledge(
@@ -1047,7 +1057,9 @@ if __name__ == '__main__':
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 3360
     MIN_SAT_PER_ORBIT = 10
@@ -1055,7 +1067,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 525-5
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_DK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithDomainKnowledge(
@@ -1076,7 +1087,9 @@ if __name__ == '__main__':
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 3888
     MIN_SAT_PER_ORBIT = 10
@@ -1084,7 +1097,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 550-5
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_DK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithDomainKnowledge(
@@ -1105,7 +1117,7 @@ if __name__ == '__main__':
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)
 
     # ------------------------
     # Without domain knowledge
@@ -1117,7 +1129,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 570-5
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_WDK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithoutDomainKnowledge(
@@ -1137,7 +1148,9 @@ if __name__ == '__main__':
           round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 784
     MIN_SAT_PER_ORBIT = 10
@@ -1145,7 +1158,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 590-5
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_WDK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithoutDomainKnowledge(
@@ -1165,7 +1177,9 @@ if __name__ == '__main__':
           round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 1156
     MIN_SAT_PER_ORBIT = 10
@@ -1173,7 +1187,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 630-5
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_WDK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithoutDomainKnowledge(
@@ -1193,7 +1206,9 @@ if __name__ == '__main__':
           round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 1296
     MIN_SAT_PER_ORBIT = 10
@@ -1201,7 +1216,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 610-5
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_WDK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithoutDomainKnowledge(
@@ -1221,7 +1235,9 @@ if __name__ == '__main__':
           round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 1584
     MIN_SAT_PER_ORBIT = 10
@@ -1229,7 +1245,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 550-5
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_WDK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithoutDomainKnowledge(
@@ -1249,7 +1264,9 @@ if __name__ == '__main__':
           round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 3230
     MIN_SAT_PER_ORBIT = 10
@@ -1257,7 +1274,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 630-5
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_WDK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithoutDomainKnowledge(
@@ -1277,7 +1293,9 @@ if __name__ == '__main__':
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 3360
     MIN_SAT_PER_ORBIT = 10
@@ -1285,7 +1303,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 525-5
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_WDK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithoutDomainKnowledge(
@@ -1305,7 +1322,9 @@ if __name__ == '__main__':
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 3888
     MIN_SAT_PER_ORBIT = 10
@@ -1313,7 +1332,6 @@ if __name__ == '__main__':
     ALTITUDE_LB_KM = 550-5
 
     OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-    CSV = 'VNS_WDK.csv'
 
     _start_time = time.perf_counter()
     bfs = VariableNeighborhoodSearchWithoutDomainKnowledge(
@@ -1333,4 +1351,4 @@ if __name__ == '__main__':
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)

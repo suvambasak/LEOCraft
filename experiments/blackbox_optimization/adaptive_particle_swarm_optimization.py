@@ -6,6 +6,7 @@ The PSO algorithm is implemented in a parallelized manner to speed up the evalua
 '''
 
 import concurrent.futures
+import os
 import time
 
 import numpy as np
@@ -349,213 +350,14 @@ def with_domain_knowledge(maxiter: int, num_particles: int) -> dict[str, float |
 
 if __name__ == '__main__':
 
-    TOTAL_SATS = 720
-    MIN_SAT_PER_ORBIT = 10
-    ALTITUDE_UB_KM = 570+5
-    ALTITUDE_LB_KM = 570-5
+    PREFIX_PATH = 'experiments/results/plot_for_paper/CSVs/blackbox_optimization/PAPSO'
 
-    GROUND_STATIONS = GroundStationAtCities.TOP_100
-    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
-    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+    WITH_DOMAIN_KNOWLEDGE = os.path.join(PREFIX_PATH, 'PSO_DK.csv')
+    WITHOUT_DOMAIN_KNOWLEDGE = os.path.join(PREFIX_PATH, 'PSO_WDK.csv')
 
-    MAX_WORKERS = 3
-    cache = PerformanceCache()
-    _start_time = time.perf_counter()
-
-    CSV = 'PSO_WDK.csv'
-    result = without_domain_knowledge(maxiter=25, num_particles=20)
-
-    # CSV = 'PSO_DK.csv'
-    # result = with_domain_knowledge(maxiter=25, num_particles=10)
-
-    _end_time = time.perf_counter()
-    print(f"""Total optimization time: {
-        round((_end_time-_start_time)/3600, 2)}h""")
-    result['time_s'] = _end_time-_start_time
-    result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
-
-    TOTAL_SATS = 784
-    MIN_SAT_PER_ORBIT = 10
-    ALTITUDE_UB_KM = 590+5
-    ALTITUDE_LB_KM = 590-5
-
-    GROUND_STATIONS = GroundStationAtCities.TOP_100
-    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
-    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-
-    MAX_WORKERS = 3
-    cache = PerformanceCache()
-    _start_time = time.perf_counter()
-
-    CSV = 'PSO_WDK.csv'
-    result = without_domain_knowledge(maxiter=25, num_particles=20)
-
-    # CSV = 'PSO_DK.csv'
-    # result = with_domain_knowledge(maxiter=25, num_particles=10)
-
-    _end_time = time.perf_counter()
-    print(f"""Total optimization time: {
-        round((_end_time-_start_time)/3600, 2)}h""")
-    result['time_s'] = _end_time-_start_time
-    result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
-
-    TOTAL_SATS = 1156
-    MIN_SAT_PER_ORBIT = 10
-    ALTITUDE_UB_KM = 630+5
-    ALTITUDE_LB_KM = 630-5
-
-    GROUND_STATIONS = GroundStationAtCities.TOP_100
-    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
-    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-
-    MAX_WORKERS = 3
-    cache = PerformanceCache()
-    _start_time = time.perf_counter()
-
-    CSV = 'PSO_WDK.csv'
-    result = without_domain_knowledge(maxiter=25, num_particles=20)
-
-    # CSV = 'PSO_DK.csv'
-    # result = with_domain_knowledge(maxiter=25, num_particles=10)
-
-    _end_time = time.perf_counter()
-    print(f"""Total optimization time: {
-        round((_end_time-_start_time)/3600, 2)}h""")
-    result['time_s'] = _end_time-_start_time
-    result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
-
-    TOTAL_SATS = 1296
-    MIN_SAT_PER_ORBIT = 10
-    ALTITUDE_UB_KM = 610+5
-    ALTITUDE_LB_KM = 610-5
-
-    GROUND_STATIONS = GroundStationAtCities.TOP_100
-    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
-    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-
-    MAX_WORKERS = 3
-    cache = PerformanceCache()
-    _start_time = time.perf_counter()
-
-    CSV = 'PSO_WDK.csv'
-    result = without_domain_knowledge(maxiter=25, num_particles=20)
-
-    # CSV = 'PSO_DK.csv'
-    # result = with_domain_knowledge(maxiter=25, num_particles=10)
-
-    _end_time = time.perf_counter()
-    print(f"""Total optimization time: {
-        round((_end_time-_start_time)/3600, 2)}h""")
-    result['time_s'] = _end_time-_start_time
-    result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
-
-    TOTAL_SATS = 1584
-    MIN_SAT_PER_ORBIT = 10
-    ALTITUDE_UB_KM = 550+5
-    ALTITUDE_LB_KM = 550-5
-
-    GROUND_STATIONS = GroundStationAtCities.TOP_100
-    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
-    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-
-    MAX_WORKERS = 3
-    cache = PerformanceCache()
-    _start_time = time.perf_counter()
-
-    CSV = 'PSO_WDK.csv'
-    result = without_domain_knowledge(maxiter=25, num_particles=20)
-
-    # CSV = 'PSO_DK.csv'
-    # result = with_domain_knowledge(maxiter=25, num_particles=10)
-
-    _end_time = time.perf_counter()
-    print(f"""Total optimization time: {
-        round((_end_time-_start_time)/3600, 2)}h""")
-    result['time_s'] = _end_time-_start_time
-    result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
-
-    TOTAL_SATS = 3230
-    MIN_SAT_PER_ORBIT = 10
-    ALTITUDE_UB_KM = 630+5
-    ALTITUDE_LB_KM = 630-5
-
-    GROUND_STATIONS = GroundStationAtCities.TOP_100
-    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
-    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-
-    MAX_WORKERS = 3
-    cache = PerformanceCache()
-    _start_time = time.perf_counter()
-
-    CSV = 'PSO_WDK.csv'
-    result = without_domain_knowledge(maxiter=25, num_particles=20)
-
-    # CSV = 'PSO_DK.csv'
-    # result = with_domain_knowledge(maxiter=25, num_particles=10)
-
-    _end_time = time.perf_counter()
-    print(f"""Total optimization time: {
-        round((_end_time-_start_time)/3600, 2)}h""")
-    result['time_s'] = _end_time-_start_time
-    result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
-
-    TOTAL_SATS = 3360
-    MIN_SAT_PER_ORBIT = 10
-    ALTITUDE_UB_KM = 525+5
-    ALTITUDE_LB_KM = 525-5
-
-    GROUND_STATIONS = GroundStationAtCities.TOP_100
-    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
-    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-
-    MAX_WORKERS = 3
-    cache = PerformanceCache()
-    _start_time = time.perf_counter()
-
-    CSV = 'PSO_WDK.csv'
-    result = without_domain_knowledge(maxiter=25, num_particles=20)
-
-    # CSV = 'PSO_DK.csv'
-    # result = with_domain_knowledge(maxiter=25, num_particles=10)
-
-    _end_time = time.perf_counter()
-    print(f"""Total optimization time: {
-        round((_end_time-_start_time)/3600, 2)}h""")
-    result['time_s'] = _end_time-_start_time
-    result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
-
-    TOTAL_SATS = 3888
-    MIN_SAT_PER_ORBIT = 10
-    ALTITUDE_UB_KM = 550+5
-    ALTITUDE_LB_KM = 550-5
-
-    GROUND_STATIONS = GroundStationAtCities.TOP_100
-    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
-    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
-
-    MAX_WORKERS = 3
-    cache = PerformanceCache()
-    _start_time = time.perf_counter()
-
-    CSV = 'PSO_WDK.csv'
-    result = without_domain_knowledge(maxiter=25, num_particles=20)
-
-    # CSV = 'PSO_DK.csv'
-    # result = with_domain_knowledge(maxiter=25, num_particles=10)
-
-    _end_time = time.perf_counter()
-    print(f"""Total optimization time: {
-        round((_end_time-_start_time)/3600, 2)}h""")
-    result['time_s'] = _end_time-_start_time
-    result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    # ------------------------
+    # With domain knowledge
+    # ------------------------
 
     TOTAL_SATS = 720
     MIN_SAT_PER_ORBIT = 10
@@ -570,18 +372,16 @@ if __name__ == '__main__':
     cache = PerformanceCache()
     _start_time = time.perf_counter()
 
-    # CSV = 'PSO_WDK.csv'
-    # result = without_domain_knowledge(maxiter=25, num_particles=20)
-
-    CSV = 'PSO_DK.csv'
-    result = with_domain_knowledge(maxiter=25, num_particles=10)
+    result = without_domain_knowledge(maxiter=25, num_particles=20)
 
     _end_time = time.perf_counter()
     print(f"""Total optimization time: {
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 784
     MIN_SAT_PER_ORBIT = 10
@@ -596,18 +396,16 @@ if __name__ == '__main__':
     cache = PerformanceCache()
     _start_time = time.perf_counter()
 
-    # CSV = 'PSO_WDK.csv'
-    # result = without_domain_knowledge(maxiter=25, num_particles=20)
-
-    CSV = 'PSO_DK.csv'
-    result = with_domain_knowledge(maxiter=25, num_particles=10)
+    result = without_domain_knowledge(maxiter=25, num_particles=20)
 
     _end_time = time.perf_counter()
     print(f"""Total optimization time: {
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 1156
     MIN_SAT_PER_ORBIT = 10
@@ -622,18 +420,16 @@ if __name__ == '__main__':
     cache = PerformanceCache()
     _start_time = time.perf_counter()
 
-    # CSV = 'PSO_WDK.csv'
-    # result = without_domain_knowledge(maxiter=25, num_particles=20)
-
-    CSV = 'PSO_DK.csv'
-    result = with_domain_knowledge(maxiter=25, num_particles=10)
+    result = without_domain_knowledge(maxiter=25, num_particles=20)
 
     _end_time = time.perf_counter()
     print(f"""Total optimization time: {
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 1296
     MIN_SAT_PER_ORBIT = 10
@@ -648,18 +444,16 @@ if __name__ == '__main__':
     cache = PerformanceCache()
     _start_time = time.perf_counter()
 
-    # CSV = 'PSO_WDK.csv'
-    # result = without_domain_knowledge(maxiter=25, num_particles=20)
-
-    CSV = 'PSO_DK.csv'
-    result = with_domain_knowledge(maxiter=25, num_particles=10)
+    result = without_domain_knowledge(maxiter=25, num_particles=20)
 
     _end_time = time.perf_counter()
     print(f"""Total optimization time: {
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 1584
     MIN_SAT_PER_ORBIT = 10
@@ -674,18 +468,16 @@ if __name__ == '__main__':
     cache = PerformanceCache()
     _start_time = time.perf_counter()
 
-    # CSV = 'PSO_WDK.csv'
-    # result = without_domain_knowledge(maxiter=25, num_particles=20)
-
-    CSV = 'PSO_DK.csv'
-    result = with_domain_knowledge(maxiter=25, num_particles=10)
+    result = without_domain_knowledge(maxiter=25, num_particles=20)
 
     _end_time = time.perf_counter()
     print(f"""Total optimization time: {
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 3230
     MIN_SAT_PER_ORBIT = 10
@@ -700,18 +492,16 @@ if __name__ == '__main__':
     cache = PerformanceCache()
     _start_time = time.perf_counter()
 
-    # CSV = 'PSO_WDK.csv'
-    # result = without_domain_knowledge(maxiter=25, num_particles=20)
-
-    CSV = 'PSO_DK.csv'
-    result = with_domain_knowledge(maxiter=25, num_particles=10)
+    result = without_domain_knowledge(maxiter=25, num_particles=20)
 
     _end_time = time.perf_counter()
     print(f"""Total optimization time: {
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 3360
     MIN_SAT_PER_ORBIT = 10
@@ -726,18 +516,16 @@ if __name__ == '__main__':
     cache = PerformanceCache()
     _start_time = time.perf_counter()
 
-    # CSV = 'PSO_WDK.csv'
-    # result = without_domain_knowledge(maxiter=25, num_particles=20)
-
-    CSV = 'PSO_DK.csv'
-    result = with_domain_knowledge(maxiter=25, num_particles=10)
+    result = without_domain_knowledge(maxiter=25, num_particles=20)
 
     _end_time = time.perf_counter()
     print(f"""Total optimization time: {
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
 
     TOTAL_SATS = 3888
     MIN_SAT_PER_ORBIT = 10
@@ -752,10 +540,32 @@ if __name__ == '__main__':
     cache = PerformanceCache()
     _start_time = time.perf_counter()
 
-    # CSV = 'PSO_WDK.csv'
-    # result = without_domain_knowledge(maxiter=25, num_particles=20)
+    result = without_domain_knowledge(maxiter=25, num_particles=20)
 
-    CSV = 'PSO_DK.csv'
+    _end_time = time.perf_counter()
+    print(f"""Total optimization time: {
+        round((_end_time-_start_time)/3600, 2)}h""")
+    result['time_s'] = _end_time-_start_time
+    result['total_sat'] = TOTAL_SATS
+    CSV_logger(result, WITHOUT_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
+    # With domain knowledge
+    # ------------------------
+
+    TOTAL_SATS = 720
+    MIN_SAT_PER_ORBIT = 10
+    ALTITUDE_UB_KM = 570+5
+    ALTITUDE_LB_KM = 570-5
+
+    GROUND_STATIONS = GroundStationAtCities.TOP_100
+    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
+    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+
+    MAX_WORKERS = 3
+    cache = PerformanceCache()
+    _start_time = time.perf_counter()
+
     result = with_domain_knowledge(maxiter=25, num_particles=10)
 
     _end_time = time.perf_counter()
@@ -763,4 +573,172 @@ if __name__ == '__main__':
         round((_end_time-_start_time)/3600, 2)}h""")
     result['time_s'] = _end_time-_start_time
     result['total_sat'] = TOTAL_SATS
-    CSV_logger(result, CSV)
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
+
+    TOTAL_SATS = 784
+    MIN_SAT_PER_ORBIT = 10
+    ALTITUDE_UB_KM = 590+5
+    ALTITUDE_LB_KM = 590-5
+
+    GROUND_STATIONS = GroundStationAtCities.TOP_100
+    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
+    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+
+    MAX_WORKERS = 3
+    cache = PerformanceCache()
+    _start_time = time.perf_counter()
+
+    result = with_domain_knowledge(maxiter=25, num_particles=10)
+
+    _end_time = time.perf_counter()
+    print(f"""Total optimization time: {
+        round((_end_time-_start_time)/3600, 2)}h""")
+    result['time_s'] = _end_time-_start_time
+    result['total_sat'] = TOTAL_SATS
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
+
+    TOTAL_SATS = 1156
+    MIN_SAT_PER_ORBIT = 10
+    ALTITUDE_UB_KM = 630+5
+    ALTITUDE_LB_KM = 630-5
+
+    GROUND_STATIONS = GroundStationAtCities.TOP_100
+    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
+    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+
+    MAX_WORKERS = 3
+    cache = PerformanceCache()
+    _start_time = time.perf_counter()
+
+    result = with_domain_knowledge(maxiter=25, num_particles=10)
+
+    _end_time = time.perf_counter()
+    print(f"""Total optimization time: {
+        round((_end_time-_start_time)/3600, 2)}h""")
+    result['time_s'] = _end_time-_start_time
+    result['total_sat'] = TOTAL_SATS
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
+
+    TOTAL_SATS = 1296
+    MIN_SAT_PER_ORBIT = 10
+    ALTITUDE_UB_KM = 610+5
+    ALTITUDE_LB_KM = 610-5
+
+    GROUND_STATIONS = GroundStationAtCities.TOP_100
+    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
+    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+
+    MAX_WORKERS = 3
+    cache = PerformanceCache()
+    _start_time = time.perf_counter()
+
+    result = with_domain_knowledge(maxiter=25, num_particles=10)
+
+    _end_time = time.perf_counter()
+    print(f"""Total optimization time: {
+        round((_end_time-_start_time)/3600, 2)}h""")
+    result['time_s'] = _end_time-_start_time
+    result['total_sat'] = TOTAL_SATS
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
+
+    TOTAL_SATS = 1584
+    MIN_SAT_PER_ORBIT = 10
+    ALTITUDE_UB_KM = 550+5
+    ALTITUDE_LB_KM = 550-5
+
+    GROUND_STATIONS = GroundStationAtCities.TOP_100
+    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
+    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+
+    MAX_WORKERS = 3
+    cache = PerformanceCache()
+    _start_time = time.perf_counter()
+
+    result = with_domain_knowledge(maxiter=25, num_particles=10)
+
+    _end_time = time.perf_counter()
+    print(f"""Total optimization time: {
+        round((_end_time-_start_time)/3600, 2)}h""")
+    result['time_s'] = _end_time-_start_time
+    result['total_sat'] = TOTAL_SATS
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
+
+    TOTAL_SATS = 3230
+    MIN_SAT_PER_ORBIT = 10
+    ALTITUDE_UB_KM = 630+5
+    ALTITUDE_LB_KM = 630-5
+
+    GROUND_STATIONS = GroundStationAtCities.TOP_100
+    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
+    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+
+    MAX_WORKERS = 3
+    cache = PerformanceCache()
+    _start_time = time.perf_counter()
+
+    result = with_domain_knowledge(maxiter=25, num_particles=10)
+
+    _end_time = time.perf_counter()
+    print(f"""Total optimization time: {
+        round((_end_time-_start_time)/3600, 2)}h""")
+    result['time_s'] = _end_time-_start_time
+    result['total_sat'] = TOTAL_SATS
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
+
+    TOTAL_SATS = 3360
+    MIN_SAT_PER_ORBIT = 10
+    ALTITUDE_UB_KM = 525+5
+    ALTITUDE_LB_KM = 525-5
+
+    GROUND_STATIONS = GroundStationAtCities.TOP_100
+    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
+    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+
+    MAX_WORKERS = 3
+    cache = PerformanceCache()
+    _start_time = time.perf_counter()
+
+    result = with_domain_knowledge(maxiter=25, num_particles=10)
+
+    _end_time = time.perf_counter()
+    print(f"""Total optimization time: {
+        round((_end_time-_start_time)/3600, 2)}h""")
+    result['time_s'] = _end_time-_start_time
+    result['total_sat'] = TOTAL_SATS
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)
+
+    # ------------------------
+
+    TOTAL_SATS = 3888
+    MIN_SAT_PER_ORBIT = 10
+    ALTITUDE_UB_KM = 550+5
+    ALTITUDE_LB_KM = 550-5
+
+    GROUND_STATIONS = GroundStationAtCities.TOP_100
+    TRAFFIC_METRICE = InternetTrafficAcrossCities.ONLY_POP_100
+    OXN = get_possible_oxn_arrangements(TOTAL_SATS, MIN_SAT_PER_ORBIT)
+
+    MAX_WORKERS = 3
+    cache = PerformanceCache()
+    _start_time = time.perf_counter()
+
+    result = with_domain_knowledge(maxiter=25, num_particles=10)
+
+    _end_time = time.perf_counter()
+    print(f"""Total optimization time: {
+        round((_end_time-_start_time)/3600, 2)}h""")
+    result['time_s'] = _end_time-_start_time
+    result['total_sat'] = TOTAL_SATS
+    CSV_logger(result, WITH_DOMAIN_KNOWLEDGE)

@@ -70,8 +70,8 @@ def evaluate_optimized_params(
 
 if __name__ == '__main__':
 
-    INPUT_CSV_FILE = 'VNS_WDK.csv'
-    OUTPUT_CSV_FILE = 'VNS_WDK_PERF.csv'
+    INPUT_CSV_FILE = 'experiments/results/plot_for_paper/CSVs/blackbox_optimization/VNS/VNS_WDK.csv'
+    OUTPUT_CSV_FILE = 'experiments/results/plot_for_paper/CSVs/blackbox_optimization/VNS/VNS_WDK_PERF.csv'
 
     perf_log = evaluate_optimized_params(
         INPUT_CSV_FILE,

@@ -6,10 +6,14 @@
 ### Setup Conda Environment
 
 Clone the LEOCraft repository.
+
 ```bash
 git clone https://github.com/suvambasak/LEOCraft.git
 ```
 
+```bash
+cd LEOCraft
+```
 
 Create conda environment from [environment.yml](/tools/environment.yml) or[ environment_macOS.yml](/tools/environment_macOS.yml).
 
@@ -39,7 +43,7 @@ LEOCraft uses [Gurobi Optimizer](https://www.gurobi.com/) to solve throughput ma
 
 - Extract the license tools [licensetools12.0.1_linux64.tar.gz](/tools/licensetools12.0.1_linux64.tar.gz) or download the the [license tools](https://support.gurobi.com/hc/en-us/articles/360059842732-How-do-I-set-up-a-license-without-installing-the-full-Gurobi-package) based on your platform.
 
-- [Sign up](https://portal.gurobi.com/iam/login/) and generate free [Named-User Academic]((https://portal.gurobi.com/iam/licenses/request)) license.
+- [Sign up](https://portal.gurobi.com/iam/login/) and generate free [Named-User Academic](https://portal.gurobi.com/iam/licenses/request) license.
 
 - Install the license.
 
@@ -65,6 +69,7 @@ In which directory would you like to store the Gurobi license file?
 
 Hit enter and store the `gurobi.lic` file.
 
+---
 
 ### Test the Environment
 
@@ -131,6 +136,9 @@ Academic license - for non-commercial use only - expires XXXX-XX-XX
 Total simulation time: 2.44m
 ```
 
+---
+
+
 ## Regenerating the Figures in the Paper
 
 Here is the steps to run the simulations and then regenerate the figures using the simulation results.
@@ -144,11 +152,56 @@ To regenerate the Figure. 3, 5, 6, 9, 12 execute the script [simulate_everything
 python experiments/simulations/simulate_everything_gs_gs.py
 ```
 
-Then execute the [exploring_search_space](experiments/results/plot_for_paper/exploring_search_space.ipynb) notebook.
+Then execute the [exploring_search_space](/experiments/results/plot_for_paper/exploring_search_space.ipynb) notebook.
 
 
-### Blackbox Optimization
+---
+
+### Black-box Optimization
+
+To regenerate the Figure. 14, first executes all the black-box optimization [scripts](/experiments/blackbox_optimization) to find the optimized constellation design parameters for given [Ground Stations](/dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_100.csv) locations and [Traffic Matrix](/dataset/traffic_metrics/population_only_tm_Gbps_100.json) across them.
+
+```bash
+python experiments/blackbox_optimization/variable_neighborhood_search.py
+```
+
+```bash
+python experiments/blackbox_optimization/simulated_annealing.py
+```
+
+```bash
+python experiments/blackbox_optimization/differential_evolution.py
+```
+
+```bash
+python experiments/blackbox_optimization/adaptive_particle_swarm_optimization.py
+```
+
+Now use script [evaluate_optimized_params.py](/experiments/utilities/evaluate_optimized_params.py) to generate the performance metrics of optimized design parameters.
+
+Set the corresponding CSV files path.
+
+```python
+INPUT_CSV_FILE = 'experiments/results/plot_for_paper/CSVs/blackbox_optimization/VNS/VNS_WDK.csv'
+OUTPUT_CSV_FILE = 'experiments/results/plot_for_paper/CSVs/blackbox_optimization/VNS/VNS_WDK_PERF.csv'
+```
+
+Execute the scripts
+
+```bash
+python experiments/utilities/evaluate_optimized_params.py
+```
+
+Then execute notebook [compare_optimization_techniques](/experiments/results/plot_for_paper/compare_optimization_techniques.ipynb) notebook. 
+
+---
+
 
 ### Exploring Mult-Shell Designs
 
+
+---
+
 ### Visualization of LEO Constellations
+
+---
