@@ -157,7 +157,7 @@ Then execute the [exploring_search_space](/experiments/results/plot_for_paper/ex
 
 ---
 
-### Black-box Optimization
+### Constellation Design Optimization
 
 To regenerate the Figure. 14, first executes all the black-box optimization [scripts](/experiments/blackbox_optimization) to find the optimized constellation design parameters for given [Ground Stations](/dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_100.csv) locations and [Traffic Matrix](/dataset/traffic_metrics/population_only_tm_Gbps_100.json) across them.
 
@@ -199,6 +199,19 @@ Then execute notebook [compare_optimization_techniques](/experiments/results/plo
 
 ### Exploring Mult-Shell Designs
 
+To generate the Figure. 15, first execute the script [single_vs_multi_shell_design.py](/experiments/multi_shell_design/single_vs_multi_shell_design.py).
+
+```bash
+python experiments/multi_shell_design/single_vs_multi_shell_design.py
+```
+
+Then execute the last two cells of notebook [exploring_multi_shell_designs](/experiments/results/plot_for_paper/exploring_multi_shell_designs.ipynb) to genrate the bar charts.
+
+To generate the Figure. 16, first execute the script [variable_neighborhood_search_for_intershell_ISLs.py](/experiments/blackbox_optimization/variable_neighborhood_search_for_intershell_ISLs.py).
+
+```bash
+python experiments/blackbox_optimization/variable_neighborhood_search_for_intershell_ISLs.py
+```
 
 ---
 
