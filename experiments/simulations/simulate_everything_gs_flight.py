@@ -15,6 +15,7 @@ One can set default parameters of a LEO constellation:
 To generate the CSV files for each parameter sweep at once.
 '''
 
+import os
 import time
 
 import pandas as pd
@@ -42,6 +43,8 @@ def get_loss_model() -> FSPL:
     return loss_model
 
 
+PREFIX_PATH = './'
+
 # Starlink Shell-3 default
 o = 36      # orbital planes
 n = 20      # satellites per plane
@@ -61,18 +64,18 @@ TM = InternetTrafficOnAir.ONLY_POP_100_300Kbps
 GS = GroundStationAtCities.TOP_100
 
 # Simulation output files
-CSV_FILE_H_24 = 'h_24.csv'
+CSV_FILE_H_24 = os.path.join(PREFIX_PATH, 'h_24.csv')
 
-CSV_FILE_H = 'h_300_2000.csv'
-CSV_FILE_E = 'e_5_50.csv'
-CSV_FILE_I = 'i_5_90.csv'
-CSV_FILE_OXN = 'oxn.csv'
-CSV_FILE_P = 'p_0_50.csv'
+CSV_FILE_H = os.path.join(PREFIX_PATH, 'h_300_2000.csv')
+CSV_FILE_E = os.path.join(PREFIX_PATH, 'e_5_50.csv')
+CSV_FILE_I = os.path.join(PREFIX_PATH, 'i_5_90.csv')
+CSV_FILE_OXN = os.path.join(PREFIX_PATH, 'oxn.csv')
+CSV_FILE_P = os.path.join(PREFIX_PATH, 'p_0_50.csv')
 
-CSV_FILE_HP_OXN = 'HP_oxn.csv'
-CSV_FILE_HP_P = 'HP_p_0_50.csv'
+CSV_FILE_HP_OXN = os.path.join(PREFIX_PATH, 'HP_oxn.csv')
+CSV_FILE_HP_P = os.path.join(PREFIX_PATH, 'HP_p_0_50.csv')
 
-CSV_FILE_OXN_VS_P = 'OXN_VS_P.csv'
+CSV_FILE_OXN_VS_P = os.path.join(PREFIX_PATH, 'OXN_VS_P.csv')
 
 
 TOTAL_SAT = o*n

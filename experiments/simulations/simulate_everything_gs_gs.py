@@ -22,6 +22,7 @@ One can set default parameters of a LEO constellation:
 To generate the CSV files for each parameter sweep at once.
 '''
 
+import os
 import time
 
 import pandas as pd
@@ -48,14 +49,17 @@ def get_loss_model() -> FSPL:
     return loss_model
 
 
-# Starlink Shell-3 default
-o = 36      # orbital planes
-n = 20      # satellites per plane
+PREFIX_PATH = 'experiments/results/plot_for_paper/CSVs/explore_search_space'
 
-i = 70      # inclination
+
+# Starlink Shell-1 default
+o = 72      # orbital planes
+n = 22      # satellites per plane
+
+i = 53      # inclination
 e = 25      # angle of elevation
 
-h = 570     # altitude
+h = 550     # altitude
 
 
 p = 50      # phase offset
@@ -63,28 +67,28 @@ t_m = 0     # time in minutes
 
 
 # 100 Ground Stations and corresponding Internet Traffic options
-# GS = GroundStationAtCities.TOP_100
-# TM = InternetTrafficAcrossCities.ONLY_POP_100
+GS = GroundStationAtCities.TOP_100
+TM = InternetTrafficAcrossCities.ONLY_POP_100
 # TM = InternetTrafficAcrossCities.POP_GDP_100
 
-# Ground Stations and corresponding Internet Traffic
-TM = InternetTrafficAcrossCities.COUNTRY_CAPITALS_ONLY_POP
-GS = GroundStationAtCities.COUNTRY_CAPITALS
+# # Ground Stations and corresponding Internet Traffic
+# TM = InternetTrafficAcrossCities.COUNTRY_CAPITALS_ONLY_POP
+# GS = GroundStationAtCities.COUNTRY_CAPITALS
 
 
 # Simulation output files
-CSV_FILE_H_24 = 'h_24.csv'
+CSV_FILE_H_24 = os.path.join(PREFIX_PATH, 'h_24.csv')
 
-CSV_FILE_H = 'h_300_2000.csv'
-CSV_FILE_E = 'e_5_50.csv'
-CSV_FILE_I = 'i_5_90.csv'
-CSV_FILE_OXN = 'oxn.csv'
-CSV_FILE_P = 'p_0_50.csv'
+CSV_FILE_H = os.path.join(PREFIX_PATH, 'h_300_2000.csv')
+CSV_FILE_E = os.path.join(PREFIX_PATH, 'e_5_50.csv')
+CSV_FILE_I = os.path.join(PREFIX_PATH, 'i_5_180.csv')
+CSV_FILE_OXN = os.path.join(PREFIX_PATH, 'oxn.csv')
+CSV_FILE_P = os.path.join(PREFIX_PATH, 'p_0_50.csv')
 
-CSV_FILE_HP_OXN = 'HP_oxn.csv'
-CSV_FILE_HP_P = 'HP_p_0_50.csv'
+CSV_FILE_HP_OXN = os.path.join(PREFIX_PATH, 'HP_oxn.csv')
+CSV_FILE_HP_P = os.path.join(PREFIX_PATH, 'HP_p_0_50.csv')
 
-CSV_FILE_OXN_VS_P = 'OXN_VS_P.csv'
+CSV_FILE_OXN_VS_P = os.path.join(PREFIX_PATH, 'OXN_VS_P.csv')
 
 
 TOTAL_SAT = o*n
@@ -222,7 +226,7 @@ print('\n\n TOTAL TIME TAKEN: ', round((end_time-start_time)/3600, 1))
 # ------------------------------------------------------------------
 start_time = time.perf_counter()
 simulator = LEOConstellationSimulator(TM, CSV_FILE_I)
-for _i in range(5, 90+1, 3):
+for _i in range(5, 180+5, 3):
     leo_con = LEOConstellation()
     leo_con.add_ground_stations(GroundStation(GS))
     leo_con.set_time(minute=t_m)
