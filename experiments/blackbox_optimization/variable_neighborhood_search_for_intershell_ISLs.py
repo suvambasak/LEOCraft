@@ -5,6 +5,7 @@ of LEO constellation with intershell ISL connectivity
 '''
 
 import copy
+import enum
 import heapq
 import itertools
 import random
@@ -13,12 +14,19 @@ import time
 from LEOCraft.attenuation.fspl import FSPL
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
 from LEOCraft.dataset import GroundStationAtCities, InternetTrafficAcrossCities
+from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
 from LEOCraft.satellite_topology.plus_grid_zigzag_elevation import \
     PlusGridZigzagElevation
 from LEOCraft.simulator.LEO_constellation_simulator import \
     LEOConstellationSimulator
 from LEOCraft.user_terminals.ground_station import GroundStation
-from LEOCraft.utilities import ProcessingLog
+from LEOCraft.utilities import CSV_logger, ProcessingLog
+
+
+class TopologyType(enum.Enum):
+    SS_ISL = 1  # PLUS_GRID_ISL_WITHIN_SHELL_1
+    IS2_ISL = 2  # PLUS_GRID_ISL_BETWEEN_SHELL_2
+    IS3_ISL = 3  # PLUS_GRID_ISL_BETWEEN_SHELL_3
 
 
 class PerformanceHeap:
@@ -75,7 +83,7 @@ class MultiShellVariableNeighborhoodSearchWithDomainKnowledge:
     - ['e', 'h', 'i', 'n', 'o', 'p']
     '''
 
-    def __init__(self, e: float, h: float, i: float, n: int, o: int, p: float) -> None:
+    def __init__(self, e: float, h: float, i: float, n: int, o: int, p: float, topology_type: TopologyType) -> None:
         '''
         Starting point of the LEO parameters
 
@@ -129,6 +137,9 @@ class MultiShellVariableNeighborhoodSearchWithDomainKnowledge:
         self._visited_set = set()
         # Priority queue
         self._heap = PerformanceHeap()
+
+        # To decide which topology to use
+        self.topology_type = topology_type
 
     def set_e_bound(self, lb: float, ub: float) -> None:
         '''
@@ -428,32 +439,20 @@ class MultiShellVariableNeighborhoodSearchWithDomainKnowledge:
             # ['0', '1', '2', '3', '4', '5']
             # ['e', 'h', 'i', 'n', 'o', 'p']
 
-            leo_con.add_shells(
-                # PlusGridShell(
-                #     id=0,
+            if topology_type == TopologyType.PLUS_GRID_ISL_WITHIN_SHELL_1:
+                shell = PlusGridShell(
+                    id=0,
 
-                #     orbits=state[4],
-                #     sat_per_orbit=state[3],
-                #     phase_offset=state[5],
+                    orbits=state[4],
+                    sat_per_orbit=state[3],
+                    phase_offset=state[5],
 
-                #     altitude_m=state[1]*1000,
-                #     angle_of_elevation_degree=state[0],
-                #     inclination_degree=state[2]
-                # )
-
-                # PlusGridZigzagElevation(
-                #     id=0,
-                #     orbits=state[4],
-                #     sat_per_orbit=state[3],
-                #     altitude_pattern_m=[
-                #         540000.0, 550000.0, 570000.0, 550000.0
-                #     ],
-                #     inclination_degree=state[2],
-                #     angle_of_elevation_degree=state[0],
-                #     phase_offset=state[5]
-                # )
-
-                PlusGridZigzagElevation(
+                    altitude_m=state[1]*1000,
+                    angle_of_elevation_degree=state[0],
+                    inclination_degree=state[2]
+                )
+            elif topology_type == TopologyType.PLUS_GRID_ISL_BETWEEN_SHELL_2:
+                shell = PlusGridZigzagElevation(
                     id=0,
                     orbits=state[4],
                     sat_per_orbit=state[3],
@@ -462,7 +461,20 @@ class MultiShellVariableNeighborhoodSearchWithDomainKnowledge:
                     angle_of_elevation_degree=state[0],
                     phase_offset=state[5]
                 )
-            )
+            elif topology_type == TopologyType.PLUS_GRID_ISL_BETWEEN_SHELL_3:
+                shell = PlusGridZigzagElevation(
+                    id=0,
+                    orbits=state[4],
+                    sat_per_orbit=state[3],
+                    altitude_pattern_m=[
+                        540000.0, 550000.0, 570000.0, 550000.0
+                    ],
+                    inclination_degree=state[2],
+                    angle_of_elevation_degree=state[0],
+                    phase_offset=state[5]
+                )
+
+            leo_con.add_shells(shell)
 
             simulator.add_constellation(leo_con)
 
@@ -477,19 +489,31 @@ class MultiShellVariableNeighborhoodSearchWithDomainKnowledge:
 
 if __name__ == '__main__':
 
-    bfs = MultiShellVariableNeighborhoodSearchWithDomainKnowledge(
-        e=10.0,
-        h=550,
-        i=30.0,
+    PREFIX_PATH = 'experiments/results/plot_for_paper/CSVs/multi_shell_design/optimized_designs_DK.csv'
 
-        n=12,
-        o=324,
-        p=50
-    )
+    for topology_type in [
+        TopologyType.SS_ISL,
+        TopologyType.IS2_ISL,
+        TopologyType.IS3_ISL
+    ]:
 
-    # bfs.set_e_bound(20, 30)
-    # bfs.set_h_bound(560, 580)
-    # bfs.set_i_bound(30, 90)
-    bfs.set_max_step_size(hstep=0, istep=5, estep=5)
+        bfs = MultiShellVariableNeighborhoodSearchWithDomainKnowledge(
+            e=10.0,
+            h=550,
+            i=30.0,
 
-    bfs.search(tolerance=3, max_iter=100)
+            n=12,
+            o=324,
+            p=50
+        )
+
+        # bfs.set_e_bound(20, 30)
+        # bfs.set_h_bound(560, 580)
+        # bfs.set_i_bound(30, 90)
+
+        bfs.set_max_step_size(hstep=0, istep=5, estep=5)
+        result = bfs.search(tolerance=3, max_iter=100)
+
+        result['topology_type'] = topology_type.name
+
+        CSV_logger(result, PREFIX_PATH)
