@@ -37,7 +37,7 @@ def simulate_h24(params):
     # with a time step of 5 minutes
     simulator = LEOConstellationSimulator(
         InternetTrafficAcrossCities.ONLY_POP_100,
-        os.path.join(PREFIX_PATH, f'{params.topology_type}_h_24')
+        os.path.join(PREFIX_PATH, f'{params.topology_type}_h_24.csv')
     )
     for t_m in range(0, 24*60+1, 5):
 
