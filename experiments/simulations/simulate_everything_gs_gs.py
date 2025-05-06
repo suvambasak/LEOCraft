@@ -168,7 +168,7 @@ print('\n\n TOTAL TIME TAKEN: ', round((end_time-start_time)/3600, 1))
 # ------------------------------------------------------------------
 start_time = time.perf_counter()
 simulator = LEOConstellationSimulator(TM, CSV_FILE_H)
-for _h in range(500, 1001, 10):
+for _h in range(500, 2001, 10):
     leo_con = LEOConstellation()
     leo_con.add_ground_stations(GroundStation(GS))
     leo_con.set_time(minute=t_m)
