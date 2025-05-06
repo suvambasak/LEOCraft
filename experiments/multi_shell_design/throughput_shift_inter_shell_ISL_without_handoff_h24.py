@@ -92,7 +92,7 @@ def simulate_h24(params):
 
 if __name__ == "__main__":
 
-    PREFIX_PATH = 'experiments/results/plot_for_paper/CSVs/explore_search_space'
+    PREFIX_PATH = 'experiments/results/plot_for_paper/CSVs/multi_shell_design'
 
     for params in pd.read_csv(
         os.path.join(
