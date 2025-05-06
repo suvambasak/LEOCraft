@@ -6,3 +6,11 @@ A modular and extensible LEO network simulation platform to explore traffic flow
 
 # Artifact Evaluation
 For executing the experiments and regenerating the figures in the paper a staright forward steps are given in [ARTIFACT_EVALUATION.md](/ARTIFACT_EVALUATION.md).
+
+
+---
+
+**A detailed documentation of `LEOCraft` in under preparation!**
+
+
+---
