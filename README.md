@@ -2,6 +2,9 @@
 
 A modular and extensible LEO network simulation platform to explore traffic flow, throughput, stretch/latency, and coverage. LEOCraft operate as flow level to evaulate given LEO constellation quickly.
 
+# Artifact Evaluation
+For executing the experiments and regenerating the figures in the paper a staright forward steps are given in [ARTIFACT_EVALUATION](/docs/ARTIFACT_EVALUATION.md).
+
 
 # Table of Contents
 - [Getting Started](#Getting-started)
@@ -371,9 +374,6 @@ This work is licensed under the [MIT License](/LICENSE).
 ```bibtex
 
 ```
-
-# Artifact Evaluation
-For executing the experiments and regenerating the figures in the paper a staright forward steps are given in [ARTIFACT_EVALUATION](/ARTIFACT_EVALUATION.md).
 
 
 # Credits
