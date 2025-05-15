@@ -1,9 +1,6 @@
 # LEOCraft - A Flow Level LEO Network Simulator
 
-A modular and extensible LEO network simulation platform to explore traffic flow, throughput, stretch/latency, and coverage. LEOCraft operate as flow level to evaulate given LEO constellation quickly.
-
-# Artifact Evaluation
-For executing the experiments and regenerating the figures in the paper a staright forward steps are given in [ARTIFACT_EVALUATION](/docs/ARTIFACT_EVALUATION.md).
+A modular and extensible LEO network simulation platform to explore traffic flow, throughput, stretch/latency, and coverage. LEOCraft operates as a flow level to evaluate a given LEO constellation quickly.
 
 
 # Table of Contents
@@ -11,6 +8,7 @@ For executing the experiments and regenerating the figures in the paper a starig
     - [Setup the Simulation Environment](#setup-the-simulation-environment)
     - [Get the Academic License for Gurobi Optimizer](#get-the-academic-license-for-gurobi-optimizer)
     - [Test the Simulation Environment](#test-the-simulation-environment)
+    - [Unit Tests](#unit-tests)
     - [Simulate with LEOCraft](#simulate-with-leocraft)
         - [Create LEO Constellation](#create-leo-constellation)
         - [Measure Throughput](#measure-throughput)
@@ -154,9 +152,17 @@ Academic license - for non-commercial use only - expires XXXX-XX-XX
 Total simulation time: 2.44m
 ```
 
+## Unit Tests
+
+To run the unit tests, follow the instructions in [tests](/tests/README.md).
+
 ## Simulate with LEOCraft
 
+Here is the quick overview simulating an LEO constellation network of Starlink.
+
 ### Create LEO Constellation
+
+First, import the LEOCraft modules.
 
 ```python
 from LEOCraft.attenuation.fspl import FSPL
@@ -166,6 +172,7 @@ from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
 from LEOCraft.user_terminals.ground_station import GroundStation
 ```
 
+Create an instance of the atmospherics path loss model.
 
 ```python
 loss_model = FSPL(
@@ -177,16 +184,18 @@ loss_model = FSPL(
 loss_model.set_Tx_antenna_gain(gain_dB=34.5)
 ```
 
+To create a LEO constellation of Starlink, create an object of LEO constellation, add ground stations, and then add the first shell of Starlink of +Grid topology.
+
 ```python
 leo_con = LEOConstellation('Starlink')
 leo_con.add_ground_stations(
-    GroundStation(
-        GroundStationAtCities.TOP_100
-    )
+ GroundStation(
+ GroundStationAtCities.TOP_100
+ )
 )
 
 leo_con.add_shells(
-    PlusGridShell(
+ PlusGridShell(
         id=0,
         orbits=72,
         sat_per_orbit=22,
@@ -194,7 +203,7 @@ leo_con.add_shells(
         inclination_degree=53.0,
         angle_of_elevation_degree=25.0,
         phase_offset=50.0
-    )
+ )
 )
 
 leo_con.set_time(second=3)  # Time passed after epoch
@@ -204,6 +213,8 @@ leo_con.create_network_graph()
 
 leo_con.generate_routes()
 ```
+
+You will see this on the execution.
 
 ```bash
 [LEOConstellation] Building ground stations...
@@ -215,21 +226,27 @@ leo_con.generate_routes()
 [LEOConstellation] Routes generated in: 2.83m 
 ```
 
-### Measure Throughput
+### Measure throughput
+
+To measure the throughput of the above Starlink constellation, import the following modules.
 
 ```python
 from LEOCraft.dataset import InternetTrafficAcrossCities
 from LEOCraft.performance.basic.throughput import Throughput
 ```
 
+Create the instance of throughput, then add the instance of Starlink constellation and traffic matrics across the ground stations to compute the throughput.
+
 ```python
 th = Throughput(
-    leo_con,
-    InternetTrafficAcrossCities.ONLY_POP_100
+ leo_con,
+ InternetTrafficAcrossCities.ONLY_POP_100
 )
 th.build()
 th.compute()
 ```
+
+The output will be as follows.
 
 ```bash
 [Throughput] Building throughput...
@@ -249,15 +266,22 @@ Academic license - for non-commercial use only - expires 20XX-XX-XX
 
 ### Measure Stretch/Latency
 
+To measure stretch, import the following module. 
+
 ```python
 from LEOCraft.performance.basic.stretch import Stretch
 ```
+
+Create an instance of stretch and add the instance of Starlink constellation to compute stretch.
+
 
 ```python
 sth = Stretch(leo_con)
 sth.build()
 sth.compute()
 ```
+
+The output will be as follows.
 
 ```bash
 [Stretch] Building stretch...
@@ -276,15 +300,21 @@ sth.compute()
 
 ### Measure Coverage
 
+To measure the coverage of the constellation, import the following module. 
+
 ```python
 from LEOCraft.performance.basic.stretch import Stretch
 ```
+
+Create an instance of coverage and add the instance of Starlink constellation to compute coverage. 
 
 ```python
 cov = Coverage(leo_con)
 cov.build()
 cov.compute()
 ```
+
+The output will be as follows.
 
 ```bash
 [Coverage] Building coverage...
@@ -295,11 +325,20 @@ cov.compute()
 
 
 
-
-
 ## Visualize with LEOCraft
 
+The LEOCraft provides excellent 2D and 3D interactive visualization capabilities to intuitively understand the LEO network topology and the transition of topology with LEO dynamics. A few of such dynamics are available at [LEOCraft Playlist](https://youtube.com/playlist?list=PLNedKW1trAyWUTnCWAtYSwk7kenVV_90k&si=lTPzQwMUiFQJ-bYS).
+
+<p align="center">
+<img height="400px" width="400px" src="docs/images/interShell_ISL_shell_2.png">
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img height="400px" width="400px" src="docs/images/interShell_ISL_shell_3.png">
+</p>
+
+
 ### Visualize in 2D
+
+To visualize Starlink constellation in 2D, use the `SatView2D` module. Add the components (satellites, ground stations, routes, satellite coverage, etc.) for rendering, as shown below.
 
 ```python
 from LEOCraft.visuals.sat_view_2D import SatView2D
@@ -315,6 +354,8 @@ view.build()
 view.export_html('docs/html/Starlink_2D.html')
 ```
 
+The output will be as follows.
+
 ```bash
 [SatView2D] Building view 2D...  
 [SatView2D] Exporting HTML...  
@@ -327,6 +368,9 @@ The interactive 2D visualization [Starlink_2D.html](/docs/html/Starlink_2D.html)
 </p>
 
 ### Visualize in 3D
+
+To visualize the Starlink constellation in 3D, use the `SatView3D` module. Add the add the components (satellites, ground stations, routes, satellite coverage, etc) for rendering as shown in the following.
+
 
 ```python
 from LEOCraft.visuals.sat_view_3D import SatView3D
@@ -341,6 +385,8 @@ view.build()
 view.export_html('docs/html/Starlink_3D.html')
 ```
 
+The output will be as follows.
+
 ```bash
 [SatView3D] Building raw view 3D...  
 [SatView3D] Exporting HTML...  
@@ -349,13 +395,55 @@ view.export_html('docs/html/Starlink_3D.html')
 
 The interactive 2D visualization [Starlink_3D.html](/docs/html/Starlink_3D.html).
 
+
+To visualize the Starlink constellation in 3D but without maps and satellites at elevation, use the `SatRawView3D` module. Add the components (satellites, ground stations, routes, satellite coverage, etc.) for rendering, as shown below.
+
+```python
+from LEOCraft.visuals.sat_raw_view_3D import SatRawView3D
+
+view = SatRawView3D(
+ leo_con,
+
+    lat=16.80528,
+    long=96.15611,
+    elevation_m=550000
+)
+
+
+view.add_all_satellites()
+view.add_routes('G-0_G-1', k=1)
+
+view.build()
+
+view.export_html('docs/html/Starlink_RAW_3D.html')
+```
+
+The output will be as follows.
+
+
+```bash
+[SatRawView3D] Building raw view 3D...  
+[SatRawView3D] Exporting HTML... 
+```
+
+
+The interactive 2D visualization [Starlink_RAW_3D.html](/docs/html/Starlink_RAW_3D.html).
+
+
+
 <p align="center">
 <img height="400px" src="docs/images/Starlink_3D.png">
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img height="400px" src="docs/images/Starlink_RAW_3D.png">
 </p>
 
 ## Examples
 
+A handful of examples of Python scripts programming the LEO network are available in [examples](/examples/).
+
 # Extend LEOCraft
+
+How do you extend LEOCraft to realize your LEO network design ideas? Look at the [documentation](/docs/index.md) of the LEOCraft project.
 
 # License
 This work is licensed under the [MIT License](/LICENSE).
@@ -375,6 +463,9 @@ This work is licensed under the [MIT License](/LICENSE).
 
 ```
 
+
+# Artifact Evaluation
+For executing the experiments and regenerating the figures in the paper, straightforward steps are given in [ARTIFACT_EVALUATION](/docs/ARTIFACT_EVALUATION.md).
 
 # Credits
 
