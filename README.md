@@ -430,12 +430,12 @@ The output will be as follows.
 The interactive 2D visualization [Starlink_RAW_3D.html](/docs/html/Starlink_RAW_3D.html).
 
 
-
 <p align="center">
-<img height="400px" src="docs/images/Starlink_3D.png">
+<img height="400px" width="400px" src="docs/images/Starlink_3D.png">
 &nbsp;&nbsp;&nbsp;&nbsp;
-<img height="400px" src="docs/images/Starlink_RAW_3D.png">
+<img height="400px" width="400px" src="docs/images/Starlink_RAW_3D.png">
 </p>
+
 
 ## Examples
 
