@@ -41,7 +41,7 @@ Change the directory.
 cd LEOCraft
 ```
 
-Create a conda environment from [environment.yml](/tools/environment.yml) or [environment_macOS.yml](/tools/environment_macOS.yml).
+Create a conda environment from [environment.yml](../tools/environment.yml) or [environment_macOS.yml](../tools/environment_macOS.yml).
 
 ```bash
 conda env create -f tools/environment.yml
@@ -109,7 +109,7 @@ Or, for instance, if the repository is cloned at `/mnt/Storage/Projects/LEOCraft
 export PYTHONPATH="/mnt/Storage/Projects/LEOCraft"
 ```
 
-To validate the simulation environment setup, execute [example_starlink.py](/examples/example_starlink.py), which simulates the Starlink multi-shell LEO constellation.
+To validate the simulation environment setup, execute [example_starlink.py](../examples/example_starlink.py), which simulates the Starlink multi-shell LEO constellation.
 
 ```bash
 python examples/example_starlink.py
@@ -171,16 +171,16 @@ Here are the steps to run the simulations and then regenerate the figures using 
 
 ### Exploring the Search Space
 
-To regenerate the figure. 3, 5, 6, 9, 12 execute [simulate_everything_gs_gs.py](/experiments/simulations/simulate_everything_gs_gs.py). This will simulate Starlink's first shell (by default) while individually varying all the design parameters.
+To regenerate the figure. 3, 5, 6, 9, 12 execute [simulate_everything_gs_gs.py](../experiments/simulations/simulate_everything_gs_gs.py). This will simulate Starlink's first shell (by default) while individually varying all the design parameters.
 
 ```bash
 python experiments/simulations/simulate_everything_gs_gs.py
 ```
 
-Then execute the [exploring_search_space.ipynb](/experiments/results/plot_for_paper/exploring_search_space.ipynb) to plot the simulation results to reproduce the paper's figures.
+Then execute the [exploring_search_space.ipynb](../experiments/results/plot_for_paper/exploring_search_space.ipynb) to plot the simulation results to reproduce the paper's figures.
 
 **Note**: 
-This same script can be used to regenerate the figure. 19, 20, 21, 22 of the paper by changing the values of default orbital parameters given in [shell_code_archive.py](/examples/shell_code_archive.py) or Table. 1 of the paper, [Ground station locations](/dataset/ground_stations/), and [traffic metrics](/dataset/traffic_metrics/) across them.
+This same script can be used to regenerate the figure. 19, 20, 21, 22 of the paper by changing the values of default orbital parameters given in [shell_code_archive.py](../examples/shell_code_archive.py) or Table. 1 of the paper, [Ground station locations](../dataset/ground_stations/), and [traffic metrics](../dataset/traffic_metrics/) across them.
 
 ```python
 # Starlink Shell-1 default
@@ -217,7 +217,7 @@ TM = InternetTrafficAcrossCities.COUNTRY_CAPITALS_ONLY_POP
 GS = GroundStationAtCities.COUNTRY_CAPITALS
 ```
 
-For figure. 23, to simulate with flights, use [simulate_everything_gs_gs.py](/experiments/simulations/simulate_everything_gs_gs.py)
+For figure. 23, to simulate with flights, use [simulate_everything_gs_gs.py](../experiments/simulations/simulate_everything_gs_gs.py)
 
 
 
@@ -225,7 +225,7 @@ For figure. 23, to simulate with flights, use [simulate_everything_gs_gs.py](/ex
 
 ### Constellation Design Optimization
 
-To regenerate the figure. 14, first executes all the black-box optimization [scripts](/experiments/blackbox_optimization) to find the optimized constellation design parameters for given [Ground Stations](/dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_100.csv) locations and [Traffic Matrix](/dataset/traffic_metrics/population_only_tm_Gbps_100.json) across them. Note that each script optimizes all the highlighted budgets in the Table. 1 in the paper twice (i) with the search space heuristic and (ii) without the search space heuristic, and save the `optimized parameters` and `running time` in the appropriate CSV files. 
+To regenerate the figure. 14, first executes all the black-box optimization [scripts](../experiments/blackbox_optimization) to find the optimized constellation design parameters for given [Ground Stations](../dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_100.csv) locations and [Traffic Matrix](../dataset/traffic_metrics/population_only_tm_Gbps_100.json) across them. Note that each script optimizes all the highlighted budgets in the Table. 1 in the paper twice (i) with the search space heuristic and (ii) without the search space heuristic, and save the `optimized parameters` and `running time` in the appropriate CSV files. 
 
 ```bash
 python experiments/blackbox_optimization/variable_neighborhood_search.py
@@ -243,9 +243,9 @@ python experiments/blackbox_optimization/differential_evolution.py
 python experiments/blackbox_optimization/adaptive_particle_swarm_optimization.py
 ```
 
-Then, use [evaluate_optimized_params.py](/experiments/utilities/evaluate_optimized_params.py) to generate the network performance metrics of optimized design parameters.
+Then, use [evaluate_optimized_params.py](../experiments/utilities/evaluate_optimized_params.py) to generate the network performance metrics of optimized design parameters.
 
-First, set the corresponding CSV files path in [evaluate_optimized_params.py](/experiments/utilities/evaluate_optimized_params.py).
+First, set the corresponding CSV files path in [evaluate_optimized_params.py](../experiments/utilities/evaluate_optimized_params.py).
 
 ```python
 INPUT_CSV_FILE = 'experiments/results/plot_for_paper/CSVs/blackbox_optimization/VNS/VNS_WDK.csv'
@@ -258,7 +258,7 @@ Then, execute the file.
 python experiments/utilities/evaluate_optimized_params.py
 ```
 
-Then execute [compare_optimization_techniques.ipynb](/experiments/results/plot_for_paper/compare_optimization_techniques.ipynb) to reproduce the figures. 
+Then execute [compare_optimization_techniques.ipynb](../experiments/results/plot_for_paper/compare_optimization_techniques.ipynb) to reproduce the figures. 
 
 ---
 
@@ -268,30 +268,30 @@ Then execute [compare_optimization_techniques.ipynb](/experiments/results/plot_f
 
 #### Comparing Single-shell vs Multi-shell Design Choices
 
-To generate the figure. 15, first execute [single_vs_multi_shell_design.py](/experiments/multi_shell_design/single_vs_multi_shell_design.py). It will simulate all design choices and save their throughput in CSV files.
+To generate the figure. 15, first execute [single_vs_multi_shell_design.py](../experiments/multi_shell_design/single_vs_multi_shell_design.py). It will simulate all design choices and save their throughput in CSV files.
 
 ```bash
 python experiments/multi_shell_design/single_vs_multi_shell_design.py
 ```
 
-Then execute the second and third cells of [exploring_multi_shell_designs.ipynb](/experiments/results/plot_for_paper/exploring_multi_shell_designs.ipynb) to generate the bar charts.
+Then execute the second and third cells of [exploring_multi_shell_designs.ipynb](../experiments/results/plot_for_paper/exploring_multi_shell_designs.ipynb) to generate the bar charts.
 
 
 #### Evaluate Inter-shell ISL Connectivity
 
-To generate the figure. 16, first execute [variable_neighborhood_search_for_intershell_ISLs.py](/experiments/blackbox_optimization/variable_neighborhood_search_for_intershell_ISLs.py). It will optimized the design of $(i)$ single shell with +Grid ISLs, $(ii)$ two shell with +Grid inter shell ISLs, $(iii)$ three shells with inter shell ISLs for given [GSes](/dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_100.csv) and [traffic metrics](/dataset/traffic_metrics/population_only_tm_Gbps_100.json) with budget of Starlink Gen1 (S-1, S-2, S-3) in Table.1 in the paper.
+To generate the figure. 16, first execute [variable_neighborhood_search_for_intershell_ISLs.py](../experiments/blackbox_optimization/variable_neighborhood_search_for_intershell_ISLs.py). It will optimized the design of $(i)$ single shell with +Grid ISLs, $(ii)$ two shell with +Grid inter shell ISLs, $(iii)$ three shells with inter shell ISLs for given [GSes](/dataset/ground_stations/cities_sorted_by_estimated_2025_pop_top_100.csv) and [traffic metrics](../dataset/traffic_metrics/population_only_tm_Gbps_100.json) with budget of Starlink Gen1 (S-1, S-2, S-3) in Table.1 in the paper.
 
 ```bash
 python experiments/blackbox_optimization/variable_neighborhood_search_for_intershell_ISLs.py
 ```
 
-Then execute [throughput_shift_inter_shell_ISL_without_handoff_h24.py](/experiments/multi_shell_design/throughput_shift_inter_shell_ISL_without_handoff_h24.py) to generate throughput metrics without handoff over $24$ hours of these three design, i.e., $(i)$ single shell with +Grid ISLs, $(ii)$ two shell with +Grid inter shell ISLs, $(iii)$ three shells with inter shell ISLs.
+Then execute [throughput_shift_inter_shell_ISL_without_handoff_h24.py](../experiments/multi_shell_design/throughput_shift_inter_shell_ISL_without_handoff_h24.py) to generate throughput metrics without handoff over $24$ hours of these three design, i.e., $(i)$ single shell with +Grid ISLs, $(ii)$ two shell with +Grid inter shell ISLs, $(iii)$ three shells with inter shell ISLs.
 
 ```bash
 python experiments/multi_shell_design/throughput_shift_inter_shell_ISL_without_handoff_h24.py
 ```
 
-Then execute the first cell of [exploring_multi_shell_designs.ipynb](/experiments/results/plot_for_paper/exploring_multi_shell_designs.ipynb) to reproduce the figure.
+Then execute the first cell of [exploring_multi_shell_designs.ipynb](../experiments/results/plot_for_paper/exploring_multi_shell_designs.ipynb) to reproduce the figure.
 
 
 ---
@@ -300,78 +300,78 @@ Then execute the first cell of [exploring_multi_shell_designs.ipynb](/experiment
 
 The paper also includes a handful of visuals to illustrate the nitty gritty of LEO network design, which is generated mainly by the LEOCraft 2D/3D visualization framework. To reproduce these interactive figures, execute the following scripts.
 
-- To regenerate the figure. 1 (b) and figure. 24, execute [kuiper_shells.py](experiments/visuals_for_paper/kuiper_shells.py).
+- To regenerate the figure. 1 (b) and figure. 24, execute [kuiper_shells.py](../experiments/visuals_for_paper/kuiper_shells.py).
 
 ```bash
 python experiments/visuals_for_paper/kuiper_shells.py
 ```
 
-- To regenerate Figure. 2, execute [routes_categories.py](experiments/visuals_for_paper/routes_categories.py).
+- To regenerate Figure. 2, execute [routes_categories.py](../experiments/visuals_for_paper/routes_categories.py).
 
 ```bash
 python experiments/visuals_for_paper/routes_categories.py
 ```
 
 
-- To regenerate the figure. 1 (a), execute [coverage_cone_with_e.py](/experiments/visuals_for_paper/coverage_cone_with_e.py)
+- To regenerate the figure. 1 (a), execute [coverage_cone_with_e.py](../experiments/visuals_for_paper/coverage_cone_with_e.py)
 
 ```bash
 python experiments/visuals_for_paper/coverage_cone_with_e.py
 ```
 
 
-- To regenerate the figure. 4, execute [constellation_coverage_change_with_altitude.py](/experiments/visuals_for_paper/constellation_coverage_change_with_altitude.py), open the generated HTML file.
+- To regenerate the figure. 4, execute [constellation_coverage_change_with_altitude.py](../experiments/visuals_for_paper/constellation_coverage_change_with_altitude.py), open the generated HTML file.
 
 ```bash
 python experiments/visuals_for_paper/constellation_coverage_change_with_altitude.py
 ```
 
 
-- To regenerate the figure. 7 (a), execute [GS_locations.py](/experiments/visuals_for_paper/GS_locations.py), then open the generated HTML file.
+- To regenerate the figure. 7 (a), execute [GS_locations.py](../experiments/visuals_for_paper/GS_locations.py), then open the generated HTML file.
 
 ```bash
 python experiments/visuals_for_paper/GS_locations.py
 ```
 
-- To regenerate the figure. 7 (b)-(d), execute [inclination_change_starlink.py](/experiments/visuals_for_paper/inclination_change_starlink.py).
+- To regenerate the figure. 7 (b)-(d), execute [inclination_change_starlink.py](../experiments/visuals_for_paper/inclination_change_starlink.py).
 
 ```bash
 python experiments/visuals_for_paper/inclination_change_starlink.py
 ```
 
-- To regenerate Figure. 8 and Figure. 10, execute [routes_view_with_i_e.py](/experiments/visuals_for_paper/routes_view_with_i_e.py).
+- To regenerate Figure. 8 and Figure. 10, execute [routes_view_with_i_e.py](../experiments/visuals_for_paper/routes_view_with_i_e.py).
 
 ```bash
 python experiments/visuals_for_paper/routes_view_with_i_e.py
 ```
 
-- To regenerate the figure. 11, execute [topology_view_with_oxn_p.py](/experiments/visuals_for_paper/topology_view_with_oxn_p.py).
+- To regenerate the figure. 11, execute [topology_view_with_oxn_p.py](../experiments/visuals_for_paper/topology_view_with_oxn_p.py).
 
 ```bash
 python experiments/visuals_for_paper/topology_view_with_oxn_p.py
 ```
 
 
-- To regenerate the figure. 13, execute [HC_route_path_diversity.py](/experiments/visuals_for_paper/HC_route_path_diversity.py)
+- To regenerate the figure. 13, execute [HC_route_path_diversity.py](../experiments/visuals_for_paper/HC_route_path_diversity.py)
 
 ```bash
 python experiments/visuals_for_paper/HC_route_path_diversity.py
 ```
 
-- To regenerate Figure. 26 (a)-(b), execute [routes_view_with_h_e_raw.py](/experiments/visuals_for_paper/routes_view_with_h_e_raw.py).
+- To regenerate Figure. 26 (a)-(b), execute [routes_view_with_h_e_raw.py](../experiments/visuals_for_paper/routes_view_with_h_e_raw.py).
 
 ```bash
 python experiments/visuals_for_paper/routes_view_with_h_e_raw.py
 ```
 
-- To regenerate the figure. 27, execute [satellite_ground_track.py](/experiments/visuals_for_paper/satellite_ground_track.py).
+- To regenerate the figure. 27, execute [satellite_ground_track.py](../experiments/visuals_for_paper/satellite_ground_track.py).
 
 ```bash
 python experiments/visuals_for_paper/satellite_ground_track.py
 ```
 
 
-- To regenerate the figure. 28, execute [ISL_usage.py](/experiments/visuals_for_paper/ISL_usage.py).
+- To regenerate the figure. 28, execute [ISL_usage.py](../experiments/visuals_for_paper/ISL_usage.py).
 
 ```bash
 python experiments/visuals_for_paper/ISL_usage.py
