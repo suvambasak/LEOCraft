@@ -65,7 +65,7 @@ def build(t: int):
         elevation_m=800000
     )
     view.v.verbose = False
-    view._DEFAULT_SAT_SIZE = 13
+    view._DEFAULT_SAT_SIZE = 20
     view._DEFAULT_WIDTH = 8
     view._shell_colors = []
 
@@ -147,7 +147,7 @@ if __name__ == '__main__':
 
     OUTPUT_DIR = 'shift'
 
-    NUM_SHELLS = 2
+    NUM_SHELLS = 3
 
     RED = 'rgb(153, 0, 0)'
     GREEN = 'rgb(0, 153, 0)'
@@ -161,4 +161,4 @@ if __name__ == '__main__':
             max_workers=3,
             mp_context=mp.get_context('fork')
     ) as executor:
-        executor.map(build, range(0, 42*60*60))
+        executor.map(build, range(0, 42*60*60, 10))

@@ -91,7 +91,7 @@ if __name__ == '__main__':
             max_workers=3,
             mp_context=mp.get_context('fork')
     ) as executor:
-        executor.map(build, range(0, 1500000))
+        executor.map(build, range(0, 1500000, 10))
 
     end_time = time.perf_counter()
 
