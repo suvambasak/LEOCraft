@@ -363,7 +363,7 @@ The output will be as follows.
 [SatView2D] Exporting HTML...  
 ```
 
-The interactive 2D visualization [Starlink_2D.html](/docs/html/Starlink_2D.html).
+The interactive 2D visualization [Starlink_2D.html](/docs/visuals/Starlink_2D.html).
 
 <p align="center">
 <img height="400px" src="docs/images/Starlink_2D.png">
