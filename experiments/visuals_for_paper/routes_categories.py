@@ -46,12 +46,12 @@ flow_classifier.classify()
 
 # route_category = flow_classifier.route_north_south
 # route_category = flow_classifier.route_east_west
-route_category = flow_classifier.route_northeast_southwest
+# route_category = flow_classifier.route_northeast_southwest
 
-# # flow_classifier.route_high_geodesic
-# route_category = set()
-# route_category.add('G-15_G-18')
-# route_category.add('G-9_G-28')
+# flow_classifier.route_high_geodesic
+route_category = set()
+route_category.add('G-15_G-18')
+route_category.add('G-9_G-28')
 
 
 # Pre processing: removing the GSLs are not in routes
@@ -81,7 +81,10 @@ for gid in range(len(leo_con.gsls)):
 # --------------------
 
 
-view = SatView3D(leo_con)
+# view = SatView3D(leo_con, "Route: North East to South West")
+# view = SatView3D(leo_con, "Route: East to West")
+# view = SatView3D(leo_con, "Route: North to South")
+view = SatView3D(leo_con, "Route: High Geodesic Distance")
 view._DEFAULT_SAT_SIZE = 12
 view._DEFAULT_GS_SIZE = 15
 
@@ -90,4 +93,9 @@ for flow in route_category:
     view.add_routes(flow)
 
 view.build()
-view.show()
+
+# view.show()
+# view.export_html(f'docs/html/NESW.html')
+# view.export_html(f'docs/html/EW.html')
+# view.export_html(f'docs/html/NS.html')
+view.export_html(f'docs/html/HG.html')

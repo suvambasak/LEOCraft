@@ -12,7 +12,8 @@ from LEOCraft.user_terminals.ground_station import GroundStation
 from LEOCraft.utilities import k_shortest_paths
 from LEOCraft.visuals.sat_view_3D import SatView3D
 
-leo_con = LEOConstellation('Starlink')
+# leo_con = LEOConstellation('Starlink: inclination 30 degree')
+leo_con = LEOConstellation('Starlink: elevation angle 10 degree')
 leo_con.v.verbose = True
 leo_con.k = 1
 
@@ -22,8 +23,10 @@ leo_con.add_shells(PlusGridShell(
     orbits=72,
     sat_per_orbit=22,
     altitude_m=550000.0,
+
     inclination_degree=53.0,
-    angle_of_elevation_degree=30.0,
+    angle_of_elevation_degree=10.0,
+
     phase_offset=50.0
 ))
 leo_con.set_time(minute=3)
@@ -35,18 +38,18 @@ leo_con.create_network_graph()
 
 
 flows: dict[str, str] = dict()
-# # North South route
-# src = 'G-34'
-# dst = 'G-73'
+# North South route
+src = 'G-34'
+dst = 'G-73'
 
-# # Northeast Southwest route
-# src = 'G-72'
-# dst = 'G-80'
+# Northeast Southwest route
+src = 'G-72'
+dst = 'G-80'
 
 
-# # East West route
-# src = 'G-45'
-# dst = 'G-71'
+# East West route
+src = 'G-45'
+dst = 'G-71'
 
 
 flows['G-34_G-73'] = "rgb(0, 0, 255)"
@@ -113,7 +116,7 @@ view._GSL_COLOR = "rgb(255, 0, 255)"
 view._GROUND_STATION_COLOR = "rgb(0, 255, 0)"
 # view._DEFAULT_GS_SIZE = 17
 
-view._DEFAULT_SAT_SIZE = 17
+view._DEFAULT_SAT_SIZE = 10
 view._DEFAULT_GS_SIZE = 23
 
 for flow in leo_con.routes.keys():
@@ -126,4 +129,13 @@ for flow in leo_con.routes.keys():
 
 # view.add_all_satellites()
 view.build()
-view.show()
+
+# view.show()
+
+# view.export_html('docs/html/i90.html')
+# view.export_html('docs/html/i50.html')
+# view.export_html('docs/html/i30.html')
+
+# view.export_html('docs/html/e50.html')
+# view.export_html('docs/html/e30.html')
+view.export_html('docs/html/e10.html')

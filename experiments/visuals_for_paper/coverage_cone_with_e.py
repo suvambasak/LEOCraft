@@ -60,7 +60,7 @@ view.add_satellites('S0-1')
 view.add_coverages('S0-1', 'S1-1')
 
 view.build()
-view.show()
+# view.show()
 
-# view.export_html()
+view.export_html('docs/html/coverage_cone_with_e.html')
 # view.export_png()

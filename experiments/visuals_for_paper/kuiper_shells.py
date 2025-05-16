@@ -46,38 +46,38 @@ class CustomSatRawView3D(SatRawView3D):
 ###############################################################
 
 
-leo_con = LEOConstellation('Kuiper')
-leo_con.v.verbose = True
-leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
+# leo_con = LEOConstellation('Kuiper')
+# leo_con.v.verbose = True
+# leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
 
-leo_con.add_shells(PlusGridShell(
-    id=0,
-    orbits=34,
-    sat_per_orbit=34,
-    altitude_m=1500000.0,
-    inclination_degree=51.9,
-    angle_of_elevation_degree=35.0,
-    phase_offset=0.0
-))
-leo_con.add_shells(PlusGridShell(
-    id=1,
-    orbits=36,
-    sat_per_orbit=36,
-    altitude_m=1000000.0,
-    inclination_degree=42.0,
-    angle_of_elevation_degree=35.0,
-    phase_offset=0.0
-))
+# leo_con.add_shells(PlusGridShell(
+#     id=0,
+#     orbits=34,
+#     sat_per_orbit=34,
+#     altitude_m=1500000.0,
+#     inclination_degree=51.9,
+#     angle_of_elevation_degree=35.0,
+#     phase_offset=0.0
+# ))
+# leo_con.add_shells(PlusGridShell(
+#     id=1,
+#     orbits=36,
+#     sat_per_orbit=36,
+#     altitude_m=1000000.0,
+#     inclination_degree=42.0,
+#     angle_of_elevation_degree=35.0,
+#     phase_offset=0.0
+# ))
 
-leo_con.add_shells(PlusGridShell(
-    id=2,
-    orbits=28,
-    sat_per_orbit=28,
-    altitude_m=500000.0,
-    inclination_degree=33.0,
-    angle_of_elevation_degree=35.0,
-    phase_offset=0.0
-))
+# leo_con.add_shells(PlusGridShell(
+#     id=2,
+#     orbits=28,
+#     sat_per_orbit=28,
+#     altitude_m=500000.0,
+#     inclination_degree=33.0,
+#     angle_of_elevation_degree=35.0,
+#     phase_offset=0.0
+# ))
 
 ###############################################################
 
@@ -86,39 +86,39 @@ leo_con.add_shells(PlusGridShell(
 # Starlink
 ###############################################################
 
-# leo_con = LEOConstellation('Starlink Gen1')
-# leo_con.v.verbose = True
-# leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
+leo_con = LEOConstellation('Starlink Gen1')
+leo_con.v.verbose = True
+leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
 
-# leo_con.add_shells(PlusGridShell(
-#     id=0,
-#     orbits=72,
-#     sat_per_orbit=22,
-#     altitude_m=500000.0,
-#     inclination_degree=53.0,
-#     angle_of_elevation_degree=25.0,
-#     phase_offset=50.0
-# ))
+leo_con.add_shells(PlusGridShell(
+    id=0,
+    orbits=72,
+    sat_per_orbit=22,
+    altitude_m=500000.0,
+    inclination_degree=53.0,
+    angle_of_elevation_degree=25.0,
+    phase_offset=50.0
+))
 
-# leo_con.add_shells(PlusGridShell(
-#     id=1,
-#     orbits=72,
-#     sat_per_orbit=22,
-#     altitude_m=1000000.0,
-#     inclination_degree=53.2,
-#     angle_of_elevation_degree=25.0,
-#     phase_offset=50.0
-# ))
+leo_con.add_shells(PlusGridShell(
+    id=1,
+    orbits=72,
+    sat_per_orbit=22,
+    altitude_m=1000000.0,
+    inclination_degree=53.2,
+    angle_of_elevation_degree=25.0,
+    phase_offset=50.0
+))
 
-# leo_con.add_shells(PlusGridShell(
-#     id=2,
-#     orbits=36,
-#     sat_per_orbit=20,
-#     altitude_m=1500000.0,
-#     inclination_degree=70.0,
-#     angle_of_elevation_degree=25.0,
-#     phase_offset=50.0
-# ))
+leo_con.add_shells(PlusGridShell(
+    id=2,
+    orbits=36,
+    sat_per_orbit=20,
+    altitude_m=1500000.0,
+    inclination_degree=70.0,
+    angle_of_elevation_degree=25.0,
+    phase_offset=50.0
+))
 
 ###############################################################
 
@@ -209,7 +209,7 @@ view = CustomSatRawView3D(
 )
 
 
-view._DEFAULT_SAT_SIZE = 15
+view._DEFAULT_SAT_SIZE = 10
 view._shell_colors = ['rgb(0, 0, 255)', 'rgb(0, 255, 0)', 'rgb(255, 0, 0)']
 
 
@@ -219,7 +219,9 @@ view._sat = sorted(list(view._sat))
 
 
 view.build()
-view.show()
+# view.show()
 
-# view.export_html()
+# view.export_html('docs/html/kuiper_shells.html')
+view.export_html('docs/html/starlink_shells.html')
+# view.export_html('docs/html/telesat_shells.html')
 # view.export_png()

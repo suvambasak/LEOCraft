@@ -13,6 +13,9 @@ from LEOCraft.satellite_topology.plus_grid_zigzag_elevation import \
 from LEOCraft.user_terminals.ground_station import GroundStation
 from LEOCraft.visuals.sat_raw_view_3D import SatRawView3D
 
+NUM_SHELLS = 3
+
+
 RED = 'rgb(153, 0, 0)'
 GREEN = 'rgb(0, 153, 0)'
 BLUE = 'rgb(0, 0, 153)'
@@ -22,25 +25,26 @@ _GREEN = 'rgb(0, 255, 0)'
 _BLUE = 'rgb(0, 0, 255)'
 
 
-leo_con = LEOConstellation('MultiShell-ISLs')
+leo_con = LEOConstellation(f'Inter Shell ISLs with {NUM_SHELLS} shells')
 leo_con.v.verbose = True
 leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
 
 
-# Color code for shell 2
-COLORS = [RED, GREEN]
-_COLORS = [_RED, _GREEN]
-
-# # Color code for shell 3
-# COLORS = [RED, GREEN, BLUE, GREEN]
-# _COLORS = [_RED, _GREEN, _BLUE, _GREEN]
+if NUM_SHELLS == 2:
+    # Color code for shell 2
+    COLORS = [RED, GREEN]
+    _COLORS = [_RED, _GREEN]
+if NUM_SHELLS == 3:
+    # Color code for shell 3
+    COLORS = [RED, GREEN, BLUE, GREEN]
+    _COLORS = [_RED, _GREEN, _BLUE, _GREEN]
 
 leo_con.add_shells(
     PlusGridZigzagElevation(
 
 
-        altitude_pattern_m=[500000.0, 1000000.0],
-        # altitude_pattern_m=[500000.0, 1000000.0, 1500000.0, 1000000.0,],
+        # altitude_pattern_m=[500000.0, 1000000.0],
+        altitude_pattern_m=[500000.0, 1000000.0, 1500000.0, 1000000.0,],
 
 
         id=0,
@@ -65,7 +69,7 @@ view = SatRawView3D(
     long=sat_info.nadir_longitude_deg,
     elevation_m=800000
 )
-view._DEFAULT_SAT_SIZE = 23
+view._DEFAULT_SAT_SIZE = 13
 view._DEFAULT_WIDTH = 8
 view._shell_colors = []
 
@@ -181,4 +185,9 @@ for o in range(8):
     view._sat = set()
 
 
-view.show()
+# view.show()
+
+if NUM_SHELLS == 2:
+    view.export_html('docs/html/inter_shell_ISLs_2_shells.html')
+if NUM_SHELLS == 3:
+    view.export_html('docs/html/inter_shell_ISLs_3_shells.html')

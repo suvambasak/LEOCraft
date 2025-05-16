@@ -11,7 +11,6 @@ from LEOCraft.satellite_topology.plus_grid_shell import PlusGridShell
 from LEOCraft.user_terminals.ground_station import GroundStation
 from LEOCraft.visuals.sat_view_2D import SatView2D
 
-
 leo_con = LEOConstellation('Starlink')
 leo_con.v.verbose = True
 leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
@@ -20,7 +19,8 @@ leo_con.add_shells(
         id=0,
         orbits=72,
         sat_per_orbit=22,
-        altitude_m=1000.0*600,
+        # altitude_m=1000.0*600,
+        altitude_m=1000.0*300,
         inclination_degree=53.0,
         angle_of_elevation_degree=25.0,
         phase_offset=50.0
@@ -38,4 +38,7 @@ view.add_all_satellites()
 view.add_all_coverages()
 
 view.build()
-view.show()
+# view.show()
+
+# view.export_html('docs/html/starlink_coverage_h600.html')
+view.export_html('docs/html/starlink_coverage_h300.html')

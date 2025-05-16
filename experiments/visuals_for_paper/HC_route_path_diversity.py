@@ -20,17 +20,17 @@ leo_con.add_shells(
         id=0,
 
 
-        orbits=144,
-        sat_per_orbit=11,
-        phase_offset=50.0,
+        # orbits=144,
+        # sat_per_orbit=11,
+        # phase_offset=50.0,
 
         # orbits=144,
         # sat_per_orbit=11,
         # phase_offset=0.0,
 
-        # orbits=48,
-        # sat_per_orbit=33,
-        # phase_offset=50.0,
+        orbits=48,
+        sat_per_orbit=33,
+        phase_offset=50.0,
 
 
         altitude_m=550000.0,
@@ -92,4 +92,16 @@ view = SatView3D(leo_con, lat=20.0, long=-170.0)
 view.add_routes(flow)
 view.add_all_satellites()
 view.build()
-view.show()
+# view.show()
+
+# view.export_html(
+#     'docs/html/starlink_high_geodesic_distance_route_o144_n11_p50.html'
+# )
+
+# view.export_html(
+#     'docs/html/starlink_high_geodesic_distance_route_o144_n11_p0.html'
+# )
+
+view.export_html(
+    'docs/html/starlink_high_geodesic_distance_route_o48_n33_p50.html'
+)

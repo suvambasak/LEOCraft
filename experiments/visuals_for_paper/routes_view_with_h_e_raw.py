@@ -24,8 +24,10 @@ leo_con.add_shells(
         id=0,
         orbits=72,
         sat_per_orbit=22,
-        # altitude_m=1000.0*550,
-        altitude_m=1000.0*1000,
+
+        altitude_m=1000.0*550,
+        # altitude_m=1000.0*1000,
+
         inclination_degree=53.0,
         angle_of_elevation_degree=25.0,
         phase_offset=50.0
@@ -102,7 +104,9 @@ view.add_coverages(leo_con.routes[flow][0][1])
 view.add_coverages(leo_con.routes[flow][0][-2])
 view.add_all_satellites()
 view.build()
-view.export_html('export1000.html')
+
+# view.export_html('docs/html/route_h1000.html')
+view.export_html('docs/html/route_h550.html')
 
 
 # view = SatView3D(leo_con, lat=27.468683, long=113.189875)

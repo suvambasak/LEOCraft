@@ -1,6 +1,6 @@
 
 '''
-Generate ISls usage visualization
+Generate ISLs usage visualization
 Figure. 28 in the paper
 '''
 
@@ -64,7 +64,7 @@ class CustomSatView3D(SatView3D):
             return "rgb(129, 5, 252)"
 
 
-leo_con = LEOConstellation()
+leo_con = LEOConstellation('ISLs usage visualization')
 leo_con.v.verbose = True
 leo_con.add_ground_stations(
     GroundStation(
@@ -114,4 +114,7 @@ view.add_all_ground_stations()
 # view.add_all_routes()
 
 view.build()
-view.show()
+# view.show()
+
+view.export_html('docs/html/ISL_usage_100.html')
+# view.export_html('docs/html/ISL_usage_CAP.html')

@@ -19,7 +19,9 @@ leo_con.add_shells(
         orbits=72,
         sat_per_orbit=22,
         altitude_m=550000.0,
-        inclination_degree=5.0,
+        # inclination_degree=5.0,
+        # inclination_degree=40.0,
+        inclination_degree=90.0,
         angle_of_elevation_degree=25.0,
         phase_offset=50.0
     )
@@ -39,4 +41,8 @@ view.add_all_satellites()
 view.add_all_GSLs()
 view.add_all_ISLs()
 view.build()
-view.show()
+# view.show()
+
+# view.export_html('docs/html/starlink_i5.html')
+# view.export_html('docs/html/starlink_i40.html')
+view.export_html('docs/html/starlink_i90.html')

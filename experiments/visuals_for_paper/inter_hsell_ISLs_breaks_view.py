@@ -6,6 +6,8 @@ ISLs between two consecutive orbit.
 '''
 
 
+import concurrent.futures
+import multiprocessing as mp
 import time
 
 from LEOCraft.constellations.LEO_constellation import LEOConstellation
@@ -15,16 +17,11 @@ from LEOCraft.satellite_topology.plus_grid_zigzag_elevation import \
 from LEOCraft.user_terminals.ground_station import GroundStation
 from LEOCraft.visuals.sat_view_3D import SatView3D
 
-OUTPUT_DIR = 'intershell_ISL_breaks_view'
 
-
-start_time = time.perf_counter()
-
-for t in range(0, 1500000):
-    print('___________________________', 'Time:', t)
+def build(t: int):
 
     leo_con = LEOConstellation('Starlink')
-    leo_con.v.verbose = True
+    leo_con.v.verbose = False
     leo_con.add_ground_stations(
         GroundStation(
             GroundStationAtCities.TOP_100
@@ -43,7 +40,7 @@ for t in range(0, 1500000):
         )
     )
 
-    leo_con.set_time(minute=t)  # Time passed after epoch
+    leo_con.set_time(second=t)  # Time passed after epoch
     leo_con.set_loss_model(None)
     leo_con.build()
     leo_con.create_network_graph()
@@ -53,8 +50,9 @@ for t in range(0, 1500000):
         leo_con,
         lat=sat_info.nadir_latitude_deg,
         long=sat_info.nadir_longitude_deg,
-        title=f'Time: {t} minute(s) from epoch',
+        title=f'Time: {t} second(s) from epoch',
     )
+    view.v.verbose = False
     # view.add_all_satellites()
     # view.add_all_ISLs()
 
@@ -77,9 +75,24 @@ for t in range(0, 1500000):
 
     view.build()
     # view.show()
+
     view.export_png(f'{OUTPUT_DIR}/{str(t).zfill(10)}.png')
 
+    print(f"|- {f'{OUTPUT_DIR}/{str(t).zfill(10)}.png'}")
 
-end_time = time.perf_counter()
 
-print(f'Total simulation time: {round((end_time-start_time)/60, 2)}m')
+if __name__ == '__main__':
+
+    OUTPUT_DIR = 'intershell_ISL_breaks_view'
+
+    start_time = time.perf_counter()
+
+    with concurrent.futures.ProcessPoolExecutor(
+            max_workers=3,
+            mp_context=mp.get_context('fork')
+    ) as executor:
+        executor.map(build, range(0, 1500000))
+
+    end_time = time.perf_counter()
+
+    print(f'Total simulation time: {round((end_time-start_time)/60, 2)}m')

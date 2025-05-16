@@ -13,7 +13,11 @@ from LEOCraft.visuals.sat_view_2D import SatView2D
 
 leo_con = LEOConstellation()
 leo_con.v.verbose = True
-leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
+# leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_100))
+# leo_con.add_ground_stations(GroundStation(GroundStationAtCities.TOP_1000))
+leo_con.add_ground_stations(GroundStation(
+    GroundStationAtCities.COUNTRY_CAPITALS
+))
 leo_con.add_shells(
     PlusGridShell(
         id=0,
@@ -36,4 +40,8 @@ view = SatView2D(leo_con)
 view.add_all_ground_stations()
 
 view.build()
-view.show()
+# view.show()
+
+# view.export_html('docs/html/GS_locations_100.html')
+# view.export_html('docs/html/GS_locations_1000.html')
+view.export_html('docs/html/GS_locations_CAPITALS.html')
