@@ -527,7 +527,7 @@ A handful of examples of Python scripts for programming the LEO network simulati
 
 # Extend LEOCraft
 
-How do you extend LEOCraft to realize your LEO network design ideas? Look at the [documentation](/docs/index.md) of the LEOCraft project.
+How do you extend LEOCraft to realize your LEO network design ideas? Look at the [API documentation](/docs/html/LEOCraft/index.html) of the LEOCraft project.
 
 # License
 This work is licensed under the [MIT License](/LICENSE).

@@ -1,0 +1,1159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>LEOCraft.visuals.sat_raw_view_3D API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>LEOCraft.visuals.sat_raw_view_3D</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
+import plotly.io as pio
+
+from LEOCraft.constellations.LEO_constellation import LEOConstellation
+from LEOCraft.user_terminals.terminal import UserTerminal
+from LEOCraft.visuals.view import Render
+
+
+class SatRawView3D(Render):
+    &#39;&#39;&#39;Rendering constellation view in 3D cartesian coordinate system (Earth-centered Earth-fixed (ECEF) coordinates)
+
+    Build with package:
+    - Plotly (Scatter3d and surface plots)
+    - Numpy (Linear transformation)
+    &#39;&#39;&#39;
+
+    _TEXT: str = &#39;text&#39;
+    _COLOR_CODE: str = &#39;color_code&#39;
+    _SIZE: str = &#39;size&#39;
+
+    _X: str = &#39;x&#39;
+    _Y: str = &#39;y&#39;
+    _Z: str = &#39;z&#39;
+
+    def __init__(
+            self,
+            leo_con: LEOConstellation,
+            title: str | None = None,
+            globe_visibility: bool = True,
+            lat: float = 0.0,
+            long: float = 0.0,
+            elevation_m: float = 0.0,
+            globe_radius_km: float = 6371.0
+    ) -&gt; None:
+        &#39;&#39;&#39;
+        Parameters
+        ---------
+        leo_con: LEOConstellation
+            Object of the LEO satellite constellation
+
+        title: str, optional
+            Title of the plot (default: LEOConstellation name)
+
+        globe_visibility: bool, optional
+            Visibility of the globe inside constellation network (default: visible)
+
+        lat: float, optional
+            View latitude degree (default: 0.0)
+
+        long: float, optional
+            View longitude degree (default: 0.0)
+
+        elevation_m: float, optional
+            View elevation from the earth surface (default: 0.0)
+
+        globe_radius_km: float, optional
+            Earth radius in KM (default: 6371 km)
+        &#39;&#39;&#39;
+        super().__init__(leo_con)
+        self._EARTH_RADIUS_KM = globe_radius_km
+
+        self.fig = go.Figure()
+        self.setup_layout(title, globe_visibility, lat, long, elevation_m)
+
+    def setup_layout(
+            self,
+            title: str | None,
+            globe_visibility: bool,
+            lat: float,
+            long: float,
+            elevation_m: float
+    ) -&gt; None:
+
+        def __removed_background() -&gt; dict:
+            return dict(
+                title=&#39;&#39;,
+                showgrid=False,
+                zeroline=False,
+                showline=False,
+                showticklabels=False,
+                backgroundcolor=&#39;rgba(0,0,0,0)&#39;
+            )
+
+        def __update_scene() -&gt; dict:
+            x, y, z = UserTerminal.geodetic_to_cartesian(
+                lat, long, elevation_m
+            )
+            return dict(
+                xaxis=__removed_background(),
+                yaxis=__removed_background(),
+                zaxis=__removed_background(),
+                camera=dict(
+                    eye=dict(
+                        x=x/MAGIC_NUMBER,
+                        y=y/MAGIC_NUMBER,
+                        z=z/MAGIC_NUMBER
+                    )
+                )
+            )
+
+        MAGIC_NUMBER = 5500000
+
+        self.fig.update_layout(
+            margin={&#34;b&#34;: 0, &#34;t&#34;: 35, &#34;l&#34;: 0},
+            title=title if title else self.leo_con.name,
+            scene=__update_scene()
+        )
+
+        if globe_visibility:
+            self.fig.add_trace(self._build_globe())
+
+    def build(self) -&gt; None:
+
+        self.v.log(&#39;Building raw view 3D...  &#39;)
+
+        if len(self._gsl):
+            self.v.rlog(&#39;Adding GSLs...      &#39;)
+            self.fig.add_traces(self._build_GSLs())
+
+        if len(self._isl):
+            self.v.rlog(&#39;Adding ISLs...  &#39;)
+            self.fig.add_traces(self._build_ISLs())
+
+        if len(self._sat):
+            self.v.rlog(&#39;Adding satellites...   &#39;)
+            self.fig.add_trace(self._build_satellites())
+
+        if len(self._gs):
+            self.v.rlog(&#39;Adding ground stations...  &#39;)
+            self.fig.add_trace(self._build_ground_stations())
+
+        if len(self._cov):
+            self.v.rlog(&#39;Adding coverage cones...  &#39;)
+            self.fig.add_traces(self._build_coverages())
+
+        self.v.clr()
+
+    def _build_globe(self) -&gt; go.Surface:
+
+        # Generate the coordinates for the sphere
+        phi = np.linspace(0, 2 * np.pi, 50)
+        theta = np.linspace(0, np.pi, 25)
+        phi, theta = np.meshgrid(phi, theta)
+
+        x = self._EARTH_RADIUS_KM * np.sin(theta) * np.cos(phi)
+        y = self._EARTH_RADIUS_KM * np.sin(theta) * np.sin(phi)
+        z = self._EARTH_RADIUS_KM * np.cos(theta)
+
+        # Create a 3D surface plot for the globe
+        return go.Surface(
+            x=x, y=y, z=z,
+
+            surfacecolor=np.ones_like(x),
+            colorscale=[[0, &#39;rgb(228,237,246)&#39;], [1, &#39;rgb(228,237,246)&#39;]],
+            lighting=dict(
+                ambient=0.8, diffuse=0.5, specular=0.1, roughness=0.5, fresnel=0.1
+            ),
+            lightposition=dict(x=-1500, y=-9000, z=-90),
+            hoverinfo=&#39;none&#39;, showscale=False, opacity=1
+        )
+
+    def __generate_rotation_matrix_from_vectors(self, vector_1: np.ndarray, vector_2: np.ndarray) -&gt; np.ndarray:
+        &#34;&#34;&#34;Find the rotation matrix that aligns vector_1 to vector_2
+
+        Paramters
+        --------
+        vector_1: np.ndarray
+            Vector 1
+        vector_2: np.ndarray
+            Vector 2
+
+        Returns
+        -------
+        np.ndarray
+            Rotation matrix
+        &#34;&#34;&#34;
+
+        a = (vector_1/np.linalg.norm(vector_1)).reshape(3)
+        b = (vector_2 / np.linalg.norm(vector_2)).reshape(3)
+        v = np.cross(a, b)
+        c = np.dot(a, b)
+        s = np.linalg.norm(v)
+        kmat = np.array([[0, -v[2], v[1]], [v[2], 0, -v[0]], [-v[1], v[0], 0]])
+        return np.eye(3) + kmat + kmat @ kmat * ((1 - c) / (s ** 2))
+
+    def __generate_coverage_cone(
+            self, sat_coordinates: np.ndarray, nadir_coordinates: np.ndarray, radius_km
+    ) -&gt; tuple[np.ndarray, np.ndarray, np.ndarray]:
+        &#34;&#34;&#34;Generate coverage cone from the satellites to earth surface
+
+        Parameters
+        ----------
+        sat_coordinates: np.ndarray
+            Cartesian coordinates of the satellite
+        nadir_coordinates: np.ndarray
+            Cartesian coordinates of nadir of satellites
+        radius_km
+            Coverage cone radius in km
+
+        Returns
+        -------
+        tuple[np.ndarray, np.ndarray, np.ndarray]
+            Cartesian coordinates of the coverage cone
+        &#34;&#34;&#34;
+
+        # Compute the axis vector and the height of the cone
+        axis_vector = sat_coordinates - nadir_coordinates
+        height = np.linalg.norm(axis_vector)
+
+        # Normalize the axis vector
+        axis_vector_normalized = axis_vector / height
+
+        # Create the coordinates for a cone along the z-axis
+        theta = np.linspace(0, 2 * np.pi, 20)
+        z = np.linspace(0, height, 15)
+        theta, z = np.meshgrid(theta, z)
+        r = (height - z) / height * radius_km
+
+        x = r * np.cos(theta)
+        y = r * np.sin(theta)
+
+        # Rotation matrix to align z-axis to the axis_vector
+        R = self.__generate_rotation_matrix_from_vectors(
+            np.array([0, 0, 1]), axis_vector_normalized
+        )
+
+        # Apply the rotation
+        xyz = np.vstack((x.flatten(), y.flatten(), z.flatten()))
+        rotated_xyz = R @ xyz
+        x_rotated = rotated_xyz[0, :].reshape(x.shape) + nadir_coordinates[0]
+        y_rotated = rotated_xyz[1, :].reshape(y.shape) + nadir_coordinates[1]
+        z_rotated = rotated_xyz[2, :].reshape(z.shape) + nadir_coordinates[2]
+
+        return x_rotated, y_rotated, z_rotated
+
+    def _build_coverages(self) -&gt; list[go.Surface]:
+
+        coverage_cone_trace_list = list()
+
+        for sat_name in self._cov:
+            sat_info = self.leo_con.sat_info(sat_name)
+
+            radius_km = self.leo_con.shells[sat_info.shell_id].satellites[sat_info.id].coverage_cone_radius_m(
+            )/1000
+
+            sat_coordinates_km = np.array(
+                [sat_info.cartesian_x/1000,
+                 sat_info.cartesian_y/1000,
+                 sat_info.cartesian_z/1000]
+            )
+
+            nadir_coordinates_km = np.array(
+                [sat_info.nadir_x/1000,
+                 sat_info.nadir_y/1000,
+                 sat_info.nadir_z/1000]
+            )
+
+            x, y, z = self.__generate_coverage_cone(
+                sat_coordinates_km, nadir_coordinates_km, radius_km
+            )
+
+            coverage_cone_trace_list.append(go.Surface(
+                x=x, y=y, z=z,
+
+                surfacecolor=np.ones_like(x),
+                colorscale=[[0, self._COVERAGE_COLOR],
+                            [1, self._COVERAGE_COLOR]],
+
+                hoverinfo=&#39;none&#39;, showscale=False, opacity=0.2
+            ))
+
+        return coverage_cone_trace_list
+
+    def _build_ground_stations(self) -&gt; go.Scatter3d:
+        dict_list = list()
+
+        for gs_name in self._gs:
+            gid, terminal = self.leo_con.gs_info(gs_name)
+
+            dict_list.append({
+                self._TEXT: f&#34;G-{gid} {terminal.name} lat: {terminal.latitude_degree}, lng:{terminal.longitude_degree}&#34;,
+                self._X: terminal.cartesian_x,
+                self._Y: terminal.cartesian_y,
+                self._Z: terminal.cartesian_z,
+            })
+
+        df = pd.DataFrame.from_dict(dict_list)
+
+        for column in [self._X, self._Y, self._Z]:
+            df[column] = df[column]/1000
+
+        return go.Scatter3d(
+            name=&#34;Ground station&#34;,
+            x=df[self._X],
+            y=df[self._Y],
+            z=df[self._Z],
+            text=df[self._TEXT],
+            mode=&#34;markers&#34;,
+            marker=dict(
+                size=self._DEFAULT_GS_SIZE,
+                color=self._GROUND_STATION_COLOR
+            )
+        )
+
+    def _build_GSLs(self) -&gt; list[go.Scatter3d]:
+
+        GSLs_trace_list = list()
+
+        for gs_name in self._gsl:
+            gid = self.leo_con.ground_stations.decode_name(gs_name)
+            terminal = self.leo_con.ground_stations.terminals[gid]
+
+            for sat_name, distance_m in self.leo_con.gsls[gid]:
+                sat_info = self.leo_con.sat_info(sat_name)
+
+                GSLs_trace_list.append(go.Scatter3d(
+                    name=f&#34;G-{gid} to {sat_name}&#34;,
+                    x=[terminal.cartesian_x/1000, sat_info.cartesian_x/1000],
+                    y=[terminal.cartesian_y/1000, sat_info.cartesian_y/1000],
+                    z=[terminal.cartesian_z/1000, sat_info.cartesian_z/1000],
+
+                    text=f&#39;&#39;&#39;GSLs: {terminal.name} {
+                        round(distance_m/1000, 2)}km&#39;&#39;&#39;,
+                    mode=&#34;lines&#34;,
+                    line=dict(
+                        color=self._GSL_COLOR,
+                        width=self.get_thickness(gs_name, sat_name)
+                    )
+                ))
+
+        return GSLs_trace_list
+
+    def _build_satellites(self) -&gt; go.Scatter3d:
+        dict_list = list()
+        color_map = dict()
+
+        for sat_name in self._sat:
+            sat_info = self.leo_con.sat_info(sat_name)
+            # print(sat_info)
+
+            if sat_info.altitude_km not in color_map:
+                color_map[sat_info.altitude_km] = self._shell_colors.pop()
+
+            dict_list.append({
+                self._X: sat_info.cartesian_x,
+                self._Y: sat_info.cartesian_y,
+                self._Z: sat_info.cartesian_z,
+
+                # self._COLOR_CODE: self._shell_colors[
+                #     sat_info.shell_id % len(self._shell_colors)
+                # ],
+                self._COLOR_CODE: color_map[sat_info.altitude_km],
+
+                self._TEXT: f&#39;&#39;&#39;ID: {sat_name} O: {sat_info.orbit_num} N: {sat_info.sat_num} KM: {sat_info.altitude_km}&#39;&#39;&#39;,
+                self._SIZE: self._SPECIAL_SAT_SIZE if sat_name in self._special_sats else self._DEFAULT_SAT_SIZE
+            })
+
+        df = pd.DataFrame.from_dict(dict_list)
+
+        for column in [self._X, self._Y, self._Z]:
+            df[column] = df[column]/1000
+
+        return go.Scatter3d(
+            x=df[self._X],
+            y=df[self._Y],
+            z=df[self._Z],
+            mode=&#39;markers&#39;,
+            name=&#39;Satellite&#39;,
+            text=df[self._TEXT],
+            marker=dict(size=df[self._SIZE], color=df[self._COLOR_CODE])
+        )
+
+    def _build_ISLs(self) -&gt; list[go.Scatter3d]:
+        ISLs_trace_list = list()
+
+        for sat_name_a, sat_name_b in self._isl:
+            sat_info_a = self.leo_con.sat_info(sat_name_a)
+            sat_info_b = self.leo_con.sat_info(sat_name_b)
+
+            ISLs_trace_list.append(go.Scatter3d(
+                name=f&#34;{sat_name_a} to {sat_name_b}&#34;,
+
+                x=[sat_info_a.cartesian_x/1000, sat_info_b.cartesian_x/1000],
+                y=[sat_info_a.cartesian_y/1000, sat_info_b.cartesian_y/1000],
+                z=[sat_info_a.cartesian_z/1000, sat_info_b.cartesian_z/1000],
+
+
+                text=f&#39;&#39;&#39;ISL: {sat_name_a}-{sat_name_b} {round(
+                    self.leo_con.link_length(sat_name_a, sat_name_b)/1000, 2
+                )}km&#39;&#39;&#39;,
+
+                mode=&#34;lines&#34;,
+                line=dict(
+                    width=self.get_thickness(sat_name_a, sat_name_b),
+                    color=self.get_color(sat_name_a, sat_name_b)
+                )
+            ))
+
+        return ISLs_trace_list
+
+    def show(self) -&gt; None:
+        &#39;Start the view&#39;
+        self.v.log(&#39;Rendering...  &#39;)
+        self.fig.show()
+
+    def export_html(self, filename: str | None = None) -&gt; str:
+        &#39;&#39;&#39;Explort into a HTML file
+
+        Parameters
+        -----------
+        filename: str, optional
+            HTML file name (default: classname.html)
+        &#39;&#39;&#39;
+
+        if not filename:
+            filename = f&#39;{self.leo_con.name}.html&#39;
+
+        self.v.log(&#39;Exporting HTML...  &#39;)
+        self.fig.write_html(filename)
+        return filename
+
+    def export_png(self, filename: str | None = None) -&gt; str:
+        &#39;&#39;&#39;Export into a PNG file
+
+        Parameters
+        ----------
+        filename: str, optional
+            PNG file name (default: classname.png)
+        &#39;&#39;&#39;
+
+        if not filename:
+            filename = f&#39;{self.leo_con.name}.png&#39;
+
+        self.v.log(&#39;Exporting PNG...  &#39;)
+        pio.write_image(
+            fig=self.fig,
+            file=filename,
+
+            width=1920,
+            height=1080
+        )
+        return filename</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="LEOCraft.visuals.sat_raw_view_3D.SatRawView3D"><code class="flex name class">
+<span>class <span class="ident">SatRawView3D</span></span>
+<span>(</span><span>leo_con: <a title="LEOCraft.constellations.LEO_constellation.LEOConstellation" href="../constellations/LEO_constellation.html#LEOCraft.constellations.LEO_constellation.LEOConstellation">LEOConstellation</a>, title: str | None = None, globe_visibility: bool = True, lat: float = 0.0, long: float = 0.0, elevation_m: float = 0.0, globe_radius_km: float = 6371.0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Rendering constellation view in 3D cartesian coordinate system (Earth-centered Earth-fixed (ECEF) coordinates)</p>
+<p>Build with package:
+- Plotly (Scatter3d and surface plots)
+- Numpy (Linear transformation)</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>leo_con</code></strong> :&ensp;<code>LEOConstellation</code></dt>
+<dd>Object of the LEO satellite constellation</dd>
+<dt><strong><code>title</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Title of the plot (default: LEOConstellation name)</dd>
+<dt><strong><code>globe_visibility</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Visibility of the globe inside constellation network (default: visible)</dd>
+<dt><strong><code>lat</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>View latitude degree (default: 0.0)</dd>
+<dt><strong><code>long</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>View longitude degree (default: 0.0)</dd>
+<dt><strong><code>elevation_m</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>View elevation from the earth surface (default: 0.0)</dd>
+<dt><strong><code>globe_radius_km</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Earth radius in KM (default: 6371 km)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SatRawView3D(Render):
+    &#39;&#39;&#39;Rendering constellation view in 3D cartesian coordinate system (Earth-centered Earth-fixed (ECEF) coordinates)
+
+    Build with package:
+    - Plotly (Scatter3d and surface plots)
+    - Numpy (Linear transformation)
+    &#39;&#39;&#39;
+
+    _TEXT: str = &#39;text&#39;
+    _COLOR_CODE: str = &#39;color_code&#39;
+    _SIZE: str = &#39;size&#39;
+
+    _X: str = &#39;x&#39;
+    _Y: str = &#39;y&#39;
+    _Z: str = &#39;z&#39;
+
+    def __init__(
+            self,
+            leo_con: LEOConstellation,
+            title: str | None = None,
+            globe_visibility: bool = True,
+            lat: float = 0.0,
+            long: float = 0.0,
+            elevation_m: float = 0.0,
+            globe_radius_km: float = 6371.0
+    ) -&gt; None:
+        &#39;&#39;&#39;
+        Parameters
+        ---------
+        leo_con: LEOConstellation
+            Object of the LEO satellite constellation
+
+        title: str, optional
+            Title of the plot (default: LEOConstellation name)
+
+        globe_visibility: bool, optional
+            Visibility of the globe inside constellation network (default: visible)
+
+        lat: float, optional
+            View latitude degree (default: 0.0)
+
+        long: float, optional
+            View longitude degree (default: 0.0)
+
+        elevation_m: float, optional
+            View elevation from the earth surface (default: 0.0)
+
+        globe_radius_km: float, optional
+            Earth radius in KM (default: 6371 km)
+        &#39;&#39;&#39;
+        super().__init__(leo_con)
+        self._EARTH_RADIUS_KM = globe_radius_km
+
+        self.fig = go.Figure()
+        self.setup_layout(title, globe_visibility, lat, long, elevation_m)
+
+    def setup_layout(
+            self,
+            title: str | None,
+            globe_visibility: bool,
+            lat: float,
+            long: float,
+            elevation_m: float
+    ) -&gt; None:
+
+        def __removed_background() -&gt; dict:
+            return dict(
+                title=&#39;&#39;,
+                showgrid=False,
+                zeroline=False,
+                showline=False,
+                showticklabels=False,
+                backgroundcolor=&#39;rgba(0,0,0,0)&#39;
+            )
+
+        def __update_scene() -&gt; dict:
+            x, y, z = UserTerminal.geodetic_to_cartesian(
+                lat, long, elevation_m
+            )
+            return dict(
+                xaxis=__removed_background(),
+                yaxis=__removed_background(),
+                zaxis=__removed_background(),
+                camera=dict(
+                    eye=dict(
+                        x=x/MAGIC_NUMBER,
+                        y=y/MAGIC_NUMBER,
+                        z=z/MAGIC_NUMBER
+                    )
+                )
+            )
+
+        MAGIC_NUMBER = 5500000
+
+        self.fig.update_layout(
+            margin={&#34;b&#34;: 0, &#34;t&#34;: 35, &#34;l&#34;: 0},
+            title=title if title else self.leo_con.name,
+            scene=__update_scene()
+        )
+
+        if globe_visibility:
+            self.fig.add_trace(self._build_globe())
+
+    def build(self) -&gt; None:
+
+        self.v.log(&#39;Building raw view 3D...  &#39;)
+
+        if len(self._gsl):
+            self.v.rlog(&#39;Adding GSLs...      &#39;)
+            self.fig.add_traces(self._build_GSLs())
+
+        if len(self._isl):
+            self.v.rlog(&#39;Adding ISLs...  &#39;)
+            self.fig.add_traces(self._build_ISLs())
+
+        if len(self._sat):
+            self.v.rlog(&#39;Adding satellites...   &#39;)
+            self.fig.add_trace(self._build_satellites())
+
+        if len(self._gs):
+            self.v.rlog(&#39;Adding ground stations...  &#39;)
+            self.fig.add_trace(self._build_ground_stations())
+
+        if len(self._cov):
+            self.v.rlog(&#39;Adding coverage cones...  &#39;)
+            self.fig.add_traces(self._build_coverages())
+
+        self.v.clr()
+
+    def _build_globe(self) -&gt; go.Surface:
+
+        # Generate the coordinates for the sphere
+        phi = np.linspace(0, 2 * np.pi, 50)
+        theta = np.linspace(0, np.pi, 25)
+        phi, theta = np.meshgrid(phi, theta)
+
+        x = self._EARTH_RADIUS_KM * np.sin(theta) * np.cos(phi)
+        y = self._EARTH_RADIUS_KM * np.sin(theta) * np.sin(phi)
+        z = self._EARTH_RADIUS_KM * np.cos(theta)
+
+        # Create a 3D surface plot for the globe
+        return go.Surface(
+            x=x, y=y, z=z,
+
+            surfacecolor=np.ones_like(x),
+            colorscale=[[0, &#39;rgb(228,237,246)&#39;], [1, &#39;rgb(228,237,246)&#39;]],
+            lighting=dict(
+                ambient=0.8, diffuse=0.5, specular=0.1, roughness=0.5, fresnel=0.1
+            ),
+            lightposition=dict(x=-1500, y=-9000, z=-90),
+            hoverinfo=&#39;none&#39;, showscale=False, opacity=1
+        )
+
+    def __generate_rotation_matrix_from_vectors(self, vector_1: np.ndarray, vector_2: np.ndarray) -&gt; np.ndarray:
+        &#34;&#34;&#34;Find the rotation matrix that aligns vector_1 to vector_2
+
+        Paramters
+        --------
+        vector_1: np.ndarray
+            Vector 1
+        vector_2: np.ndarray
+            Vector 2
+
+        Returns
+        -------
+        np.ndarray
+            Rotation matrix
+        &#34;&#34;&#34;
+
+        a = (vector_1/np.linalg.norm(vector_1)).reshape(3)
+        b = (vector_2 / np.linalg.norm(vector_2)).reshape(3)
+        v = np.cross(a, b)
+        c = np.dot(a, b)
+        s = np.linalg.norm(v)
+        kmat = np.array([[0, -v[2], v[1]], [v[2], 0, -v[0]], [-v[1], v[0], 0]])
+        return np.eye(3) + kmat + kmat @ kmat * ((1 - c) / (s ** 2))
+
+    def __generate_coverage_cone(
+            self, sat_coordinates: np.ndarray, nadir_coordinates: np.ndarray, radius_km
+    ) -&gt; tuple[np.ndarray, np.ndarray, np.ndarray]:
+        &#34;&#34;&#34;Generate coverage cone from the satellites to earth surface
+
+        Parameters
+        ----------
+        sat_coordinates: np.ndarray
+            Cartesian coordinates of the satellite
+        nadir_coordinates: np.ndarray
+            Cartesian coordinates of nadir of satellites
+        radius_km
+            Coverage cone radius in km
+
+        Returns
+        -------
+        tuple[np.ndarray, np.ndarray, np.ndarray]
+            Cartesian coordinates of the coverage cone
+        &#34;&#34;&#34;
+
+        # Compute the axis vector and the height of the cone
+        axis_vector = sat_coordinates - nadir_coordinates
+        height = np.linalg.norm(axis_vector)
+
+        # Normalize the axis vector
+        axis_vector_normalized = axis_vector / height
+
+        # Create the coordinates for a cone along the z-axis
+        theta = np.linspace(0, 2 * np.pi, 20)
+        z = np.linspace(0, height, 15)
+        theta, z = np.meshgrid(theta, z)
+        r = (height - z) / height * radius_km
+
+        x = r * np.cos(theta)
+        y = r * np.sin(theta)
+
+        # Rotation matrix to align z-axis to the axis_vector
+        R = self.__generate_rotation_matrix_from_vectors(
+            np.array([0, 0, 1]), axis_vector_normalized
+        )
+
+        # Apply the rotation
+        xyz = np.vstack((x.flatten(), y.flatten(), z.flatten()))
+        rotated_xyz = R @ xyz
+        x_rotated = rotated_xyz[0, :].reshape(x.shape) + nadir_coordinates[0]
+        y_rotated = rotated_xyz[1, :].reshape(y.shape) + nadir_coordinates[1]
+        z_rotated = rotated_xyz[2, :].reshape(z.shape) + nadir_coordinates[2]
+
+        return x_rotated, y_rotated, z_rotated
+
+    def _build_coverages(self) -&gt; list[go.Surface]:
+
+        coverage_cone_trace_list = list()
+
+        for sat_name in self._cov:
+            sat_info = self.leo_con.sat_info(sat_name)
+
+            radius_km = self.leo_con.shells[sat_info.shell_id].satellites[sat_info.id].coverage_cone_radius_m(
+            )/1000
+
+            sat_coordinates_km = np.array(
+                [sat_info.cartesian_x/1000,
+                 sat_info.cartesian_y/1000,
+                 sat_info.cartesian_z/1000]
+            )
+
+            nadir_coordinates_km = np.array(
+                [sat_info.nadir_x/1000,
+                 sat_info.nadir_y/1000,
+                 sat_info.nadir_z/1000]
+            )
+
+            x, y, z = self.__generate_coverage_cone(
+                sat_coordinates_km, nadir_coordinates_km, radius_km
+            )
+
+            coverage_cone_trace_list.append(go.Surface(
+                x=x, y=y, z=z,
+
+                surfacecolor=np.ones_like(x),
+                colorscale=[[0, self._COVERAGE_COLOR],
+                            [1, self._COVERAGE_COLOR]],
+
+                hoverinfo=&#39;none&#39;, showscale=False, opacity=0.2
+            ))
+
+        return coverage_cone_trace_list
+
+    def _build_ground_stations(self) -&gt; go.Scatter3d:
+        dict_list = list()
+
+        for gs_name in self._gs:
+            gid, terminal = self.leo_con.gs_info(gs_name)
+
+            dict_list.append({
+                self._TEXT: f&#34;G-{gid} {terminal.name} lat: {terminal.latitude_degree}, lng:{terminal.longitude_degree}&#34;,
+                self._X: terminal.cartesian_x,
+                self._Y: terminal.cartesian_y,
+                self._Z: terminal.cartesian_z,
+            })
+
+        df = pd.DataFrame.from_dict(dict_list)
+
+        for column in [self._X, self._Y, self._Z]:
+            df[column] = df[column]/1000
+
+        return go.Scatter3d(
+            name=&#34;Ground station&#34;,
+            x=df[self._X],
+            y=df[self._Y],
+            z=df[self._Z],
+            text=df[self._TEXT],
+            mode=&#34;markers&#34;,
+            marker=dict(
+                size=self._DEFAULT_GS_SIZE,
+                color=self._GROUND_STATION_COLOR
+            )
+        )
+
+    def _build_GSLs(self) -&gt; list[go.Scatter3d]:
+
+        GSLs_trace_list = list()
+
+        for gs_name in self._gsl:
+            gid = self.leo_con.ground_stations.decode_name(gs_name)
+            terminal = self.leo_con.ground_stations.terminals[gid]
+
+            for sat_name, distance_m in self.leo_con.gsls[gid]:
+                sat_info = self.leo_con.sat_info(sat_name)
+
+                GSLs_trace_list.append(go.Scatter3d(
+                    name=f&#34;G-{gid} to {sat_name}&#34;,
+                    x=[terminal.cartesian_x/1000, sat_info.cartesian_x/1000],
+                    y=[terminal.cartesian_y/1000, sat_info.cartesian_y/1000],
+                    z=[terminal.cartesian_z/1000, sat_info.cartesian_z/1000],
+
+                    text=f&#39;&#39;&#39;GSLs: {terminal.name} {
+                        round(distance_m/1000, 2)}km&#39;&#39;&#39;,
+                    mode=&#34;lines&#34;,
+                    line=dict(
+                        color=self._GSL_COLOR,
+                        width=self.get_thickness(gs_name, sat_name)
+                    )
+                ))
+
+        return GSLs_trace_list
+
+    def _build_satellites(self) -&gt; go.Scatter3d:
+        dict_list = list()
+        color_map = dict()
+
+        for sat_name in self._sat:
+            sat_info = self.leo_con.sat_info(sat_name)
+            # print(sat_info)
+
+            if sat_info.altitude_km not in color_map:
+                color_map[sat_info.altitude_km] = self._shell_colors.pop()
+
+            dict_list.append({
+                self._X: sat_info.cartesian_x,
+                self._Y: sat_info.cartesian_y,
+                self._Z: sat_info.cartesian_z,
+
+                # self._COLOR_CODE: self._shell_colors[
+                #     sat_info.shell_id % len(self._shell_colors)
+                # ],
+                self._COLOR_CODE: color_map[sat_info.altitude_km],
+
+                self._TEXT: f&#39;&#39;&#39;ID: {sat_name} O: {sat_info.orbit_num} N: {sat_info.sat_num} KM: {sat_info.altitude_km}&#39;&#39;&#39;,
+                self._SIZE: self._SPECIAL_SAT_SIZE if sat_name in self._special_sats else self._DEFAULT_SAT_SIZE
+            })
+
+        df = pd.DataFrame.from_dict(dict_list)
+
+        for column in [self._X, self._Y, self._Z]:
+            df[column] = df[column]/1000
+
+        return go.Scatter3d(
+            x=df[self._X],
+            y=df[self._Y],
+            z=df[self._Z],
+            mode=&#39;markers&#39;,
+            name=&#39;Satellite&#39;,
+            text=df[self._TEXT],
+            marker=dict(size=df[self._SIZE], color=df[self._COLOR_CODE])
+        )
+
+    def _build_ISLs(self) -&gt; list[go.Scatter3d]:
+        ISLs_trace_list = list()
+
+        for sat_name_a, sat_name_b in self._isl:
+            sat_info_a = self.leo_con.sat_info(sat_name_a)
+            sat_info_b = self.leo_con.sat_info(sat_name_b)
+
+            ISLs_trace_list.append(go.Scatter3d(
+                name=f&#34;{sat_name_a} to {sat_name_b}&#34;,
+
+                x=[sat_info_a.cartesian_x/1000, sat_info_b.cartesian_x/1000],
+                y=[sat_info_a.cartesian_y/1000, sat_info_b.cartesian_y/1000],
+                z=[sat_info_a.cartesian_z/1000, sat_info_b.cartesian_z/1000],
+
+
+                text=f&#39;&#39;&#39;ISL: {sat_name_a}-{sat_name_b} {round(
+                    self.leo_con.link_length(sat_name_a, sat_name_b)/1000, 2
+                )}km&#39;&#39;&#39;,
+
+                mode=&#34;lines&#34;,
+                line=dict(
+                    width=self.get_thickness(sat_name_a, sat_name_b),
+                    color=self.get_color(sat_name_a, sat_name_b)
+                )
+            ))
+
+        return ISLs_trace_list
+
+    def show(self) -&gt; None:
+        &#39;Start the view&#39;
+        self.v.log(&#39;Rendering...  &#39;)
+        self.fig.show()
+
+    def export_html(self, filename: str | None = None) -&gt; str:
+        &#39;&#39;&#39;Explort into a HTML file
+
+        Parameters
+        -----------
+        filename: str, optional
+            HTML file name (default: classname.html)
+        &#39;&#39;&#39;
+
+        if not filename:
+            filename = f&#39;{self.leo_con.name}.html&#39;
+
+        self.v.log(&#39;Exporting HTML...  &#39;)
+        self.fig.write_html(filename)
+        return filename
+
+    def export_png(self, filename: str | None = None) -&gt; str:
+        &#39;&#39;&#39;Export into a PNG file
+
+        Parameters
+        ----------
+        filename: str, optional
+            PNG file name (default: classname.png)
+        &#39;&#39;&#39;
+
+        if not filename:
+            filename = f&#39;{self.leo_con.name}.png&#39;
+
+        self.v.log(&#39;Exporting PNG...  &#39;)
+        pio.write_image(
+            fig=self.fig,
+            file=filename,
+
+            width=1920,
+            height=1080
+        )
+        return filename</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="LEOCraft.visuals.view.Render" href="view.html#LEOCraft.visuals.view.Render">Render</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="LEOCraft.visuals.sat_view_3D.SatView3D" href="sat_view_3D.html#LEOCraft.visuals.sat_view_3D.SatView3D">SatView3D</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="LEOCraft.visuals.sat_raw_view_3D.SatRawView3D.export_html"><code class="name flex">
+<span>def <span class="ident">export_html</span></span>(<span>self, filename: str | None = None) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Explort into a HTML file</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>HTML file name (default: classname.html)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def export_html(self, filename: str | None = None) -&gt; str:
+    &#39;&#39;&#39;Explort into a HTML file
+
+    Parameters
+    -----------
+    filename: str, optional
+        HTML file name (default: classname.html)
+    &#39;&#39;&#39;
+
+    if not filename:
+        filename = f&#39;{self.leo_con.name}.html&#39;
+
+    self.v.log(&#39;Exporting HTML...  &#39;)
+    self.fig.write_html(filename)
+    return filename</code></pre>
+</details>
+</dd>
+<dt id="LEOCraft.visuals.sat_raw_view_3D.SatRawView3D.export_png"><code class="name flex">
+<span>def <span class="ident">export_png</span></span>(<span>self, filename: str | None = None) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Export into a PNG file</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>PNG file name (default: classname.png)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def export_png(self, filename: str | None = None) -&gt; str:
+    &#39;&#39;&#39;Export into a PNG file
+
+    Parameters
+    ----------
+    filename: str, optional
+        PNG file name (default: classname.png)
+    &#39;&#39;&#39;
+
+    if not filename:
+        filename = f&#39;{self.leo_con.name}.png&#39;
+
+    self.v.log(&#39;Exporting PNG...  &#39;)
+    pio.write_image(
+        fig=self.fig,
+        file=filename,
+
+        width=1920,
+        height=1080
+    )
+    return filename</code></pre>
+</details>
+</dd>
+<dt id="LEOCraft.visuals.sat_raw_view_3D.SatRawView3D.setup_layout"><code class="name flex">
+<span>def <span class="ident">setup_layout</span></span>(<span>self, title: str | None, globe_visibility: bool, lat: float, long: float, elevation_m: float) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setup_layout(
+        self,
+        title: str | None,
+        globe_visibility: bool,
+        lat: float,
+        long: float,
+        elevation_m: float
+) -&gt; None:
+
+    def __removed_background() -&gt; dict:
+        return dict(
+            title=&#39;&#39;,
+            showgrid=False,
+            zeroline=False,
+            showline=False,
+            showticklabels=False,
+            backgroundcolor=&#39;rgba(0,0,0,0)&#39;
+        )
+
+    def __update_scene() -&gt; dict:
+        x, y, z = UserTerminal.geodetic_to_cartesian(
+            lat, long, elevation_m
+        )
+        return dict(
+            xaxis=__removed_background(),
+            yaxis=__removed_background(),
+            zaxis=__removed_background(),
+            camera=dict(
+                eye=dict(
+                    x=x/MAGIC_NUMBER,
+                    y=y/MAGIC_NUMBER,
+                    z=z/MAGIC_NUMBER
+                )
+            )
+        )
+
+    MAGIC_NUMBER = 5500000
+
+    self.fig.update_layout(
+        margin={&#34;b&#34;: 0, &#34;t&#34;: 35, &#34;l&#34;: 0},
+        title=title if title else self.leo_con.name,
+        scene=__update_scene()
+    )
+
+    if globe_visibility:
+        self.fig.add_trace(self._build_globe())</code></pre>
+</details>
+</dd>
+<dt id="LEOCraft.visuals.sat_raw_view_3D.SatRawView3D.show"><code class="name flex">
+<span>def <span class="ident">show</span></span>(<span>self) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Start the view</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show(self) -&gt; None:
+    &#39;Start the view&#39;
+    self.v.log(&#39;Rendering...  &#39;)
+    self.fig.show()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="LEOCraft.visuals.view.Render" href="view.html#LEOCraft.visuals.view.Render">Render</a></b></code>:
+<ul class="hlist">
+<li><code><a title="LEOCraft.visuals.view.Render.add_GSLs" href="view.html#LEOCraft.visuals.view.Render.add_GSLs">add_GSLs</a></code></li>
+<li><code><a title="LEOCraft.visuals.view.Render.add_ISLs" href="view.html#LEOCraft.visuals.view.Render.add_ISLs">add_ISLs</a></code></li>
+<li><code><a title="LEOCraft.visuals.view.Render.add_all_GSLs" href="view.html#LEOCraft.visuals.view.Render.add_all_GSLs">add_all_GSLs</a></code></li>
+<li><code><a title="LEOCraft.visuals.view.Render.add_all_ISLs" href="view.html#LEOCraft.visuals.view.Render.add_all_ISLs">add_all_ISLs</a></code></li>
+<li><code><a title="LEOCraft.visuals.view.Render.add_all_coverages" href="view.html#LEOCraft.visuals.view.Render.add_all_coverages">add_all_coverages</a></code></li>
+<li><code><a title="LEOCraft.visuals.view.Render.add_all_ground_stations" href="view.html#LEOCraft.visuals.view.Render.add_all_ground_stations">add_all_ground_stations</a></code></li>
+<li><code><a title="LEOCraft.visuals.view.Render.add_all_routes" href="view.html#LEOCraft.visuals.view.Render.add_all_routes">add_all_routes</a></code></li>
+<li><code><a title="LEOCraft.visuals.view.Render.add_all_satellites" href="view.html#LEOCraft.visuals.view.Render.add_all_satellites">add_all_satellites</a></code></li>
+<li><code><a title="LEOCraft.visuals.view.Render.add_coverages" href="view.html#LEOCraft.visuals.view.Render.add_coverages">add_coverages</a></code></li>
+<li><code><a title="LEOCraft.visuals.view.Render.add_ground_stations" href="view.html#LEOCraft.visuals.view.Render.add_ground_stations">add_ground_stations</a></code></li>
+<li><code><a title="LEOCraft.visuals.view.Render.add_routes" href="view.html#LEOCraft.visuals.view.Render.add_routes">add_routes</a></code></li>
+<li><code><a title="LEOCraft.visuals.view.Render.add_satellites" href="view.html#LEOCraft.visuals.view.Render.add_satellites">add_satellites</a></code></li>
+<li><code><a title="LEOCraft.visuals.view.Render.build" href="view.html#LEOCraft.visuals.view.Render.build">build</a></code></li>
+<li><code><a title="LEOCraft.visuals.view.Render.get_color" href="view.html#LEOCraft.visuals.view.Render.get_color">get_color</a></code></li>
+<li><code><a title="LEOCraft.visuals.view.Render.get_thickness" href="view.html#LEOCraft.visuals.view.Render.get_thickness">get_thickness</a></code></li>
+<li><code><a title="LEOCraft.visuals.view.Render.highlight_satellites" href="view.html#LEOCraft.visuals.view.Render.highlight_satellites">highlight_satellites</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="LEOCraft.visuals" href="index.html">LEOCraft.visuals</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="LEOCraft.visuals.sat_raw_view_3D.SatRawView3D" href="#LEOCraft.visuals.sat_raw_view_3D.SatRawView3D">SatRawView3D</a></code></h4>
+<ul class="">
+<li><code><a title="LEOCraft.visuals.sat_raw_view_3D.SatRawView3D.export_html" href="#LEOCraft.visuals.sat_raw_view_3D.SatRawView3D.export_html">export_html</a></code></li>
+<li><code><a title="LEOCraft.visuals.sat_raw_view_3D.SatRawView3D.export_png" href="#LEOCraft.visuals.sat_raw_view_3D.SatRawView3D.export_png">export_png</a></code></li>
+<li><code><a title="LEOCraft.visuals.sat_raw_view_3D.SatRawView3D.setup_layout" href="#LEOCraft.visuals.sat_raw_view_3D.SatRawView3D.setup_layout">setup_layout</a></code></li>
+<li><code><a title="LEOCraft.visuals.sat_raw_view_3D.SatRawView3D.show" href="#LEOCraft.visuals.sat_raw_view_3D.SatRawView3D.show">show</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
