@@ -395,7 +395,7 @@ The output will be as follows.
 ```
 
 
-The interactive 2D visualization [Starlink_3D.html](/docs/html/Starlink_3D.html).
+The interactive 2D visualization [Starlink_3D.html](/docs/visuals/Starlink_3D.html).
 
 
 To visualize the Starlink constellation in 3D but without maps and satellites at elevation, use the `SatRawView3D` module. Add the components (satellites, ground stations, routes, satellite coverage, etc.) for rendering, as shown below.
@@ -429,7 +429,7 @@ The output will be as follows.
 ```
 
 
-The interactive 2D visualization [Starlink_RAW_3D.html](/docs/html/Starlink_RAW_3D.html).
+The interactive 2D visualization [Starlink_RAW_3D.html](/docs/visuals/Starlink_RAW_3D.html).
 
 
 <p align="center">
@@ -446,67 +446,67 @@ The interactive 2D visualization [Starlink_RAW_3D.html](/docs/html/Starlink_RAW_
 Following are some examples of interactive LEO network visualisation. A few videos of LEO dynamics are also available at [LEOCraft Playlist](https://youtube.com/playlist?list=PLNedKW1trAyWUTnCWAtYSwk7kenVV_90k&si=lTPzQwMUiFQJ-bYS).
 
 - LEO consetalltion design
-    - [Starlink multi shell design](/docs/html/starlink_shells.html)
-    - [Kuiper multi shell design](/docs/html/kuiper_shells.html)
-    - [Telesat multi shell design](/docs/html/telesat_shells.html)
+    - [Starlink multi shell design](/docs/visuals/starlink_shells.html)
+    - [Kuiper multi shell design](/docs/visuals/kuiper_shells.html)
+    - [Telesat multi shell design](/docs/visuals/telesat_shells.html)
 
 - Ground station locations
-    - [At 100 most populous city across the world](/docs/html/GS_locations_100.html)
-    - [At 1000 most populous city across the world](/docs/html/GS_locations_1000.html)
-    - [At all country capitals](/docs/html/GS_locations_CAPITALS.html)
+    - [At 100 most populous city across the world](/docs/visuals/GS_locations_100.html)
+    - [At 1000 most populous city across the world](/docs/visuals/GS_locations_1000.html)
+    - [At all country capitals](/docs/visuals/GS_locations_CAPITALS.html)
 
 - Starlink coverage change with altitude
-    - [At altitude 300 km](/docs/html/starlink_coverage_h300.html)
-    - [At altitude 600 km](/docs/html/starlink_coverage_h600.html)
+    - [At altitude 300 km](/docs/visuals/starlink_coverage_h300.html)
+    - [At altitude 600 km](/docs/visuals/starlink_coverage_h600.html)
 
 - Starlink inclination change
-    - [At inclination 5 degree](/docs/html/starlink_i5.html)
-    - [At inclination 40 degree](/docs/html/starlink_i40.html)
-    - [At inclination 90 degree](/docs/html/starlink_i90.html)
+    - [At inclination 5 degree](/docs/visuals/starlink_i5.html)
+    - [At inclination 40 degree](/docs/visuals/starlink_i40.html)
+    - [At inclination 90 degree](/docs/visuals/starlink_i90.html)
 
 - Starlink high geodesic distance path diversity
-    - [When o=144, n=11, p=50](/docs/html/starlink_high_geodesic_distance_route_o144_n11_p50.html)
-    - [When o=144, n=11, p=0](/docs/html/starlink_high_geodesic_distance_route_o144_n11_p0.html)
-    - [When o=48, n=33, p=50](/docs/html/starlink_high_geodesic_distance_route_o48_n33_p50.html)
+    - [When o=144, n=11, p=50](/docs/visuals/starlink_high_geodesic_distance_route_o144_n11_p50.html)
+    - [When o=144, n=11, p=0](/docs/visuals/starlink_high_geodesic_distance_route_o144_n11_p0.html)
+    - [When o=48, n=33, p=50](/docs/visuals/starlink_high_geodesic_distance_route_o48_n33_p50.html)
 
 - Proposed inter shell ISL connectivity
-    - [Between two shells](/docs/html/inter_shell_ISLs_2_shells.html)
-    - [Between three shells](/docs/html/inter_shell_ISLs_3_shells.html)
+    - [Between two shells](/docs/visuals/inter_shell_ISLs_2_shells.html)
+    - [Between three shells](/docs/visuals/inter_shell_ISLs_3_shells.html)
 
 - ISLs usage visualization
-    - [With 100 most populous city across the world](/docs/html/ISL_usage_100.html)
-    - [With all country capitals](/docs/html/ISL_usage_CAP.html)
+    - [With 100 most populous city across the world](/docs/visuals/ISL_usage_100.html)
+    - [With all country capitals](/docs/visuals/ISL_usage_CAP.html)
 
 - ISL topological structures tweak
-    - [orbits=72, sat_per_orbit=22, phase_offset=50.0](/docs/html/o72_n22_p50.html)
-    - [orbits=22, sat_per_orbit=72, phase_offset=50.0](/docs/html/o22_n72_p50.html)
-    - [orbits=44, sat_per_orbit=36, phase_offset=50.0](/docs/html/o44_n36_p50.html)
-    - [orbits=44, sat_per_orbit=36, phase_offset=0.0](/docs/html/o44_n36_p0.html)
+    - [orbits=72, sat_per_orbit=22, phase_offset=50.0](/docs/visuals/o72_n22_p50.html)
+    - [orbits=22, sat_per_orbit=72, phase_offset=50.0](/docs/visuals/o22_n72_p50.html)
+    - [orbits=44, sat_per_orbit=36, phase_offset=50.0](/docs/visuals/o44_n36_p50.html)
+    - [orbits=44, sat_per_orbit=36, phase_offset=0.0](/docs/visuals/o44_n36_p0.html)
 
 - Route change with inclination and elevation angle
-    - [Inclination 90 degree](/docs/html/i90.html)
-    - [Inclination 50 degree](/docs/html/i50.html)
-    - [Inclination 30 degree](/docs/html/i30.html)
-    - [Elevation angle 10 degree](/docs/html/e10.html)
-    - [Elevation angle 30 degree](/docs/html/e30.html)
-    - [Elevation angle 50 degree](/docs/html/e50.html)
+    - [Inclination 90 degree](/docs/visuals/i90.html)
+    - [Inclination 50 degree](/docs/visuals/i50.html)
+    - [Inclination 30 degree](/docs/visuals/i30.html)
+    - [Elevation angle 10 degree](/docs/visuals/e10.html)
+    - [Elevation angle 30 degree](/docs/visuals/e30.html)
+    - [Elevation angle 50 degree](/docs/visuals/e50.html)
 
 - Number of hops in route reduces with higher altitude
-    - [Altitude 550 km](/docs/html/route_h550.html)
-    - [Altitude 1000 km](/docs/html/route_h1000.html)
+    - [Altitude 550 km](/docs/visuals/route_h550.html)
+    - [Altitude 1000 km](/docs/visuals/route_h1000.html)
 
 - Route categories based on orientation
-    - [North East to South West](/docs/html/NESW.html)
-    - [East to West](/docs/html/EW.html)
-    - [North to South](/docs/html/NS.html)
-    - [High Geodesic Distance](/docs/html/HG.html)
+    - [North East to South West](/docs/visuals/NESW.html)
+    - [East to West](/docs/visuals/EW.html)
+    - [North to South](/docs/visuals/NS.html)
+    - [High Geodesic Distance](/docs/visuals/HG.html)
 
 - Others
-    - [Satellite ground track](/docs/html/satellite_ground_track.html)
-    - [2D view of route, GS, GSLs satellites, satellite coverage](/docs/html/Starlink_2D.html)
-    - [3D view of route, GS, GSLs satellites](/docs/html/Starlink_3D.html)
-    - [3D RAW view of route, GS, GSLs satellites](/docs/html/Starlink_RAW_3D.html)
-    - [Coverage cone change with value of elevation angle](/docs/html/coverage_cone_with_e.html)
+    - [Satellite ground track](/docs/visuals/satellite_ground_track.html)
+    - [2D view of route, GS, GSLs satellites, satellite coverage](/docs/visuals/Starlink_2D.html)
+    - [3D view of route, GS, GSLs satellites](/docs/visuals/Starlink_3D.html)
+    - [3D RAW view of route, GS, GSLs satellites](/docs/visuals/Starlink_RAW_3D.html)
+    - [Coverage cone change with value of elevation angle](/docs/visuals/coverage_cone_with_e.html)
 
 
 ### LEO Constellation Simulation Examples
