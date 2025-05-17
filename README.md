@@ -21,6 +21,8 @@ A modular and extensible LEO network simulation platform to explore traffic flow
         - [LEO Constellation Visulization Examples](#leo-constellation-visulization-examples)
         - [LEO Constellation Simulation Examples](#leo-constellation-simulation-examples)
 - [Extend LEOCraft](#extend-leocraft)
+    - [Explore the API Docs](#explore-the-api-docs)
+    - [Understand Traffic Modeling](#understand-traffic-modeling)
 - [License](#license)
 - [Cite This Work](#cite-this-work)
 - [Artifact Evaluation](#artifact-evaluation)
@@ -527,7 +529,18 @@ A handful of examples of Python scripts for programming the LEO network simulati
 
 # Extend LEOCraft
 
-How do you extend LEOCraft to realize your LEO network design ideas? Look at the [API documentation](/docs/html/LEOCraft/index.html) of the LEOCraft project.
+LEOCraft is designed with **modularity and extensibility** at its core. Whether you're exploring custom satellite constellations, novel inter-satellite routing schemes, new traffic models, or advanced performance metrics, LEOCraft provides the scaffolding to implement and test your ideas quickly and rigorously.
+
+## Where to Start
+
+### Explore the API Docs
+
+Dive into the [API documentation](/docs/html/LEOCraft/index.html) to understand the architecture and core components of LEOCraft—from constellation modeling and link computation to routing and performance evaluation.
+
+### Understand Traffic Modeling
+
+Check out the traffic dataset [source](/dataset/src/README.md) to learn how Internet demand between cities is modeled and how you can plug in your own demand matrices or traffic sources.
+
 
 # License
 This work is licensed under the [MIT License](/LICENSE).
