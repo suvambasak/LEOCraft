@@ -1,6 +1,6 @@
 # LEOCraft - A Flow Level LEO Network Simulator
 
-A modular and extensible LEO network simulation platform to explore traffic flow, throughput, stretch/latency, and coverage. LEOCraft operates as a flow level to evaluate a given LEO constellation quickly.
+A modular and extensible LEO network simulation platform to explore traffic flow, throughput, stretch/latency, and coverage. LEOCraft operates at flow level to evaluate a given LEO constellation quickly.
 
 
 # Table of Contents
