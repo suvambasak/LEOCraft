@@ -535,7 +535,7 @@ LEOCraft is designed with **modularity and extensibility** at its core. Whether 
 
 ### Explore the API Docs
 
-Dive into the [API documentation](/docs/html/LEOCraft/index.html) to understand the architecture and core components of LEOCraft—from constellation modeling and link computation to routing and performance evaluation.
+Dive into the [API documentation](https://suvambasak.github.io/LEOCraft/docs/html/LEOCraft/index.html) to understand the architecture and core components of LEOCraft—from constellation modeling and link computation to routing and performance evaluation.
 
 ### Understand Traffic Modeling
 
